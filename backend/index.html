@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Island Rush</title>
+    <script>
+		console.log("Home Page Javascript");
+    </script>
+    <script src="/socket.io/socket.io.js" ></script>
+    <style>
+        body {
+                background-color:#f4f4f4;
+                color:#555555;
+                font: normal 18px Arial, Helvetica, sans-serif;
+                line-height: 1.6em;
+                margin:0;
+            }
+        h1 {
+            color: #555;
+            margin: 5%;
+            padding:0;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+<h1>Island Rush Homepage</h1>
+<table border="0" cellpadding="15" cellspacing="10">
+    <tr>
+        <td>
+            <H3>Player Login</H3>
+            <form name="gameLogin" method="get" id="gameLogin" action="/gameLoginVerify">
+                <table border="0" cellpadding="3" cellspacing="1">
+                    <tr>
+                        <td>Section</td>
+                        <td>
+                            <input name="gameSection" type="text" id="gameSection" placeholder="ex: m1a1" autofocus="autofocus" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Teacher Last Name</td>
+                        <td>
+                            <input name="gameInstructor" type="text" id="gameInstructor" placeholder="ex: Smith" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Team</td>
+                        <td>
+                            <input type="radio" name="gameTeam" value="-1" checked> Spectator -> Click this unless told otherwise by instructor.<br>
+                            <br>
+                            <input type="radio" name="gameTeam" value="0"> <blue>Vestrland Commander</blue><br>
+                            <input type="radio" name="gameTeam" value="1"> <red>Vestrland Air</red><br>
+                            <input type="radio" name="gameTeam" value="2"> <red>Vestrland Land</red><br>
+                            <input type="radio" name="gameTeam" value="3"> <red>Vestrland Sea</red><br>
+                            <br>
+                            <input type="radio" name="gameTeam" value="4"> <red>Zuun Commander</red><br>
+                            <input type="radio" name="gameTeam" value="5"> <red>Zuun Air</red><br>
+                            <input type="radio" name="gameTeam" value="6"> <red>Zuun Land</red><br>
+                            <input type="radio" name="gameTeam" value="7"> <red>Zuun Sea</red><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><br/><input type="submit" name="Submit" value="Game Login"></td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+        <td>
+            <H3>Admin Login</H3>
+            <form name="adminLogin" method="get" id="adminLogin" action="/adminLoginVerify">
+                <table border="0" cellpadding="3" cellspacing="1">
+                    <tr>
+                        <td>Section</td>
+                        <td>
+                            <input name="adminSection" type="text" id="adminSection" placeholder="ex: m1a1" autofocus="autofocus" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Teacher Last Name</td>
+                        <td>
+                            <input name="adminInstructor" type="text" id="adminInstructor" placeholder="ex: Smith" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td>
+                            <input name="adminPassword" type="password" id="adminPassword" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><br/><input type="submit" name="Submit" value="Admin Login"></td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>
+<script>
+    // let socket = io.connect();
+</script>
+</body>
+</html>

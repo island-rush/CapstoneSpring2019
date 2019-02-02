@@ -1,0 +1,20 @@
+{
+  "name": "k3_node_back",
+  "version": "1.0.0",
+  "description": "Island Rush Backend Services",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "author": "Island Rush Team",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "express-socket.io-session": "^1.3.5",
+    "md5": "^2.2.1",
+    "mysql": "^2.16.0",
+    "socket.io": "^2.2.0"
+  }
+}

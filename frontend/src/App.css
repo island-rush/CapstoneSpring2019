@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.4;
+  height: 47.1vw;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+/* Hexagon Style Stuff */
+svg g {
+  /* fill: rgb(5, 172, 184); */
+  fill-opacity: 0.6;
+}
+svg :hover {
+  fill-opacity: .3;
+}
+svg g polygon {
+  stroke: rgb(0, 0, 0);
+  stroke-width: 0.15;
+}
+.selectedPos polygon {
+  z-index: 10;
+  stroke: rgb(255, 255, 255);
+  stroke-width: 0.3;
+}
