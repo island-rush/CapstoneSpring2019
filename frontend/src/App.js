@@ -25,8 +25,6 @@ class App extends Component {
   socket = socketIOClient('http://localhost:4000');
 
   componentDidMount() {
-    console.log("component is mounted");
-
     this.socket.emit('getGamePositions', (gameState) => {
       this.setState(gameState);
     });
@@ -40,7 +38,7 @@ class App extends Component {
     // Used to Build the Map with Clicking...
     // this.updatePositionType(id, this.state.positionTypes[id] === "water" ? "land" : "water");
     // this.updatePositionType(id, "airfield");
-  console.log(this.state.positionTypes);
+    console.log(this.state.positionTypes);
   }
 
   selectMenu = (index) => {

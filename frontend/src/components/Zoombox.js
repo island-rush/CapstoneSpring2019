@@ -17,20 +17,11 @@ const zoomboxColoring = {
   "airfield": {backgroundColor: "yellow"}
 }
 
-// const triangle = {
-//   width: 0,
-//   height: 0,
-//   borderLeft: "20px solid transparent",
-//   borderRight: "20px solide transparent",
-//   borderBottom: "20px solid black"
-// }
-
 export class Zoombox extends Component {
   render() {
     return (
       <div style={{...zoomboxStyle, ...zoomboxColoring[this.props.positionTypes[this.props.selectedPos]]}}>
         <MultiContainer pieceClick={this.props.pieceClick} positions={this.props.positions} selectedPos={this.props.selectedPos} />
-        {/* <div style={triangle}></div> */}
       </div>
     )
   }

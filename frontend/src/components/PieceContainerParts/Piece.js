@@ -52,7 +52,7 @@ export class Piece extends Component {
     const {pieceId, pieceTeamId, pieceUnitId, piecePositionId, pieceContainerId, pieceMoves, pieceFuel, pieceOpen} = this.props.pieceInfo;
     const fuelTitle = pieceFuel === -1 ? "" : "\nFuel: " + pieceFuel  
     return (
-      <div onClick={this.props.pieceClick.bind(this, pieceId).bind(this, piecePositionId)} style={{...pieceStyle, ...unitStyles[pieceUnitId], ...teamStyles[pieceTeamId], ...openLevels[pieceOpen ? 1 : 0]}} title={"Moves: " + pieceMoves + fuelTitle} >
+      <div onClick={this.props.pieceClick.bind(this, pieceId, piecePositionId)} style={{...pieceStyle, ...unitStyles[pieceUnitId], ...teamStyles[pieceTeamId], ...openLevels[pieceOpen ? 1 : 0]}} title={"Moves: " + pieceMoves + fuelTitle} >
         <PieceSubContainer pieceClick={this.props.pieceClick} isOpen={pieceOpen} pieces={this.props.pieces} topPieceId={pieceId} />
       </div>
     )

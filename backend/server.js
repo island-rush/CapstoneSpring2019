@@ -42,7 +42,7 @@ app.get('/game.html', (req, res) => {
     if (!req.session.gameId || !req.session.teamId) {
         res.redirect('/index.html?err=NotLoggedIn');
     } else {
-        res.redirect('localhost:3000');
+        res.redirect('localhost:3000');  //TODO: change this to static files when frontend is fully built
     }
 });
 
@@ -68,26 +68,21 @@ app.get('/gameLoginVerify', (req, res) => {
             if (results.length !== 1) {
                 res.redirect('/index.html?err=GameDoesNotExist');
             } else {
-                if (parseInt(req.query.gameTeam) === -1) {
-                    req.session.gameId = results[0].gameId;
-                    req.session.teamId = req.query.gameTeam;
-                    res.redirect('game.html');
+                const allReturnTeamValues = [results[0].gameTeam0, results[0].gameTeam1, results[0].gameTeam2, results[0].gameTeam3, results[0].gameTeam4, results[0].gameTeam5, results[0].gameTeam6, results[0].gameTeam7];
+                let teamLoggedIn = allReturnTeamValues[req.query.gameTeam];                        
+                if (parseInt(teamLoggedIn) === 1) {
+                    res.redirect('/index.html?err=AlreadyLoggedIn');
                 } else {
-                    const allReturnTeamValues = [results[0].gameTeam0, results[0].gameTeam1, results[0].gameTeam2, results[0].gameTeam3, results[0].gameTeam4, results[0].gameTeam5, results[0].gameTeam6, results[0].gameTeam7];
-                    let teamLoggedIn = allReturnTeamValues[req.query.gameTeam];                        
-                    if (parseInt(teamLoggedIn) === 1) {
-                        res.redirect('/index.html?err=AlreadyLoggedIn');
-                    } else {
-                        req.session.gameId = parseInt(results[0].gameId);
-                        req.session.teamId = parseInt(req.query.gameTeam);
-                        sql = `UPDATE games SET ?? = 1 WHERE gameId = ?`;
-                        let inserts = ['gameTeam' + req.query.gameTeam, results[0].gameId];
-                        sql = mysql.format(sql, inserts);
-                        db.query(sql, (err, results) => {
-                            if(err) throw err;
-                            res.redirect('http://localhost:3000');
-                        });
-                    }
+                    req.session.gameId = parseInt(results[0].gameId);
+                    req.session.teamId = req.query.gameTeam <= 3 ? 0 : 1;
+                    req.session.controllerId = parseInt(req.query.gameTeam);
+                    sql = `UPDATE games SET ?? = 1 WHERE gameId = ?`;
+                    let inserts = ['gameTeam' + req.query.gameTeam, results[0].gameId];
+                    sql = mysql.format(sql, inserts);
+                    db.query(sql, (err, results) => {
+                        if(err) throw err;
+                        res.redirect('http://localhost:3000');
+                    });
                 }
             }
         });
