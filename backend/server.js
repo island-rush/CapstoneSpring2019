@@ -112,6 +112,22 @@ app.get('/adminLoginVerify', (req, res) => {
 
 
 io.sockets.on('connection', (socket) => {
+    console.log("Player logged in.");
+    socket.join('game' + socket.handshake.session.gameId);
+
+    socket.on('disconnect', () => {
+        //mark this person as logged out of the game?
+        if (socket.handshake.session) {
+            sql = `UPDATE games SET ?? = 0 WHERE gameId = ?`;
+            let inserts = ['gameTeam' + socket.handshake.session.controllerId, socket.handshake.session.gameId];
+            sql = mysql.format(sql, inserts);
+            db.query(sql, (err, results) => {
+                if(err) throw err;
+                console.log("Player logged out.");
+            });
+        }
+    });
+
     socket.on('getGamePositions', (callback) => {
         const gameId = socket.handshake.session.gameId;
         const teamId = socket.handshake.session.teamId;
@@ -131,6 +147,8 @@ io.sockets.on('connection', (socket) => {
             callback(totalResults);
         });
     });
+
+    // io.to('game').emit('someEvent');
 });
 
 

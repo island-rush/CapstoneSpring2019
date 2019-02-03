@@ -61,7 +61,7 @@ const containerClosedStyle = {
 
 export class Piece extends Component {
   render() {
-    const {pieceId, pieceTeamId, pieceUnitId, piecePositionId, pieceContainerId, pieceMoves, pieceFuel, pieceOpen} = this.props.pieceInfo;
+    const {pieceId, pieceTeamId, pieceUnitId, piecePositionId, pieceMoves, pieceFuel, pieceOpen} = this.props.pieceInfo;
     const fuelTitle = pieceFuel === -1 ? "" : "\nFuel: " + pieceFuel;
 
     return (

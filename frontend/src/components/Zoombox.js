@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PositionContainer from './PieceContainerParts/PositionContainer';
+import PositionContainer from './ZoomboxParts/PositionContainer';
 
 const zoomboxStyle = {
   position: "fixed",
@@ -13,7 +13,7 @@ const zoomboxColoring = {
   "land": {backgroundColor: "green"},
   "water": {backgroundColor: "blue"},
   "missile": {backgroundColor: "red"},
-  "flag": {backgroundColor: "black"},
+  "flag": {backgroundColor: "grey"},
   "airfield": {backgroundColor: "yellow"}
 }
 

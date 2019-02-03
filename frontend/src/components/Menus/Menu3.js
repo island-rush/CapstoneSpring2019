@@ -19,7 +19,6 @@ export class Menu3 extends Component {
     return (
       <div style={this.props.selectedMenu === 3 ? menu3Display : menu3Hide}>
         <p>Session Info</p>
-        <p>Logout button</p>
         <p>Game Info (Creators / class? / Copyright)</p>
       </div>
     )
