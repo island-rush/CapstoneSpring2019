@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import Piece from './Piece';
 
-export class PieceContainer extends Component {
+const singleContainerDisplay = {
+    display: 'block'
+}
+
+const singleContainerHide = {
+    display: 'none'
+}
+
+export class SingleContainer extends Component {
   render() {
     const topLevelPieces = this.props.pieces.filter(piece => piece.pieceContainerId === -1);
 
@@ -15,10 +23,16 @@ export class PieceContainer extends Component {
       }
     }
     
-    return topLevelPieces.map((piece, index) => (
+    const thisPieces = topLevelPieces.map((piece, index) => (
         <Piece pieces={arrayContainedPieces[index]} pieceClick={this.props.pieceClick} key={piece.pieceId} pieceInfo={piece} />
     ))
+
+    return (
+      <div style={this.props.selectedPos === this.props.positionId ? singleContainerDisplay : singleContainerHide}>
+        {thisPieces}
+      </div>
+    )
   }
 }
 
-export default PieceContainer
+export default SingleContainer

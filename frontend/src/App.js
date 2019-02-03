@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import socketIOClient from 'socket.io-client';
+
 import Bottombar from './components/Bottombar';
 import Gameboard from './components/Gameboard';
 import Sidebar from './components/Sidebar';
@@ -8,6 +8,7 @@ import Zoombox from './components/Zoombox';
 import NewsAlertPopup from './components/NewsAlertPopup';
 import BattlePopup from './components/BattlePopup';
 import RefuelPopup from './components/RefuelPopup';
+
 import './App.css';
 
 class App extends Component {
@@ -38,7 +39,7 @@ class App extends Component {
     // Used to Build the Map with Clicking...
     // this.updatePositionType(id, this.state.positionTypes[id] === "water" ? "land" : "water");
     // this.updatePositionType(id, "airfield");
-    console.log(this.state.positionTypes);
+    // console.log(this.state.positionTypes);
   }
 
   selectMenu = (index) => {

@@ -47,13 +47,28 @@ const openLevels = [
   {zIndex: 10}
 ]
 
+const containerOpenStyle = {
+  display: "block",
+  width: "100px",
+  height: "100px",
+  backgroundColor: "white",
+  position: 'relative'
+}
+
+const containerClosedStyle = {
+  display: "none"
+}
+
 export class Piece extends Component {
   render() {
     const {pieceId, pieceTeamId, pieceUnitId, piecePositionId, pieceContainerId, pieceMoves, pieceFuel, pieceOpen} = this.props.pieceInfo;
-    const fuelTitle = pieceFuel === -1 ? "" : "\nFuel: " + pieceFuel  
+    const fuelTitle = pieceFuel === -1 ? "" : "\nFuel: " + pieceFuel;
+
     return (
       <div onClick={this.props.pieceClick.bind(this, pieceId, piecePositionId)} style={{...pieceStyle, ...unitStyles[pieceUnitId], ...teamStyles[pieceTeamId], ...openLevels[pieceOpen ? 1 : 0]}} title={"Moves: " + pieceMoves + fuelTitle} >
-        <PieceSubContainer pieceClick={this.props.pieceClick} isOpen={pieceOpen} pieces={this.props.pieces} topPieceId={pieceId} />
+        <div style={pieceOpen ? containerOpenStyle : containerClosedStyle}>
+          <PieceSubContainer pieces={this.props.pieces} topPieceId={this.props.topPieceId} pieceClick={this.props.pieceClick} />
+        </div>
       </div>
     )
   }

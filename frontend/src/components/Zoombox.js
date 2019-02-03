@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MultiContainer from './PieceContainerParts/MultiContainer';
+import PositionContainer from './PieceContainerParts/PositionContainer';
 
 const zoomboxStyle = {
   position: "fixed",
@@ -19,9 +19,13 @@ const zoomboxColoring = {
 
 export class Zoombox extends Component {
   render() {
+    const positionContainer = this.props.positions.map((position, index) => (
+      <PositionContainer pieceClick={this.props.pieceClick} key={index} positionId={index} selectedPos={this.props.selectedPos} pieces={position} />
+    ))
+
     return (
       <div style={{...zoomboxStyle, ...zoomboxColoring[this.props.positionTypes[this.props.selectedPos]]}}>
-        <MultiContainer pieceClick={this.props.pieceClick} positions={this.props.positions} selectedPos={this.props.selectedPos} />
+        {positionContainer}
       </div>
     )
   }

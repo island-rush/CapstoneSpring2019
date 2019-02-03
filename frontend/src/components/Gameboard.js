@@ -31,7 +31,7 @@ function patternSelector(pattern, pieces) {
     }
   }
 
-  //return "pattern" + "redHigh" + "redLow" ... (images stored as land0101.png, water1110.png, flag0000.png, airfield1000.png, missile0100.png, etc.)
+  // return pattern + redHigh + redLow + blueHigh + blueLow;  // Trying to return "land0101", references patterns at bottom of file
   return pattern;
 }
 
