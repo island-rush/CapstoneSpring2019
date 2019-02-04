@@ -1,30 +1,43 @@
 import React, { Component } from 'react'
 
-const menu1Display = {
-  backgroundColor: "white",
-  position: "absolute",
-  top: ".25%",
-  left: "105%",
-  height: "99%",
-  width: "340%",
-  transition: "opacity .25s, visibility .25s"
+const menu1Hide = {
+  display: "none"
 }
 
-const menu1 = [
-  {
-    opacity: 1,
-    visibility: "visible"
-  },
-  {
-    opacity: 0,
-    visibility: "hidden"
-  }
-]
+const menu1Display = {
+  backgroundColor: "white",
+  position: "fixed",
+  top: 0,
+  left: "3.8rem",
+  height: "33.6rem",
+  width: "25rem",
+  display: "block"
+}
+
+
 
 export class Menu1 extends Component {
   render() {
     return (
-      <div style={{...menu1Display, ...menu1[this.props.selectedMenu === 1 ? 0 : 1]}}>
+      <div style={this.props.selectedMenu === 1 ? menu1Display : menu1Hide}>
+        <button><img src="..\images\unitImages\aircraftCarrier.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\artillery.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\attackHeli.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\bomber.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\destroyer.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\fighter.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\lav.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\marine.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\missile.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\sam.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\soldier.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\stealthBomber.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\submarine.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\tank.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\tanker.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\transport.png" height="45" width="45" alt = "my image"/></button>
+
+
         <p>A Selection of pieces to buy</p>
         <p>A Selection of abilities to buy</p>
       </div>
