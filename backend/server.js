@@ -128,16 +128,19 @@ io.sockets.on('connection', (socket) => {
         }
     });
 
+    // socket.on('testmultistuff', (param1, callback) => {
+    //     console.log(param1);
+    //     callback("somethingfromserver");
+    // });
+
     socket.on('getGamePositions', (callback) => {
-        const gameId = socket.handshake.session.gameId;
-        const teamId = socket.handshake.session.teamId;
         let totalResults = {};
         totalResults.positions = [];
         for (let x = 0; x < 727; x++) {
             totalResults.positions[x] = [];
         }
         let sql = 'SELECT pieceId, pieceFuel, pieceMoves, pieceUnitId, pieceTeamId, piecePositionId, pieceContainerId FROM pieces WHERE pieceGameId = ? AND (pieceVisible = 1 OR pieceTeamId = ?) ORDER BY piecePositionId';
-        let inserts = [gameId, teamId];
+        let inserts = [socket.handshake.session.gameId, socket.handshake.session.teamId];
         sql = mysql.format(sql, inserts);
         db.query(sql, (err, results) => {
             if(err) throw err;
@@ -148,7 +151,7 @@ io.sockets.on('connection', (socket) => {
         });
     });
 
-    // io.to('game').emit('someEvent');
+    // io.to('game1').emit('someEvent');
 });
 
 

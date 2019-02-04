@@ -1,46 +1,47 @@
 import React, { Component } from 'react'
 
 const bottombarStyle = {
-  position: "fixed",
-  bottom: 0,
-  right: 0,
+  position: "absolute",
+  bottom: ".25%",
+  right: ".25%",
   backgroundColor: "purple",
-  height: "6%",
-  width: "79.4rem"
+  height: "6.75%",
+  width: "80.75%",
+  zIndex: 2
 }
 
 const planningDivStyle = {
   backgroundColor: "blue",
-  height: "75%",
+  height: "100%",
   width: "10%",
   position: "relative",
   float: "left",
-  margin: "1%"
+  textAlign: "center"
 }
 
 const userFeedbackStyle = {
   backgroundColor: "yellow",
-  height: "75%",
-  width: "72%",
+  height: "100%",
+  width: "80%",
   position: "relative",
   float: "left",
-  margin: "1%"
+  textAlign: "center"
 }
 
 const controlButtonStyle = {
   backgroundColor: "green",
-  height: "75%",
-  width: "12%",
+  height: "100%",
+  width: "10%",
   position: "relative",
   float: "right",
-  margin: "1%"
+  textAlign: "center"
 }
 
 export class Bottombar extends Component {
   render() {
     return (
       <div style={bottombarStyle}>
-        <div style={planningDivStyle}>Planning div (3)</div>
+        <div style={planningDivStyle}>[x] [x] [x]</div>
         <div style={userFeedbackStyle}>User Feedback</div>
         <div style={controlButtonStyle}>Control Button</div>
       </div>

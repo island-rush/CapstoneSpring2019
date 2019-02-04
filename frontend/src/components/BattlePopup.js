@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 
 const battleStyle = {
-    position: "fixed",
-    bottom: "50%",
-    left: "50%",
-    height: "14rem",
-    width: "16.5rem",
+    position: "absolute",
+    bottom: "33%",
+    left: "37%",
+    height: "40%",
+    width: "40%",
     backgroundColor: "white",
+    zIndex: 4,
     display: "block"
 }
 

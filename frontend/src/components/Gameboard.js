@@ -42,12 +42,14 @@ function singleHex(id, pattern, x, y, selectPos, selectedPos, pieces) {
 }
 
 const gameboardStyle = {
-    position: "fixed",
-    top: 0,
-    right: 0,
+    // position: "relative",
+    float: "right",
+    marginTop: ".25%",
+    marginRight: ".25%",
     backgroundColor: "rgb(93, 115, 240)",
-    height: "42.5rem",
-    width: "92rem"
+    height: "92%",
+    width: "94%",
+    zIndex: 0
 }
 
 export class Gameboard extends Component {

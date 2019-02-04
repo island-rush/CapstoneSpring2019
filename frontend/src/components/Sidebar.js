@@ -54,12 +54,13 @@ const btn3Style = {
 }
 
 const sidebarStyle = {
-    position: "fixed",
-    top: 0,
-    left: 0,
+    position: "absolute",
+    top: ".25%",
+    left: ".25%",
     backgroundColor: "red",
-    height: "33.6rem",
-    width: "3.75rem"
+    height: "73%",
+    width: "5.25%",
+    zIndex: 3
 }
 
 export default Sidebar

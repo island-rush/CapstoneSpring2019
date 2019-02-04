@@ -6,11 +6,11 @@ const menu3Hide = {
 
 const menu3Display = {
   backgroundColor: "white",
-  position: "fixed",
-  top: 0,
-  left: "3.8rem",
-  height: "33.6rem",
-  width: "25rem",
+  position: "absolute",
+  top: ".25%",
+  left: "105%",
+  height: "99%",
+  width: "340%",
   display: "block"
 }
 

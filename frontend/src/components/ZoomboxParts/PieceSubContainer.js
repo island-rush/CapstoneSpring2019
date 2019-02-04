@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import Piece from './Piece';
 
-export class PieceSubSubContainer extends Component {
+export class PieceSubContainer extends Component {
   render() {
-    let containedPieces = this.props.pieces.filter(piece => piece.pieceContainerId === this.props.topPieceId);
+    const pieces = [];
 
-    return containedPieces.map((piece) => (
-        <Piece pieces={this.props.pieces} pieceClick={this.props.pieceClick} key={piece.pieceId} pieceInfo={piece} />
+    return this.props.pieces.map((piece) => (
+        <Piece pieces={pieces} pieceClick={this.props.pieceClick} key={piece.pieceId} pieceInfo={piece} />
     ));
   }
 }
 
-export default PieceSubSubContainer
+export default PieceSubContainer

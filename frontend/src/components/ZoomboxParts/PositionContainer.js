@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import Piece from './Piece';
 
 const singleContainerDisplay = {
-    display: 'block'
+    display: 'block',
+    height: "100%",
+    width: "100%"
 }
 
 const singleContainerHide = {

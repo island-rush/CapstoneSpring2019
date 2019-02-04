@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PieceSubContainer from './PieceSubContainer';
 
 const pieceStyle = {
-    width: "50px",
-    height: "50px",
+    width: "15%",
+    height: "18%",
     float: "left",
     position: "relative",
     backgroundRepeat: "no-repeat",
@@ -14,8 +14,8 @@ const pieceStyle = {
 }
 
 const teamStyles = [
-    {boxShadow: "0px 0px 0px 3px rgba(255, 0, 0, 0.55) inset"},
-    {boxShadow: "0px 0px 0px 3px rgba(0, 111, 255, 0.67) inset"}
+    {boxShadow: "0px 0px 0px 2px rgba(255, 0, 0, 0.55) inset"},
+    {boxShadow: "0px 0px 0px 2px rgba(0, 111, 255, 0.67) inset"}
 ]
 
 const unitStyles = [
@@ -49,8 +49,8 @@ const openLevels = [
 
 const containerOpenStyle = {
   display: "block",
-  width: "100px",
-  height: "100px",
+  width: "200%",
+  height: "200%",
   backgroundColor: "white",
   position: 'relative'
 }
@@ -67,7 +67,7 @@ export class Piece extends Component {
     return (
       <div onClick={this.props.pieceClick.bind(this, pieceId, piecePositionId)} style={{...pieceStyle, ...unitStyles[pieceUnitId], ...teamStyles[pieceTeamId], ...openLevels[pieceOpen ? 1 : 0]}} title={"Moves: " + pieceMoves + fuelTitle} >
         <div style={pieceOpen ? containerOpenStyle : containerClosedStyle}>
-          <PieceSubContainer pieces={this.props.pieces} topPieceId={this.props.topPieceId} pieceClick={this.props.pieceClick} />
+          <PieceSubContainer pieces={this.props.pieces} pieceClick={this.props.pieceClick} />
         </div>
       </div>
     )
