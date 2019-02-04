@@ -7,12 +7,18 @@ const menu2Display = {
   left: "105%",
   height: "99%",
   width: "340%",
-  transition: "opacity .25s"
+  transition: "opacity .25s, visibility .25s"
 }
 
 const menu2 = [
-  {opacity: 1},
-  {opacity: 0}
+  {
+    opacity: 1,
+    visibility: "visible"
+  },
+  {
+    opacity: 0,
+    visibility: "hidden"
+  }
 ]
 
 export class Menu2 extends Component {
