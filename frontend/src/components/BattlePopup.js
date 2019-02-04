@@ -1,3 +1,11 @@
+/** BATTLE POPUP
+ * This component is a popup that shows the battlezone. 
+ * Users interaction: Match friendly troops to enemy troops (2,3,...v1s allowed)
+ * Both users see a similar battle zone, but only have control over their own troops, ie cannot see enemy's matches.
+ * Matching is optional, so the "Battle plan" can be submitted/confirmed while things are unmatched. 
+ * 
+ *  
+ */
 import React, { Component } from 'react';
 
 const battleStyle = {

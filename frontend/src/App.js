@@ -1,4 +1,12 @@
+/** APP
+ * Overall App that runs in the browser. 
+ * In it are 4 components that mkae up the board (Gameboard, Zoombox, Sidebar, Bottombar)
+ * 
+ * 
+ *  
+ */
 import React, { Component } from 'react';
+
 import socketIOClient from 'socket.io-client';
 
 import Bottombar from './components/Bottombar';
