@@ -1,10 +1,9 @@
 {
-  "name": "k3_node_back",
-  "version": "1.0.0",
-  "description": "Island Rush Backend Services",
+  "name": "k3_backend",
+  "version": "3.0.5",
+  "description": "Island-Rush Backend Services",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "author": "Island Rush Team",

@@ -1,7 +1,8 @@
 {
-  "name": "k3_react_front",
-  "version": "3.1.0",
+  "name": "k3_frontend",
+  "version": "3.0.3",
   "private": true,
+  "description": "Island-Rush Frontend Dev",
   "dependencies": {
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

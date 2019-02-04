@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
 
-const menu2Hide = {
-  display: "none"
-}
-
 const menu2Display = {
   backgroundColor: "white",
   position: "absolute",
@@ -11,13 +7,18 @@ const menu2Display = {
   left: "105%",
   height: "99%",
   width: "340%",
-  display: "block"
+  transition: "opacity .25s"
 }
+
+const menu2 = [
+  {opacity: 1},
+  {opacity: 0}
+]
 
 export class Menu2 extends Component {
   render() {
     return (
-      <div style={this.props.selectedMenu === 2 ? menu2Display : menu2Hide}>
+      <div style={{...menu2Display, ...menu2[this.props.selectedMenu === 2 ? 0 : 1]}}>
         <p>Section for pieces (to drag at place reinforcement phase)</p>
         <p>Section for abilities to use (at any point)</p>
       </div>
