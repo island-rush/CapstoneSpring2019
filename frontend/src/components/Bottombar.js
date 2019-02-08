@@ -4,15 +4,16 @@ const bottombarStyle = {
   position: "absolute",
   bottom: ".25%",
   right: ".25%",
-  backgroundColor: "purple",
+  // backgroundColor: "purple",
   height: "6.75%",
   width: "80.75%",
   zIndex: 2
 }
 
 const planningDivStyle = {
-  backgroundColor: "blue",
-  height: "100%",
+  backgroundColor: "gray",
+  paddingTop: "0.5%",
+  height: "86%",
   width: "15%",
   position: "relative",
   float: "left",
@@ -20,7 +21,7 @@ const planningDivStyle = {
 }
 
 const userFeedbackStyle = {
-  backgroundColor: "yellow",
+  backgroundColor: "lightGray",
   height: "100%",
   width: "75%",
   position: "relative",
@@ -38,21 +39,28 @@ const controlButtonDivStyle = {
 }
 
 const planningButtonStyle = {
-  margin: "5%",
-  backgroundColor: "green",
-  height: "80%",
+  padding: 0,
+  margin: "2%",
+  height: "70%",
   width: "20%",
-  position: "relative",
-  float: "right",
-  textAlign: "center"
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "100% 100%",
+  // backgroundColor: planningDivStyle.backgroundColor,
+  border: "none",
+  borderRadius: "2%",
+  textAlign: "center",
+  cursor: 'pointer',
+  "&:hover":{
+    backgroundColor: "red"
+  }
 }
+
 
 const buttonStyles = [
   {backgroundImage: "url(\"./images/buttonImages/undo.png\")"},
   {backgroundImage: "url(\"./images/buttonImages/cancel.png\")"},
   {backgroundImage: "url(\"./images/buttonImages/openContainer.png\")"},
   {backgroundImage: "url(\"./images/buttonImages/done.png\")"}
-  
 ]
 
 
@@ -68,10 +76,11 @@ export class Bottombar extends Component {
     return (
       <div style={bottombarStyle}>
         <div style={planningDivStyle}>
+          <button style={{...planningButtonStyle, ...buttonStyles[0]}}></button>
           <button style={{...planningButtonStyle, ...buttonStyles[1]}}></button>
           <button style={{...planningButtonStyle, ...buttonStyles[2]}}></button>
           <button style={{...planningButtonStyle, ...buttonStyles[3]}}></button>
-          <button style={{...planningButtonStyle, ...buttonStyles[4]}}></button>
+          {/* <button>ha</button> */}
         </div>
         <div style={userFeedbackStyle}>User Feedback</div>
         <div style={controlButtonDivStyle}>
