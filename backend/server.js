@@ -2,7 +2,7 @@ const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const session = require('express-session')({
-    secret: "mySecret",
+    secret: "sdsldkl4987vh298fy9823b89fn2",
     resave: true,
     saveUninitialized: true
 });
@@ -17,10 +17,38 @@ const db = mysql.createConnection({
     password: 'DFCS2019student',
     database: 'k3'
 });
-db.connect((err) => {
-    if(err) throw err;
-    console.log(`MySQL connected to k3`);
-});
+
+const config = {
+    host: 'localhost',
+    user: 'root',
+    password: 'DFCS2019student',
+    database: 'k3'
+}
+
+class Database {
+    constructor( config ) {
+        this.connection = mysql.createConnection( config );
+    }
+    query( sql, args ) {
+        return new Promise( ( resolve, reject ) => {
+            this.connection.query( sql, args, ( err, rows ) => {
+                if ( err )
+                    return reject( err );
+                resolve( rows );
+            } );
+        } );
+    }
+    close() {
+        return new Promise( ( resolve, reject ) => {
+            this.connection.end( err => {
+                if ( err )
+                    return reject( err );
+                resolve();
+            } );
+        } );
+    }
+}
+const database = new Database(config);
 
 // ----------------------------------------------------
 
@@ -55,7 +83,7 @@ app.get('/admin.html', (req, res) => {
 });
 
 //Could change this to a socket check from socket connection on the index
-//TODO change this call back hell into promises and stuff
+//TODO change this call back hell into promises and stuff (good practice)
 app.get('/gameLoginVerify', (req, res) => {
     if(!req.query.gameSection || !req.query.gameInstructor || !req.query.gameTeam) {
         res.redirect('/index.html?err=BadParameters');  // didn't hit the backend with right query parameters
@@ -63,8 +91,8 @@ app.get('/gameLoginVerify', (req, res) => {
         let sql = `SELECT * FROM games WHERE gameSection = ? AND gameInstructor = ?`;
         let inserts = [req.query.gameSection, req.query.gameInstructor];
         sql = mysql.format(sql, inserts);
-        db.query(sql, (err, results) => {
-            if (err) throw err;
+        database.query(sql)
+        .then(results => {
             if (results.length !== 1) {
                 res.redirect('/index.html?err=GameDoesNotExist');
             } else {
@@ -79,9 +107,12 @@ app.get('/gameLoginVerify', (req, res) => {
                     sql = `UPDATE games SET ?? = 1 WHERE gameId = ?`;
                     let inserts = ['gameTeam' + req.query.gameTeam, results[0].gameId];
                     sql = mysql.format(sql, inserts);
-                    db.query(sql, (err, results) => {
-                        if(err) throw err;
+                    database.query(sql)
+                    .then(results => {
                         res.redirect('http://localhost:3000');
+                    })
+                    .catch(err => {
+                        console.log(err);
                     });
                 }
             }
@@ -89,7 +120,7 @@ app.get('/gameLoginVerify', (req, res) => {
     }
 });
 
-//TODO: Change this to a socket check
+//TODO: Change this to a socket check (not necessary)
 app.get('/adminLoginVerify', (req, res) => {
     if (!req.query.adminSection || !req.query.adminInstructor || !req.query.adminPassword) {
         res.redirect('/index.html?err=BadAdminLoginRequest');
@@ -97,8 +128,8 @@ app.get('/adminLoginVerify', (req, res) => {
         let sql = `SELECT * FROM games WHERE gameSection = ? AND gameInstructor = ? AND gameAdminPassword = ?`;
         let inserts = [req.query.adminSection, req.query.adminInstructor, md5(req.query.adminPassword)];
         sql = mysql.format(sql, inserts);
-        db.query(sql, (err, results) => {
-            if (err) throw err;
+        database.query(sql)
+        .then(results => {
             if (results.length !== 1) {
                 res.redirect('/index.html?err=GameDoesNotExist');
             } else {
@@ -116,13 +147,13 @@ io.sockets.on('connection', (socket) => {
     socket.join('game' + socket.handshake.session.gameId);
 
     socket.on('disconnect', () => {
-        //mark this person as logged out of the game?
+        //mark this person as logged out of the game
         if (socket.handshake.session) {
             sql = `UPDATE games SET ?? = 0 WHERE gameId = ?`;
             let inserts = ['gameTeam' + socket.handshake.session.controllerId, socket.handshake.session.gameId];
             sql = mysql.format(sql, inserts);
-            db.query(sql, (err, results) => {
-                if(err) throw err;
+            database.query(sql)
+            .then(results => {
                 console.log("Player logged out.");
             });
         }
@@ -142,12 +173,37 @@ io.sockets.on('connection', (socket) => {
         let sql = 'SELECT pieceId, pieceFuel, pieceMoves, pieceUnitId, pieceTeamId, piecePositionId, pieceContainerId FROM pieces WHERE pieceGameId = ? AND (pieceVisible = 1 OR pieceTeamId = ?) ORDER BY piecePositionId';
         let inserts = [socket.handshake.session.gameId, socket.handshake.session.teamId];
         sql = mysql.format(sql, inserts);
-        db.query(sql, (err, results) => {
-            if(err) throw err;
+        database.query(sql)
+        .then(results => {
             results.map(result => {
                 totalResults.positions[result.piecePositionId].push(result);
             });
             callback(totalResults);
+        });
+    });
+
+    socket.on('controlButtonClick', (callback) => {
+        let newGameState = {};
+        
+        //get the gamestate from the server
+        let sql = 'SELECT * FROM games WHERE gameId = ?';
+        let inserts = [socket.handshake.session.gameId];
+        sql = mysql.format(sql, inserts);
+        database.query(sql)
+        .then(rows => {
+            let gamePhase = rows[0].gamePhase;
+            gamePhase = (gamePhase + 1) % 3;
+            newGameState.gamePhase = gamePhase;
+        })
+        .then(() => {
+            let sql = 'UPDATE games SET gamePhase = ? WHERE gameId = ?';
+            let inserts = [newGameState.gamePhase, socket.handshake.session.gameId];
+            sql = mysql.format(sql, inserts);
+            database.query(sql);
+        })
+        .then(() => {
+            callback(newGameState);
+            console.log(newGameState);
         });
     });
 
