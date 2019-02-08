@@ -191,17 +191,20 @@ io.sockets.on('connection', (socket) => {
         sql = mysql.format(sql, inserts);
         database.query(sql)
         .then(rows => {
-            console.log(rows);
+            let gamePhase = rows[0].gamePhase;
+            gamePhase = (gamePhase + 1) % 3;
+            newGameState.gamePhase = gamePhase;
         })
-        .catch(err => {
-            console.log(err);
+        .then(() => {
+            let sql = 'UPDATE games SET gamePhase = ? WHERE gameId = ?';
+            let inserts = [newGameState.gamePhase, socket.handshake.session.gameId];
+            sql = mysql.format(sql, inserts);
+            database.query(sql);
+        })
+        .then(() => {
+            callback(newGameState);
+            console.log(newGameState);
         });
-
-        //determine what action to take from a control button click
-
-        //send back the appropriate game state
-
-        callback(newGameState);
     });
 
     // io.to('game1').emit('someEvent');
