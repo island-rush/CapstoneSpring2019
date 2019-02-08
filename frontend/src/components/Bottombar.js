@@ -13,7 +13,7 @@ const bottombarStyle = {
 const planningDivStyle = {
   backgroundColor: "blue",
   height: "100%",
-  width: "10%",
+  width: "15%",
   position: "relative",
   float: "left",
   textAlign: "center"
@@ -22,7 +22,7 @@ const planningDivStyle = {
 const userFeedbackStyle = {
   backgroundColor: "yellow",
   height: "100%",
-  width: "80%",
+  width: "75%",
   position: "relative",
   float: "left",
   textAlign: "center"
@@ -37,11 +37,35 @@ const controlButtonStyle = {
   textAlign: "center"
 }
 
+const planningButtonStyle = {
+  margin: "5%",
+  backgroundColor: "green",
+  height: "80%",
+  width: "20%",
+  position: "relative",
+  float: "right",
+  textAlign: "center"
+}
+
+const buttonStyles = [
+  {backgroundImage: "url(\"./images/buttonImages/undo.png\")"},
+  {backgroundImage: "url(\"./images/buttonImages/cancel.png\")"},
+  {backgroundImage: "url(\"./images/buttonImages/openContainer.png\")"},
+  {backgroundImage: "url(\"./images/buttonImages/done.png\")"}
+  
+]
+
+
 export class Bottombar extends Component {
   render() {
     return (
       <div style={bottombarStyle}>
-        <div style={planningDivStyle}>[x] [x] [x]</div>
+        <div style={planningDivStyle}>
+          <button style={{...planningButtonStyle, ...buttonStyles[1]}}></button>
+          <button style={{...planningButtonStyle, ...buttonStyles[2]}}></button>
+          <button style={{...planningButtonStyle, ...buttonStyles[3]}}></button>
+          <button style={{...planningButtonStyle, ...buttonStyles[4]}}></button>
+        </div>
         <div style={userFeedbackStyle}>User Feedback</div>
         <div style={controlButtonStyle}>Control Button</div>
       </div>
