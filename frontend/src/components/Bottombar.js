@@ -28,7 +28,7 @@ const userFeedbackStyle = {
   textAlign: "center"
 }
 
-const controlButtonStyle = {
+const controlButtonDivStyle = {
   backgroundColor: "green",
   height: "100%",
   width: "10%",
@@ -56,6 +56,13 @@ const buttonStyles = [
 ]
 
 
+const controlButtonStyle = {
+  height: "80%",
+  width: "80%",
+  margin: "3%"
+}
+
+
 export class Bottombar extends Component {
   render() {
     return (
@@ -67,7 +74,9 @@ export class Bottombar extends Component {
           <button style={{...planningButtonStyle, ...buttonStyles[4]}}></button>
         </div>
         <div style={userFeedbackStyle}>User Feedback</div>
-        <div style={controlButtonStyle}>Control Button</div>
+        <div style={controlButtonDivStyle}>
+          <button onClick={this.props.controlButtonClick} style={controlButtonStyle}>Control Button</button>
+        </div>
       </div>
     )
   }

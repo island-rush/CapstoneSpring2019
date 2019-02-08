@@ -7,7 +7,9 @@ const zoomboxStyle = {
   left: ".25%",
   height: "26%",
   width: "18.5%",
-  zIndex: 1
+  zIndex: 1,
+  boxShadow: "0px 0px 0px 2px black inset",
+  boxSizing: "border-box",
 }
 
 const zoomboxColoring = {

@@ -94,6 +94,12 @@ class App extends Component {
     this.setState({positionTypes: array});
   }
 
+  controlButtonClick = () => {
+    this.socket.emit('controlButtonClick', (gameState) => {
+      this.setState(gameState);
+    });
+  }
+
   appStyle = {
     position: "relative",
     backgroundColor: "black",
@@ -104,7 +110,7 @@ class App extends Component {
   render() {
     return (
       <div className="App" style={this.appStyle}>
-        <Bottombar />
+        <Bottombar controlButtonClick={this.controlButtonClick} />
         <Gameboard positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.state.positionTypes} selectedPos={this.state.selectedPos} />
         <Sidebar selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.state.positionTypes}/>
