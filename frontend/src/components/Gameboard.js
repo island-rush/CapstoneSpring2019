@@ -31,8 +31,7 @@ function patternSelector(pattern, pieces) {
     }
   }
 
-  // return pattern + redHigh + redLow + blueHigh + blueLow;  // Trying to return "land0101", references patterns at bottom of file
-  return pattern;
+  return pattern + redHigh + redLow + blueHigh + blueLow;
 }
 
 function singleHex(id, pattern, x, y, selectPos, selectedPos, pieces) {
@@ -788,91 +787,88 @@ export class Gameboard extends Component {
 
 
           </Layout>
-          <Pattern id="land" link="./images/land.png" size={imageSize} />
-          {/* <Pattern id="land0000" link="./images/land0000.png" size={imageSize} />
-          <Pattern id="land0001" link="./images/land0001.png" size={imageSize} />
-          <Pattern id="land0010" link="./images/land0010.png" size={imageSize} />
-          <Pattern id="land0011" link="./images/land0011.png" size={imageSize} />
-          <Pattern id="land0100" link="./images/land0100.png" size={imageSize} />
-          <Pattern id="land0101" link="./images/land0101.png" size={imageSize} />
-          <Pattern id="land0110" link="./images/land0110.png" size={imageSize} />
-          <Pattern id="land0111" link="./images/land0111.png" size={imageSize} />
-          <Pattern id="land1000" link="./images/land1000.png" size={imageSize} />
-          <Pattern id="land1001" link="./images/land1001.png" size={imageSize} />
-          <Pattern id="land1010" link="./images/land1010.png" size={imageSize} />
-          <Pattern id="land1011" link="./images/land1011.png" size={imageSize} />
-          <Pattern id="land1100" link="./images/land1100.png" size={imageSize} />
-          <Pattern id="land1101" link="./images/land1101.png" size={imageSize} />
-          <Pattern id="land1110" link="./images/land1110.png" size={imageSize} />
-          <Pattern id="land1111" link="./images/land1111.png" size={imageSize} /> */}
-          <Pattern id="water" link="./images/water.png" size={imageSize} />
-          {/* <Pattern id="water0000" link="./images/water0000.png" size={imageSize} />
-          <Pattern id="water0001" link="./images/water0001.png" size={imageSize} />
-          <Pattern id="water0010" link="./images/water0010.png" size={imageSize} />
-          <Pattern id="water0011" link="./images/water0011.png" size={imageSize} />
-          <Pattern id="water0100" link="./images/water0100.png" size={imageSize} />
-          <Pattern id="water0101" link="./images/water0101.png" size={imageSize} />
-          <Pattern id="water0110" link="./images/water0110.png" size={imageSize} />
-          <Pattern id="water0111" link="./images/water0111.png" size={imageSize} />
-          <Pattern id="water1000" link="./images/water1000.png" size={imageSize} />
-          <Pattern id="water1001" link="./images/water1001.png" size={imageSize} />
-          <Pattern id="water1010" link="./images/water1010.png" size={imageSize} />
-          <Pattern id="water1011" link="./images/water1011.png" size={imageSize} />
-          <Pattern id="water1100" link="./images/water1100.png" size={imageSize} />
-          <Pattern id="water1101" link="./images/water1101.png" size={imageSize} />
-          <Pattern id="water1110" link="./images/water1110.png" size={imageSize} />
-          <Pattern id="water1111" link="./images/water1111.png" size={imageSize} /> */}
-          <Pattern id="flag" link="./images/flag.png" size={imageSize} />
-          {/* <Pattern id="flag0000" link="./images/flag0000.png" size={imageSize} />
-          <Pattern id="flag0001" link="./images/flag0001.png" size={imageSize} />
-          <Pattern id="flag0010" link="./images/flag0010.png" size={imageSize} />
-          <Pattern id="flag0011" link="./images/flag0011.png" size={imageSize} />
-          <Pattern id="flag0100" link="./images/flag0100.png" size={imageSize} />
-          <Pattern id="flag0101" link="./images/flag0101.png" size={imageSize} />
-          <Pattern id="flag0110" link="./images/flag0110.png" size={imageSize} />
-          <Pattern id="flag0111" link="./images/flag0111.png" size={imageSize} />
-          <Pattern id="flag1000" link="./images/flag1000.png" size={imageSize} />
-          <Pattern id="flag1001" link="./images/flag1001.png" size={imageSize} />
-          <Pattern id="flag1010" link="./images/flag1010.png" size={imageSize} />
-          <Pattern id="flag1011" link="./images/flag1011.png" size={imageSize} />
-          <Pattern id="flag1100" link="./images/flag1100.png" size={imageSize} />
-          <Pattern id="flag1101" link="./images/flag1101.png" size={imageSize} />
-          <Pattern id="flag1110" link="./images/flag1110.png" size={imageSize} />
-          <Pattern id="flag1111" link="./images/flag1111.png" size={imageSize} /> */}
-          <Pattern id="airfield" link="./images/airfield.png" size={imageSize} />
-          {/* <Pattern id="airfield0000" link="./images/airfield0000.png" size={imageSize} />
-          <Pattern id="airfield0001" link="./images/airfield0001.png" size={imageSize} />
-          <Pattern id="airfield0010" link="./images/airfield0010.png" size={imageSize} />
-          <Pattern id="airfield0011" link="./images/airfield0011.png" size={imageSize} />
-          <Pattern id="airfield0100" link="./images/airfield0100.png" size={imageSize} />
-          <Pattern id="airfield0101" link="./images/airfield0101.png" size={imageSize} />
-          <Pattern id="airfield0110" link="./images/airfield0110.png" size={imageSize} />
-          <Pattern id="airfield0111" link="./images/airfield0111.png" size={imageSize} />
-          <Pattern id="airfield1000" link="./images/airfield1000.png" size={imageSize} />
-          <Pattern id="airfield1001" link="./images/airfield1001.png" size={imageSize} />
-          <Pattern id="airfield1010" link="./images/airfield1010.png" size={imageSize} />
-          <Pattern id="airfield1011" link="./images/airfield1011.png" size={imageSize} />
-          <Pattern id="airfield1100" link="./images/airfield1100.png" size={imageSize} />
-          <Pattern id="airfield1101" link="./images/airfield1101.png" size={imageSize} />
-          <Pattern id="airfield1110" link="./images/airfield1110.png" size={imageSize} />
-          <Pattern id="airfield1111" link="./images/airfield1111.png" size={imageSize} /> */}
-          <Pattern id="missile" link="./images/missile.png" size={imageSize} />
-          {/* <Pattern id="missile0000" link="./images/missile0000.png" size={imageSize} />
-          <Pattern id="missile0001" link="./images/missile0001.png" size={imageSize} />
-          <Pattern id="missile0010" link="./images/missile0010.png" size={imageSize} />
-          <Pattern id="missile0011" link="./images/missile0011.png" size={imageSize} />
-          <Pattern id="missile0100" link="./images/missile0100.png" size={imageSize} />
-          <Pattern id="missile0101" link="./images/missile0101.png" size={imageSize} />
-          <Pattern id="missile0110" link="./images/missile0110.png" size={imageSize} />
-          <Pattern id="missile0111" link="./images/missile0111.png" size={imageSize} />
-          <Pattern id="missile1000" link="./images/missile1000.png" size={imageSize} />
-          <Pattern id="missile1001" link="./images/missile1001.png" size={imageSize} />
-          <Pattern id="missile1010" link="./images/missile1010.png" size={imageSize} />
-          <Pattern id="missile1011" link="./images/missile1011.png" size={imageSize} />
-          <Pattern id="missile1100" link="./images/missile1100.png" size={imageSize} />
-          <Pattern id="missile1101" link="./images/missile1101.png" size={imageSize} />
-          <Pattern id="missile1110" link="./images/missile1110.png" size={imageSize} />
-          <Pattern id="missile1111" link="./images/missile1111.png" size={imageSize} /> */}
+          
+          {/* TODO: for loop to create these? */}
+          <Pattern id="land0000" link="./images/positionImages/land0000.png" size={imageSize} />
+          <Pattern id="land0001" link="./images/positionImages/land0001.png" size={imageSize} />
+          <Pattern id="land0010" link="./images/positionImages/land0010.png" size={imageSize} />
+          <Pattern id="land0011" link="./images/positionImages/land0011.png" size={imageSize} />
+          <Pattern id="land0100" link="./images/positionImages/land0100.png" size={imageSize} />
+          <Pattern id="land0101" link="./images/positionImages/land0101.png" size={imageSize} />
+          <Pattern id="land0110" link="./images/positionImages/land0110.png" size={imageSize} />
+          <Pattern id="land0111" link="./images/positionImages/land0111.png" size={imageSize} />
+          <Pattern id="land1000" link="./images/positionImages/land1000.png" size={imageSize} />
+          <Pattern id="land1001" link="./images/positionImages/land1001.png" size={imageSize} />
+          <Pattern id="land1010" link="./images/positionImages/land1010.png" size={imageSize} />
+          <Pattern id="land1011" link="./images/positionImages/land1011.png" size={imageSize} />
+          <Pattern id="land1100" link="./images/positionImages/land1100.png" size={imageSize} />
+          <Pattern id="land1101" link="./images/positionImages/land1101.png" size={imageSize} />
+          <Pattern id="land1110" link="./images/positionImages/land1110.png" size={imageSize} />
+          <Pattern id="land1111" link="./images/positionImages/land1111.png" size={imageSize} /> */}
+          <Pattern id="water0000" link="./images/positionImages/water0000.png" size={imageSize} />
+          <Pattern id="water0001" link="./images/positionImages/water0001.png" size={imageSize} />
+          <Pattern id="water0010" link="./images/positionImages/water0010.png" size={imageSize} />
+          <Pattern id="water0011" link="./images/positionImages/water0011.png" size={imageSize} />
+          <Pattern id="water0100" link="./images/positionImages/water0100.png" size={imageSize} />
+          <Pattern id="water0101" link="./images/positionImages/water0101.png" size={imageSize} />
+          <Pattern id="water0110" link="./images/positionImages/water0110.png" size={imageSize} />
+          <Pattern id="water0111" link="./images/positionImages/water0111.png" size={imageSize} />
+          <Pattern id="water1000" link="./images/positionImages/water1000.png" size={imageSize} />
+          <Pattern id="water1001" link="./images/positionImages/water1001.png" size={imageSize} />
+          <Pattern id="water1010" link="./images/positionImages/water1010.png" size={imageSize} />
+          <Pattern id="water1011" link="./images/positionImages/water1011.png" size={imageSize} />
+          <Pattern id="water1100" link="./images/positionImages/water1100.png" size={imageSize} />
+          <Pattern id="water1101" link="./images/positionImages/water1101.png" size={imageSize} />
+          <Pattern id="water1110" link="./images/positionImages/water1110.png" size={imageSize} />
+          <Pattern id="water1111" link="./images/positionImages/water1111.png" size={imageSize} />
+          <Pattern id="flag0000" link="./images/positionImages/flag0000.png" size={imageSize} />
+          <Pattern id="flag0001" link="./images/positionImages/flag0001.png" size={imageSize} />
+          <Pattern id="flag0010" link="./images/positionImages/flag0010.png" size={imageSize} />
+          <Pattern id="flag0011" link="./images/positionImages/flag0011.png" size={imageSize} />
+          <Pattern id="flag0100" link="./images/positionImages/flag0100.png" size={imageSize} />
+          <Pattern id="flag0101" link="./images/positionImages/flag0101.png" size={imageSize} />
+          <Pattern id="flag0110" link="./images/positionImages/flag0110.png" size={imageSize} />
+          <Pattern id="flag0111" link="./images/positionImages/flag0111.png" size={imageSize} />
+          <Pattern id="flag1000" link="./images/positionImages/flag1000.png" size={imageSize} />
+          <Pattern id="flag1001" link="./images/positionImages/flag1001.png" size={imageSize} />
+          <Pattern id="flag1010" link="./images/positionImages/flag1010.png" size={imageSize} />
+          <Pattern id="flag1011" link="./images/positionImages/flag1011.png" size={imageSize} />
+          <Pattern id="flag1100" link="./images/positionImages/flag1100.png" size={imageSize} />
+          <Pattern id="flag1101" link="./images/positionImages/flag1101.png" size={imageSize} />
+          <Pattern id="flag1110" link="./images/positionImages/flag1110.png" size={imageSize} />
+          <Pattern id="flag1111" link="./images/positionImages/flag1111.png" size={imageSize} />
+          <Pattern id="airfield0000" link="./images/positionImages/airfield0000.png" size={imageSize} />
+          <Pattern id="airfield0001" link="./images/positionImages/airfield0001.png" size={imageSize} />
+          <Pattern id="airfield0010" link="./images/positionImages/airfield0010.png" size={imageSize} />
+          <Pattern id="airfield0011" link="./images/positionImages/airfield0011.png" size={imageSize} />
+          <Pattern id="airfield0100" link="./images/positionImages/airfield0100.png" size={imageSize} />
+          <Pattern id="airfield0101" link="./images/positionImages/airfield0101.png" size={imageSize} />
+          <Pattern id="airfield0110" link="./images/positionImages/airfield0110.png" size={imageSize} />
+          <Pattern id="airfield0111" link="./images/positionImages/airfield0111.png" size={imageSize} />
+          <Pattern id="airfield1000" link="./images/positionImages/airfield1000.png" size={imageSize} />
+          <Pattern id="airfield1001" link="./images/positionImages/airfield1001.png" size={imageSize} />
+          <Pattern id="airfield1010" link="./images/positionImages/airfield1010.png" size={imageSize} />
+          <Pattern id="airfield1011" link="./images/positionImages/airfield1011.png" size={imageSize} />
+          <Pattern id="airfield1100" link="./images/positionImages/airfield1100.png" size={imageSize} />
+          <Pattern id="airfield1101" link="./images/positionImages/airfield1101.png" size={imageSize} />
+          <Pattern id="airfield1110" link="./images/positionImages/airfield1110.png" size={imageSize} />
+          <Pattern id="airfield1111" link="./images/positionImages/airfield1111.png" size={imageSize} />
+          <Pattern id="missile0000" link="./images/positionImages/missile0000.png" size={imageSize} />
+          <Pattern id="missile0001" link="./images/positionImages/missile0001.png" size={imageSize} />
+          <Pattern id="missile0010" link="./images/positionImages/missile0010.png" size={imageSize} />
+          <Pattern id="missile0011" link="./images/positionImages/missile0011.png" size={imageSize} />
+          <Pattern id="missile0100" link="./images/positionImages/missile0100.png" size={imageSize} />
+          <Pattern id="missile0101" link="./images/positionImages/missile0101.png" size={imageSize} />
+          <Pattern id="missile0110" link="./images/positionImages/missile0110.png" size={imageSize} />
+          <Pattern id="missile0111" link="./images/positionImages/missile0111.png" size={imageSize} />
+          <Pattern id="missile1000" link="./images/positionImages/missile1000.png" size={imageSize} />
+          <Pattern id="missile1001" link="./images/positionImages/missile1001.png" size={imageSize} />
+          <Pattern id="missile1010" link="./images/positionImages/missile1010.png" size={imageSize} />
+          <Pattern id="missile1011" link="./images/positionImages/missile1011.png" size={imageSize} />
+          <Pattern id="missile1100" link="./images/positionImages/missile1100.png" size={imageSize} />
+          <Pattern id="missile1101" link="./images/positionImages/missile1101.png" size={imageSize} />
+          <Pattern id="missile1110" link="./images/positionImages/missile1110.png" size={imageSize} />
+          <Pattern id="missile1111" link="./images/positionImages/missile1111.png" size={imageSize} />
         </HexGrid>
       </div>
     )
