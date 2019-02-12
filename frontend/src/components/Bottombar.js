@@ -45,14 +45,17 @@ const planningButtonStyle = {
   width: "20%",
   backgroundRepeat: "no-repeat",
   backgroundSize: "100% 100%",
-  // backgroundColor: planningDivStyle.backgroundColor,
+  backgroundColor: planningDivStyle.backgroundColor,
   border: "none",
-  borderRadius: "2%",
+  borderRadius: "40%",
   textAlign: "center",
   cursor: 'pointer',
-  "&:hover":{
-    backgroundColor: "red"
-  }
+  // hover:{
+  //   backgroundColor: "red"
+  // }
+}
+const planningButtonStyleHover = {
+  backgroundColor: "lightGray"
 }
 
 
@@ -76,7 +79,7 @@ export class Bottombar extends Component {
     return (
       <div style={bottombarStyle}>
         <div style={planningDivStyle}>
-          <button style={{...planningButtonStyle, ...buttonStyles[0]}}></button>
+          <button onMouseEnter={{ }}  style={{...planningButtonStyle, ...buttonStyles[0]}}></button>
           <button style={{...planningButtonStyle, ...buttonStyles[1]}}></button>
           <button style={{...planningButtonStyle, ...buttonStyles[2]}}></button>
           <button style={{...planningButtonStyle, ...buttonStyles[3]}}></button>
