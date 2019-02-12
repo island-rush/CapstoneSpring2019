@@ -11,12 +11,6 @@ app.use(session);
 io.use(sharedsession(session));
 const md5 = require('md5');
 const mysql = require('mysql');
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'DFCS2019student',
-    database: 'k3'
-});
 
 const config = {
     host: 'localhost',
@@ -49,6 +43,8 @@ class Database {
     }
 }
 const database = new Database(config);
+
+require('gameReset.js')();
 
 // ----------------------------------------------------
 
@@ -206,6 +202,10 @@ io.sockets.on('connection', (socket) => {
             console.log(newGameState);
         });
     });
+
+    socket.on('gameResetButtonClick', (callback) => {
+        resetGame(database, socket.handshake.session.gameID)
+    })
 
     // io.to('game1').emit('someEvent');
 });
