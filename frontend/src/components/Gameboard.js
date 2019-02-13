@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HexGrid, Layout, Hexagon, Pattern } from 'react-hexgrid';
+import { HexGrid, Layout, Hexagon, Pattern, Text } from 'react-hexgrid';
 
 const imageSize = { x: 3.4, y: 2.75 };
 const hexagonSize = { x: 3.15, y: 3.15 };
@@ -36,7 +36,9 @@ function patternSelector(pattern, pieces) {
 
 function singleHex(id, pattern, x, y, selectPos, selectedPos, pieces) {
     return (
-        <Hexagon posId={id} q={x} r={y} s={-999} fill={patternSelector(pattern, pieces)} className={selectedPos === id ? "selectedPos" : ""} onClick={selectPos.bind(this, id)}/>
+        <Hexagon posId={id} q={x} r={y} s={-999} fill={patternSelector(pattern, pieces)} className={selectedPos === id ? "selectedPos" : ""} onClick={selectPos.bind(this, id)}>
+          {/* <Text>{id}</Text> */}
+        </Hexagon>
     )
 }
 
