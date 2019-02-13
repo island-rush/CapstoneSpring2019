@@ -51,13 +51,9 @@ const planningButtonStyle = {
   textAlign: "center",
   cursor: 'pointer',
   // hover:{
-  //   backgroundColor: "red"
+  //   backgroundColor: "lightGray"
   // }
 }
-const planningButtonStyleHover = {
-  backgroundColor: "lightGray"
-}
-
 
 const buttonStyles = [
   {backgroundImage: "url(\"./images/buttonImages/undo.png\")"},
@@ -65,7 +61,6 @@ const buttonStyles = [
   {backgroundImage: "url(\"./images/buttonImages/openContainer.png\")"},
   {backgroundImage: "url(\"./images/buttonImages/done.png\")"}
 ]
-
 
 const controlButtonStyle = {
   height: "80%",
@@ -78,14 +73,15 @@ export class Bottombar extends Component {
   render() {
     return (
       <div style={bottombarStyle}>
+      {/* Planning Div holds the buttons that are used to edit and submit movements for each piece */}
         <div style={planningDivStyle}>
-          <button onMouseEnter={{ }}  style={{...planningButtonStyle, ...buttonStyles[0]}}></button>
-          <button style={{...planningButtonStyle, ...buttonStyles[1]}}></button>
-          <button style={{...planningButtonStyle, ...buttonStyles[2]}}></button>
-          <button style={{...planningButtonStyle, ...buttonStyles[3]}}></button>
-          {/* <button>ha</button> */}
+          <button style={{...planningButtonStyle, ...buttonStyles[0]}} title = "Undo Move"></button>
+          <button style={{...planningButtonStyle, ...buttonStyles[1]}} title = "Cancel Movement"></button>
+          <button style={{...planningButtonStyle, ...buttonStyles[2]}} title = "Plan to Open Container"></button>
+          <button style={{...planningButtonStyle, ...buttonStyles[3]}} title = "Confirm Movement"></button>
         </div>
         <div style={userFeedbackStyle}>User Feedback</div>
+        {/* Control Button is used by the CoCommander to move between phases */}
         <div style={controlButtonDivStyle}>
           <button onClick={this.props.controlButtonClick} style={controlButtonStyle}>Control Button</button>
         </div>
