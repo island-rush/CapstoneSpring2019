@@ -804,7 +804,7 @@ export class Gameboard extends Component {
           <Pattern id="land1100" link="./images/positionImages/land1100.png" size={imageSize} />
           <Pattern id="land1101" link="./images/positionImages/land1101.png" size={imageSize} />
           <Pattern id="land1110" link="./images/positionImages/land1110.png" size={imageSize} />
-          <Pattern id="land1111" link="./images/positionImages/land1111.png" size={imageSize} /> */}
+          <Pattern id="land1111" link="./images/positionImages/land1111.png" size={imageSize} />
           <Pattern id="water0000" link="./images/positionImages/water0000.png" size={imageSize} />
           <Pattern id="water0001" link="./images/positionImages/water0001.png" size={imageSize} />
           <Pattern id="water0010" link="./images/positionImages/water0010.png" size={imageSize} />
