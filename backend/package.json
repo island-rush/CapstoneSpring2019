@@ -9,6 +9,7 @@
   "author": "Island Rush Team",
   "license": "ISC",
   "dependencies": {
+    "csv-array": "0.0.22",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "express-socket.io-session": "^1.3.5",
