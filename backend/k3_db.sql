@@ -62,11 +62,9 @@ CREATE TABLE IF NOT EXISTS plans(
     planGameId INT(2) NOT NULL,
     planTeamId INT(1) NOT NULL,
     planPieceId INT(8) NOT NULL,
-    planMovementTurn INT(2) NOT NULL,  -- references the order of plans  (1, 2, 3) (these get deleted after use) (only exist for 1/3)
+    planMovementOrder INT(2) NOT NULL,  -- references the order of plans  (1, 2, 3) (these get deleted after use) (only exist for 1/3)
     planPositionId INT(4) NOT NULL,  -- hex#
-    planContainerId INT(8) NOT NULL,  -- -1 or pieceId
-    planFromPosition INT(4) NOT NULL,
-    planFromContainer INT(8) NOT NULL,
+    planSpecialFlag INT(1) NOT NULL DEFAULT 0,  -- bombard, container open, etc....
     PRIMARY KEY(planId),
     FOREIGN KEY (planGameId) REFERENCES games(gameId)
 ) AUTO_INCREMENT=1;
