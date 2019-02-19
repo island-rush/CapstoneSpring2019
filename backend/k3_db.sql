@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS news(
 	newsRollNeeded INT(2) NOT NULL DEFAULT 0, -- roll # to survive
 	newsIsland INT(2) NOT NULL DEFAULT -1,  -- island number, or -1 for all positions on the board
     newsLength INT(2) NOT NULL DEFAULT 1,
-	newsPieceJSON JSON,
+	newsPieceINT INT,
 	PRIMARY KEY(newsId)
 ) AUTO_INCREMENT=1;
 
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS effects(
 	effectId INT(8) NOT NULL AUTO_INCREMENT,
 	effectGameId INT(3) NOT NULL,
 	effectPosId INT(4) NOT NULL DEFAULT -1,  -- -1 = all, otherwise hex position
-    effectJSON JSON,
+    effectINT INT,
 	PRIMARY KEY(effectId)
 ) AUTO_INCREMENT=1;
 

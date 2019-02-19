@@ -15,7 +15,7 @@ const mysql = require('mysql');
 const config = {
     host: 'localhost',
     user: 'root',
-    password: 'DFCS2019student',
+    password: '',
     database: 'k3'
 }
 
@@ -44,7 +44,7 @@ class Database {
 }
 const database = new Database(config);
 
-require('gameReset.js')();
+// require('gameReset.js')();  TODO: UNCOMMENT
 
 // ----------------------------------------------------
 
