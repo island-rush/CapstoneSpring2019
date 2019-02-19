@@ -9,14 +9,14 @@ CREATE TABLE IF NOT EXISTS games(
 	gameInstructor VARCHAR(32) NOT NULL,  -- "Adolph"
 	gameAdminPassword VARCHAR(32) NOT NULL DEFAULT '5f4dcc3b5aa765d61d8327deb882cf99',  -- md5('password')
 	gameActive INT(1) NOT NULL DEFAULT 0,
-	gameTeam0 INT(1) NOT NULL DEFAULT 0,
-    gameTeam1 INT(1) NOT NULL DEFAULT 0,
-    gameTeam2 INT(1) NOT NULL DEFAULT 0,
-    gameTeam3 INT(1) NOT NULL DEFAULT 0,
-	gameTeam4 INT(1) NOT NULL DEFAULT 0,
-    gameTeam5 INT(1) NOT NULL DEFAULT 0,
-    gameTeam6 INT(1) NOT NULL DEFAULT 0,
-    gameTeam7 INT(1) NOT NULL DEFAULT 0,
+	gameRedController0 INT(1) NOT NULL DEFAULT 0,
+    gameRedController1 INT(1) NOT NULL DEFAULT 0,
+    gameRedController2 INT(1) NOT NULL DEFAULT 0,
+    gameRedController3 INT(1) NOT NULL DEFAULT 0,
+	gameBlueController0 INT(1) NOT NULL DEFAULT 0,
+    gameBlueController1 INT(1) NOT NULL DEFAULT 0,
+    gameBlueController2 INT(1) NOT NULL DEFAULT 0,
+    gameBlueController3 INT(1) NOT NULL DEFAULT 0,
     gameRedPoints INT(4) NOT NULL DEFAULT 10,
 	gameBluePoints INT(4) NOT NULL DEFAULT 20,
 	gameTurn INT(4) NOT NULL DEFAULT 0, -- represents a whole round from news -> place inv (possibly not needed)
