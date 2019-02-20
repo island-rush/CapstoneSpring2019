@@ -25,13 +25,8 @@ class App extends Component {
     highlighted: [],
     highlightedType: "all",
     selectedMenu: 0,
-<<<<<<< HEAD
-
-    gamePhase: 0,
-=======
     planningMove: false,
     gamePhase: 3,
->>>>>>> 74a11cdaeff7057fecdb2087c314d1d0922bab01
     gameRound: 0,
     gameSlice: 0,
     
@@ -76,11 +71,7 @@ class App extends Component {
     this.resetPieceOpen();
 
 
-<<<<<<< HEAD
-    // this.showAdjacent(id, 1);
-=======
     this.showAdjacent(id, 3, "land");
->>>>>>> 74a11cdaeff7057fecdb2087c314d1d0922bab01
   }
 
   showAdjacent = (pos, radius, type) => {
@@ -214,13 +205,8 @@ class App extends Component {
   render() {
     return (
       <div className="App" style={this.appStyle}>
-<<<<<<< HEAD
-        <Bottombar status={this.state.status} controlButtonClick={this.controlButtonClick} />
-        <Gameboard positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.positionTypes} highlighted={this.state.highlighted} selectedPos={this.state.selectedPos} />
-=======
         <Bottombar controlButtonClick={this.controlButtonClick} planStart={this.planningButtonClickStart} planDone={this.planningButtonClickDone} planCancel={this.planningButtonClickCancel} planUndo={this.planningButtonClickUndo} planContainer={this.planningButtonClickContainer}/>
         <Gameboard positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.positionTypes} highlighted={this.state.highlighted} highlightedType={this.state.highlightedType} selectedPos={this.state.selectedPos} />
->>>>>>> 74a11cdaeff7057fecdb2087c314d1d0922bab01
         <Sidebar selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.positionTypes}/>
         <NewsAlertPopup gamePhase={this.state.gamePhase} />
