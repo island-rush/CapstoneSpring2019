@@ -178,14 +178,62 @@ io.sockets.on('connection', (socket) => {
             results.map(result => {
                 totalResults.positions[result.piecePositionId].push(result);
             });
-            callback(totalResults);
+        })
+        .then(() => {
+            let sql = 'SELECT * FROM games WHERE gameId = ?';
+            let inserts = [socket.handshake.session.gameId];
+            sql = mysql.format(sql, inserts);
+            database.query(sql)
+            .then(results => {
+                const teamId = socket.handshake.session.teamId;
+                const result = results[0];
+                totalResults.points = teamId === "Red" ? result.gameRedPoints : result.gameBluePoints;
+                totalResults.status = teamId === "Red" ? result.gameRedStatus : result.gameBlueStatus;
+                callback(totalResults);
+            });
         });
     });
 
     socket.on('controlButtonClick', (callback) => {
-        // Depends on the phase and stuff
-        // Need to know who clicked it (only allow main controller?)
-        // Need to know the game phase and other game state information (from db?)
+        // Get the game info from the session
+        const gameId = socket.handshake.session.gameId;
+        const teamId = socket.handshake.session.teamId;
+        const controllerId = socket.handshake.session.controllerId;
+
+        //only the main controller can 'click' the control button
+        if (controllerId === 0) {
+            let sql = 'SELECT * FROM games WHERE gameId = ?';
+            let inserts = [gameId];
+            sql = mysql.format(sql, inserts);
+            database.query(sql)
+            .then(results => {
+                return results[0];
+            })
+            .then(gameInfo => {
+                //NEWS PHASE
+                if (gameInfo.gamePhase === 0) {
+                    const otherStatus = teamId === "Red" ? gameInfo.gameBlueStatus : gameInfo.gameRedStatus;
+                    if (otherStatus === 1) {
+                        //update teams to be both status 0 and change their phase
+                        let sql = 'UPDATE games SET ?? = 0, gamePhase = 1 WHERE gameId = ?';
+                        let inserts = [teamId == "Red" ? `gameBlueStatus` : `gameRedStatus`, gameId];
+                        sql = mysql.format(sql, inserts);
+                        database.query(sql);
+                        io.sockets.in('game' + gameId).emit('serverSetState', {gamePhase: 1, status: 0});
+                        callback();
+                    } else {
+                        //update this team's status to 1
+                        let sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
+                        let inserts = [teamId == "Red" ? `gameRedStatus` : `gameBlueStatus`, gameId];
+                        sql = mysql.format(sql, inserts);
+                        database.query(sql);
+                        callback({status: 1});
+                    }
+                }
+            });
+        } else {
+            callback();
+        }
     });
 
     socket.on('insertPlan', (parameters, callback) => {
