@@ -55,7 +55,7 @@ const planningButtonStyle = {
   // }
 }
 
-const buttonStyles = [
+const buttonImages = [
   {backgroundImage: "url(\"./images/buttonImages/undo.png\")"},
   {backgroundImage: "url(\"./images/buttonImages/cancel.png\")"},
   {backgroundImage: "url(\"./images/buttonImages/openContainer.png\")"},
@@ -75,10 +75,10 @@ export class Bottombar extends Component {
       <div style={bottombarStyle}>
       {/* Planning Div holds the buttons that are used to edit and submit movements for each piece */}
         <div style={planningDivStyle}>
-          <button style={{...planningButtonStyle, ...buttonStyles[0]}} title = "Undo Move"></button>
-          <button style={{...planningButtonStyle, ...buttonStyles[1]}} title = "Cancel Movement"></button>
-          <button style={{...planningButtonStyle, ...buttonStyles[2]}} title = "Plan to Open Container"></button>
-          <button style={{...planningButtonStyle, ...buttonStyles[3]}} title = "Confirm Movement"></button>
+          <button onclick={this.props.planStart}     style={{...planningButtonStyle, ...buttonImages[0]}} title = "Undo Move"></button>
+          <button onclick={this.props.planCancel}    style={{...planningButtonStyle, ...buttonImages[1]}} title = "Cancel Movement"></button>
+          <button onclick={this.props.planContainer} style={{...planningButtonStyle, ...buttonImages[2]}} title = "Plan to Open Container"></button>
+          <button onclick={this.props.planDone}      style={{...planningButtonStyle, ...buttonImages[3]}} title = "Confirm Movement"></button>
         </div>
         <div style={userFeedbackStyle}>User Feedback</div>
         {/* Control Button is used by the CoCommander to move between phases */}

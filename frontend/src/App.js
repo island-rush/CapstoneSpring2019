@@ -23,9 +23,15 @@ class App extends Component {
   state = {
     selectedPos: 0,
     highlighted: [],
+    highlightedType: "all",
     selectedMenu: 0,
+<<<<<<< HEAD
 
     gamePhase: 0,
+=======
+    planningMove: false,
+    gamePhase: 3,
+>>>>>>> 74a11cdaeff7057fecdb2087c314d1d0922bab01
     gameRound: 0,
     gameSlice: 0,
     
@@ -70,10 +76,14 @@ class App extends Component {
     this.resetPieceOpen();
 
 
+<<<<<<< HEAD
     // this.showAdjacent(id, 1);
+=======
+    this.showAdjacent(id, 3, "land");
+>>>>>>> 74a11cdaeff7057fecdb2087c314d1d0922bab01
   }
 
-  showAdjacent = (pos, radius) => {
+  showAdjacent = (pos, radius, type) => {
 
     let searchAreaLow = (pos - (radius * 17) - 4);
     let searchAreaHigh = (pos + (radius * 17) + 4);
@@ -87,7 +97,7 @@ class App extends Component {
         newHighlighted.push(x);
       }
     }
-    this.setState({highlighted: newHighlighted});
+    this.setState({highlighted: newHighlighted, highlightedType: type});
   }
 
   selectMenu = (index) => {
@@ -112,6 +122,38 @@ class App extends Component {
       pieces.splice(pieceIndex, 1, thisPiece);
       array[piecePositionId] = pieces;
       this.setState({positions: array});
+    }
+
+    // PLANNING MOVES
+    if(this.state.planningMove){ // if they want to start planning a move (determined by a Planning Start button)
+      let plan = {
+        pieceId: thisPiece.pieceId,
+        // movementTurn = 0,
+        positionId: -1, //for now, this will update when we click a spot.
+      }
+
+      const spencersArrayOfPlansForASinglePiece = [
+        {
+          pieceId: 1,
+          newPosition: 3,
+          specialFlag: 0
+        },
+        {
+          pieceId: 1,
+          newPosition: 4,
+          specialFlag: 0
+        },
+        {
+          pieceId: 1,
+          newPosition: 5,
+          specialFlag: 0
+        },
+        {
+          pieceId: 1,
+          newPosition: 5,
+          specialFlag: 1  // bombard or something
+        }
+      ];
     }
   }
 
@@ -142,6 +184,26 @@ class App extends Component {
     });
   }
 
+  planningButtonClickStart = () => {
+    if(this.state.gamePhase == 3 && this.gameSection == 0){
+      this.setState({planningMove: true})
+    }
+  }
+  planningButtonClickDone = () => {
+    // Submit current move to DB
+    this.setState({planningMove: false})
+  }
+  planningButtonClickCancel = () => {
+    // Remove all moves from queue with this pieceID
+    this.setState({planningMove: false})
+  }
+  planningButtonClickUndo = () => {
+    // Remove from queue the highest # move for this Piece ID
+  }
+  planningButtonClickContainer = () => {
+    // Plan a Container open popup at this position
+  }
+
   appStyle = {
     position: "relative",
     backgroundColor: "black",
@@ -152,8 +214,13 @@ class App extends Component {
   render() {
     return (
       <div className="App" style={this.appStyle}>
+<<<<<<< HEAD
         <Bottombar status={this.state.status} controlButtonClick={this.controlButtonClick} />
         <Gameboard positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.positionTypes} highlighted={this.state.highlighted} selectedPos={this.state.selectedPos} />
+=======
+        <Bottombar controlButtonClick={this.controlButtonClick} planStart={this.planningButtonClickStart} planDone={this.planningButtonClickDone} planCancel={this.planningButtonClickCancel} planUndo={this.planningButtonClickUndo} planContainer={this.planningButtonClickContainer}/>
+        <Gameboard positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.positionTypes} highlighted={this.state.highlighted} highlightedType={this.state.highlightedType} selectedPos={this.state.selectedPos} />
+>>>>>>> 74a11cdaeff7057fecdb2087c314d1d0922bab01
         <Sidebar selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.positionTypes}/>
         <NewsAlertPopup gamePhase={this.state.gamePhase} />
