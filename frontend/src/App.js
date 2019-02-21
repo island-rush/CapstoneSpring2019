@@ -19,7 +19,25 @@ class App extends Component {
     selectedMenu: 0,
     myTeam: 0,
     points: 0,
-    positions: []
+    positions: [],
+    cart: [
+      {
+        id: 1,
+        type: 2
+      },
+      {
+        id: 2,
+        type: 3
+      }, 
+      {
+        id: 4,
+        type: 4
+      }, 
+      {
+        id: 5,
+        type: 5
+      }
+    ]
   }
 
   socket = socketIOClient('http://localhost:4000');
@@ -86,6 +104,34 @@ class App extends Component {
     this.setState({positionTypes: array});
   }
 
+  updateCart = (pieceType) => {
+    // THIS WILL CALL SERVER AND SERVER WILL GIVE THE OBJECT TO APPEND TO CART ARRAY
+    // get {id: myID
+    //      type: anything from 1-16
+    //     }
+    this.setState({
+      cart: this.state.cart.concat([ {id: 10, type: pieceType} ])
+    })
+  }
+
+  emptyCart = () => {
+    this.setState({
+      cart: []
+    })
+  }
+  
+  // code to remove a specific piece from the cart
+  removeFromCart = (pieceId) => {
+      let originalCart =  this.state.cart;
+      originalCart.slice(originalCart.findIndex(object => object.id == pieceId), 1);
+      let newcart = originalCart.filter(o => o.id != [pieceId]);
+      
+
+      this.setState({
+        cart: newcart
+      });
+  }
+
   appStyle = {
     position: "relative",
     backgroundColor: "black",
@@ -98,7 +144,7 @@ class App extends Component {
       <div className="App" style={this.appStyle}>
         <Bottombar />
         <Gameboard positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.state.positionTypes} selectedPos={this.state.selectedPos} />
-        <Sidebar selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
+        <Sidebar removeFromCart={this.removeFromCart} emptyCart={this.emptyCart} updateCart={this.updateCart} cart={this.state.cart} selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.state.positionTypes}/>
         <NewsAlertPopup gamePhase={this.state.gamePhase} />
         <BattlePopup gamePhase={this.state.gamePhase} />

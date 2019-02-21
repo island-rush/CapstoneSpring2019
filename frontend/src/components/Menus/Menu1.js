@@ -1,8 +1,38 @@
 import React, { Component } from 'react'
 
+const unitImages = [
+  {backgroundImage: "url(\"../images/unitImages/aircraftCarrier.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/artillery.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/attackHeli.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/bomber.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/destroyer.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/fighter.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/lav.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/marine.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/missile.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/sam.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/soldier.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/stealthBomber.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/submarine.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/tank.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/tanker.png\")"},
+  {backgroundImage: "url(\"../images/unitImages/transport.png\")"}
+]
+
+const pieceStyle = {
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "90% 90%",
+  backgroundPosition: "center",
+  height: "50px", 
+  width: "50px",
+  float: "left"
+}
+
 const menu1Hide = {
   display: "none"
 }
+
+const link  = "hello"
 
 const menu1Display = {
   backgroundColor: "white",
@@ -15,8 +45,9 @@ const menu1Display = {
 }
 
 const buttonStyle = {
-  height: "9%",
-  width: "12%"
+  height: "50px",
+  width: "50px", 
+  display: "inline"
 }
 
 const imageStyle = {
@@ -24,47 +55,73 @@ const imageStyle = {
   width: "100%"
 }
 
-
 export class Menu1 extends Component {
+
+
   render() {
 
-    // array of pieces in the shopping cart
-    // let shoppingCartArray = [];
 
-
-
-    // for (let x = 0; x < shoppingCartArray.length; x++) {
-    //  for each piece in the shopping cart, yo gotta create a button?
-      // }
-
+    const PurchasedPiece = this.props.cart.map( 
+      (purchaseableObject) => (
+        <div onClick={this.props.removeFromCart.bind(this, purchaseableObject.id)} style={{...pieceStyle, ...unitImages[purchaseableObject.type] }}></div>
+      ))
 
     return (
       <div style={this.props.selectedMenu === 1 ? menu1Display : menu1Hide}>
-        <button style={buttonStyle}><img src="..\images\unitImages\aircraftCarrier.png" style={imageStyle} alt = "AirCraft Carrier"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\artillery.png" style={imageStyle} alt = "Artillery"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\attackHeli.png" style={imageStyle} alt = "Attack Heli"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\bomber.png" style={imageStyle} alt = "Bomber"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\destroyer.png" style={imageStyle} style={imageStyle} alt = "Destroyer"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\fighter.png" style={imageStyle} alt = "Fighter"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\lav.png" style={imageStyle} alt = "L.A.V."/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\marine.png" style={imageStyle} alt = "Marines"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\missile.png" style={imageStyle} alt = "Missile"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\sam.png" style={imageStyle} alt = "S.A.M."/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\soldier.png" style={imageStyle} alt = "Soldier"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\stealthBomber.png" style={imageStyle} alt = "Stealth Bomber"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\submarine.png" style={imageStyle} alt = "Submarine"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\tank.png" style={imageStyle} alt = "Tank"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\tanker.png" style={imageStyle} alt = "Refuling Tanker"/></button>
-        <button style={buttonStyle}><img src="..\images\unitImages\transport.png" style={imageStyle} alt = "Transport"/></button>
+
+{/* Buttoms for purchasing pieces */}
+        <div>Pieces to buy></div>
+
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 1)} style={{...pieceStyle, ...unitImages[1] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 2)} style={{...pieceStyle, ...unitImages[2] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 3)} style={{...pieceStyle, ...unitImages[3] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 4)} style={{...pieceStyle, ...unitImages[4] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 5)} style={{...pieceStyle, ...unitImages[5] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 6)} style={{...pieceStyle, ...unitImages[6] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 7)} style={{...pieceStyle, ...unitImages[7] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 8)} style={{...pieceStyle, ...unitImages[8] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 9)} style={{...pieceStyle, ...unitImages[9] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 10)} style={{...pieceStyle, ...unitImages[10] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 11)} style={{...pieceStyle, ...unitImages[11] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 12)} style={{...pieceStyle, ...unitImages[12] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 13)} style={{...pieceStyle, ...unitImages[13] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 14)} style={{...pieceStyle, ...unitImages[14] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 15)} style={{...pieceStyle, ...unitImages[15] }}></div>
+
+        <div>Abilities?</div>
+
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
 
 
-        <p>A Selection of pieces to buy</p>
         <p>A Selection of abilities to buy</p>
+        <p>==========================Tactical Stuff GOes HERE=====================</p>
+
+        <p>Your Cart: </p>
+        {/* your cart items appear here based on the map funcation above. */}
+        {PurchasedPiece} 
+        <div>
+           
+        </div>
+        <button onClick={this.props.emptyMyCart} style={buttonStyle}><img src="..\images\Red_X.png" style={imageStyle}/></button>
 
 
-               {/*vvvvvvvvvvvvvvvv change this here vvvvvvvvvvvvvv */}
-        {/* const thisPieces = topLevelPieces.map((piece, index) => ( */}
-        {/* <Piece pieces={arrayContainedPieces[index]} pieceClick={this.props.pieceClick} key={piece.pieceId} pieceInfo={piece} /> */}
+
 
 
       </div>
