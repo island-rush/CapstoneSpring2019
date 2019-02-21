@@ -84,7 +84,7 @@ export class Bottombar extends Component {
         <div style={userFeedbackStyle}>User Feedback</div>
         {/* Control Button is used by the CoCommander to move between phases */}
         <div style={controlButtonDivStyle}>
-          <button onClick={this.props.controlButtonClick} style={controlButtonStyle}>Control Button</button>
+          <button onClick={this.props.controlButtonClick} style={controlButtonStyle}>{this.props.status === 0 ? "Control Button" : "Waiting..."}</button>
         </div>
       </div>
     )

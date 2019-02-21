@@ -1,6 +1,6 @@
 /** APP
  * Overall App that runs in the browser. 
- * In it are 4 components that mkae up the board (Gameboard, Zoombox, Sidebar, Bottombar)
+ * In it are 4 components that make up the board (Gameboard, Zoombox, Sidebar, Bottombar)
  * 
  * 
  *  
@@ -28,13 +28,24 @@ class App extends Component {
     planningMove: false,
     gamePhase: 3,
     gameRound: 0,
-    gameSection: 0,
-    myTeam: 0,
+    gameSlice: 0,
+    
+    myTeam: "Red",  //could use different values, this is what is inside the session for now
     points: 0,
+    status: 0,  //for waiting or not
+    
+    refuelTankerPositions: [],
+    refuelPlanePositions: [],
+
+    battleRedPositions: [],
+    battleBluePositions: [],
+    
     positions: [],
+    
     distanceMatrix: []
   }
 
+  //could throw this into the gameboard once done working with it
   positionTypes = ["land","land","land","land","land","land","land","land","water","water","water","water","water","water","land","flag","land","land","land","land","land","land","land","water","water","water","water","land","land","land","land","land","land","land","airfield","land","land","water","water","water","water","land","land","land","land","land","land","land","land","land","water","water","water","water","land","land","land","land","land","land","land","water","water","water","water","water","water","water","land","land","land","land","land","land","water","water","water","water","water","water","water","water","water","land","airfield","land","land","land","water","water","water","missile","land","water","water","water","water","water","water","land","land","land","land","land","water","water","water","water","airfield","flag","water","water","water","water","water","water","water","land","missile","land","water","water","water","water","water","water","water","water","water","land","land","water","water","water","water","water","water","water","water","water","water","water","water","water","water","land","land","water","water","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","land","water","water","water","land","land","water","water","land","water","water","water","water","land","land","flag","land","water","water","water","water","land","land","land","water","land","land","water","water","water","water","land","land","airfield","water","water","water","land","flag","land","water","water","land","land","land","water","water","water","water","water","water","water","water","water","water","land","land","water","water","land","flag","land","land","water","water","water","water","water","water","water","water","water","airfield","land","water","land","land","missile","water","water","water","water","water","water","water","water","water","water","water","land","land","water","water","land","land","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","water","water","water","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","water","land","land","water","water","water","water","water","water","water","water","water","water","missile","land","land","water","water","land","land","land","missile","land","land","land","water","water","water","water","water","land","land","land","land","water","land","land","land","land","land","land","land","water","water","water","water","water","land","flag","land","water","water","land","land","flag","airfield","land","land","land","land","water","water","water","land","land","land","land","water","water","water","land","land","water","water","water","land","land","water","water","land","land","land","land","land","water","water","water","water","land","land","water","water","land","land","water","water","water","missile","land","land","land","water","water","water","water","land","land","water","water","water","water","water","water","water","water","land","land","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","land","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","flag","land","water","water","water","water","land","missile","water","water","water","water","water","land","airfield","land","water","land","land","water","water","water","land","land","land","water","water","water","water","water","land","land","water","water","water","water","water","water","water","water","land","land","water","water","land","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","land","land","water","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","land","land","water","water","water","water","water","water","land","water","water","water","water","land","land","land","land","water","water","water","water","water","water","water","land","land","water","water","water","water","water","land","flag","land","water","water","water","water","water","water","water","land","airfield","land","water","water","water","water","land","land","land","water","water","water","missile","land","land","land","land","land","land","water","land","land","water","water","water","land","water","water","water","water","land","land","land","land","land","land","land","land","land","land","water","water","water","water","water","water","water","land","land","land","land","land","land","land","land","airfield","land","land","water","water","water","water","water","water","land","land","land","land","land","land","land","land","land","land","land","water","water","water","water","water","land","land","land","land","land","land","land","land","flag","land","land","land","water","water","water","water","water","airfield","land","land","land","land","land","land","land","land","land","land","water","water","water","water","water","water","water","land","land","land","land","land","flag","land"];
 
   socket = socketIOClient('http://localhost:4000');
@@ -43,6 +54,16 @@ class App extends Component {
     this.socket.emit('getInitialGameState', (gameState) => {
       this.setState(gameState);
     });
+    this.socket.on('serverSetState', (gameState) => {
+      this.setState(gameState);
+    });
+    this.socket.on('serverFunctionRequest', (parameters) => {
+      this.serverFunction(parameters);
+    });
+  }
+
+  serverFunction(parameters) {
+    //Server called this function
   }
 
   selectPos = (id) => {
@@ -145,8 +166,12 @@ class App extends Component {
   }
 
   controlButtonClick = () => {
-    this.socket.emit('controlButtonClick', (gameState) => {
-      this.setState(gameState);
+    this.socket.emit('controlButtonClick', (serverResponse) => {
+      //make sure the serverResponse is valid
+      if (serverResponse) {
+        // alert(serverResponse);
+        this.setState(serverResponse); 
+      }
     });
   }
 
@@ -185,8 +210,8 @@ class App extends Component {
         <Sidebar selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.positionTypes}/>
         <NewsAlertPopup gamePhase={this.state.gamePhase} />
-        <BattlePopup gamePhase={this.state.gamePhase} />
-        <RefuelPopup gamePhase={this.state.gamePhase} />
+        <BattlePopup gameSlice={this.state.gameSlice} />
+        <RefuelPopup gameSlice={this.state.gameSlice} />
       </div>
     );
   }
