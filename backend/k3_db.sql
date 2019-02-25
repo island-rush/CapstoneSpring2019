@@ -9,14 +9,14 @@ CREATE TABLE IF NOT EXISTS games(
 	gameInstructor VARCHAR(32) NOT NULL,  -- "Adolph"
 	gameAdminPassword VARCHAR(32) NOT NULL DEFAULT '5f4dcc3b5aa765d61d8327deb882cf99',  -- md5('password')
 	gameActive INT(1) NOT NULL DEFAULT 0,
-	gameTeam0 INT(1) NOT NULL DEFAULT 0,
-    gameTeam1 INT(1) NOT NULL DEFAULT 0,
-    gameTeam2 INT(1) NOT NULL DEFAULT 0,
-    gameTeam3 INT(1) NOT NULL DEFAULT 0,
-	gameTeam4 INT(1) NOT NULL DEFAULT 0,
-    gameTeam5 INT(1) NOT NULL DEFAULT 0,
-    gameTeam6 INT(1) NOT NULL DEFAULT 0,
-    gameTeam7 INT(1) NOT NULL DEFAULT 0,
+	gameRedController0 INT(1) NOT NULL DEFAULT 0,
+    gameRedController1 INT(1) NOT NULL DEFAULT 0,
+    gameRedController2 INT(1) NOT NULL DEFAULT 0,
+    gameRedController3 INT(1) NOT NULL DEFAULT 0,
+	gameBlueController0 INT(1) NOT NULL DEFAULT 0,
+    gameBlueController1 INT(1) NOT NULL DEFAULT 0,
+    gameBlueController2 INT(1) NOT NULL DEFAULT 0,
+    gameBlueController3 INT(1) NOT NULL DEFAULT 0,
     gameRedPoints INT(4) NOT NULL DEFAULT 10,
 	gameBluePoints INT(4) NOT NULL DEFAULT 20,
 	gameTurn INT(4) NOT NULL DEFAULT 0, -- represents a whole round from news -> place inv (possibly not needed)
@@ -62,11 +62,9 @@ CREATE TABLE IF NOT EXISTS plans(
     planGameId INT(2) NOT NULL,
     planTeamId INT(1) NOT NULL,
     planPieceId INT(8) NOT NULL,
-    planMovementTurn INT(2) NOT NULL,  -- references the order of plans  (1, 2, 3) (these get deleted after use) (only exist for 1/3)
+    planMovementOrder INT(2) NOT NULL,  -- references the order of plans  (1, 2, 3) (these get deleted after use) (only exist for 1/3)
     planPositionId INT(4) NOT NULL,  -- hex#
-    planContainerId INT(8) NOT NULL,  -- -1 or pieceId
-    planFromPosition INT(4) NOT NULL,
-    planFromContainer INT(8) NOT NULL,
+    planSpecialFlag INT(1) NOT NULL DEFAULT 0,  -- bombard, container open, etc....
     PRIMARY KEY(planId),
     FOREIGN KEY (planGameId) REFERENCES games(gameId)
 ) AUTO_INCREMENT=1;
@@ -83,7 +81,7 @@ CREATE TABLE IF NOT EXISTS news(
 	newsRollNeeded INT(2) NOT NULL DEFAULT 0, -- roll # to survive
 	newsIsland INT(2) NOT NULL DEFAULT -1,  -- island number, or -1 for all positions on the board
     newsLength INT(2) NOT NULL DEFAULT 1,
-	newsPieceJSON JSON,
+	newsPieceINT INT,
 	PRIMARY KEY(newsId)
 ) AUTO_INCREMENT=1;
 
@@ -92,7 +90,7 @@ CREATE TABLE IF NOT EXISTS effects(
 	effectId INT(8) NOT NULL AUTO_INCREMENT,
 	effectGameId INT(3) NOT NULL,
 	effectPosId INT(4) NOT NULL DEFAULT -1,  -- -1 = all, otherwise hex position
-    effectJSON JSON,
+    effectINT INT,
 	PRIMARY KEY(effectId)
 ) AUTO_INCREMENT=1;
 
