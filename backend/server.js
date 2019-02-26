@@ -15,7 +15,7 @@ const mysql = require('mysql');
 const config = {
     host: 'localhost',
     user: 'root',
-    password: 'DFCS2019student',
+    password: '',
     database: 'k3'
 }
 
@@ -44,7 +44,7 @@ class Database {
 }
 const database = new Database(config);
 
-require('gameReset.js')();
+const gameReset = require('./gameReset.js')();
 
 // ----------------------------------------------------
 
@@ -131,7 +131,8 @@ app.get('/adminLoginVerify', (req, res) => {
             } else {
                 req.session.gameId = results[0].gameId;
                 req.session.secretAdminSessionVariable = 1;
-                res.redirect('/admin.html');
+                // res.redirect('/admin.html?instructor=' + req.session.gameInstructor + "&");
+                res.redirect(`/admin.html?instructor=${req.query.adminInstructor}&section=${req.query.adminSection}`);
             }
         });
     }
