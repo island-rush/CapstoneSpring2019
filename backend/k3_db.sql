@@ -57,6 +57,15 @@ CREATE TABLE IF NOT EXISTS pieces(
     FOREIGN KEY (pieceGameId) REFERENCES games(gameId)
 ) AUTO_INCREMENT=1;
 
+CREATE TABLE IF NOT EXISTS purchased (
+    purchaseId INT(8) NOT NULL AUTO_INCREMENT,
+    purchaseGameId INT(3) NOT NULL,
+    purchaseTeamId INT(1) NOT NULL,
+    purchaseUnitId INT(2) NOT NULL,
+    PRIMARY KEY(purchaseId),
+    FOREIGN KEY (purhcaseGameId) REFERENCES games(gameId)
+) AUTO_INCREMENT=1;
+
 CREATE TABLE IF NOT EXISTS plans(
 	planId INT(8) NOT NULL AUTO_INCREMENT,
     planGameId INT(2) NOT NULL,
