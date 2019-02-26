@@ -249,7 +249,6 @@ class App extends Component {
     width: "100%"
   }
 
-  // added items into the divs in the merge
   render() {
     return (
       <div className="App" style={this.appStyle}>
