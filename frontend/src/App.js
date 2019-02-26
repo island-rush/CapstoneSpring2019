@@ -222,7 +222,8 @@ class App extends Component {
   }
 
   planningButtonClickStart = () => {
-    if(this.state.gamePhase == 3 && this.gameSection == 0){
+    
+    if(this.state.gamePhase == 3 && this.gameSlice == 0){
       this.setState({planningMove: true})
     }
   }
@@ -252,6 +253,7 @@ class App extends Component {
   render() {
     return (
       <div className="App" style={this.appStyle}>
+        <Bottombar gamePhase={this.state.gamePhase} gameSlice={this.state.gameSlice} planningMove={this.state.planningMove} controlButtonClick={this.controlButtonClick} planStart={this.planningButtonClickStart} planDone={this.planningButtonClickDone} planCancel={this.planningButtonClickCancel} planUndo={this.planningButtonClickUndo} planContainer={this.planningButtonClickContainer}/>
         <Gameboard positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.positionTypes} highlighted={this.state.highlighted} highlightedType={this.state.highlightedType} selectedPos={this.state.selectedPos} />
         <Sidebar removeFromCart={this.removeFromCart} emptyCart={this.emptyCart} updateCart={this.updateCart} cart={this.state.cart} selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.state.positionTypes}/>
