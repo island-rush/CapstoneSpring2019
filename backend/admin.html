@@ -137,9 +137,10 @@
     </div>
     <script type="text/javascript">
 
-        const paramString = window.location.search.substring('instructor=');
+        const paramString = window.location.search.substring('?');
         const paramSplit = paramString.split('&')
-        document.getElementById('instructor').innerHTML = "Instructor: " + paramSplit[0];
+        document.getElementById('instructor').innerHTML = "Instructor: " + paramSplit[0].substring(1);
+        document.getElementById('section').innerHTML = "Section: " + paramSplit[1];
 
         function setActive(){
 

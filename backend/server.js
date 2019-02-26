@@ -91,7 +91,7 @@ app.get('/adminLoginVerify', (req, res) => {
             } else {
                 req.session.gameId = results[0].gameId;
                 req.session.secretAdminSessionVariable = 1;
-                res.redirect('/admin.html');
+                res.redirect('/admin.html?' + req.query.adminInstructor + '&' + req.query.adminSection);
             }
         });
     }
