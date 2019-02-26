@@ -14,7 +14,7 @@ const mysql = require('mysql');
 const config = {
     host: 'localhost',
     user: 'root',
-    password: 'DFCS2019student',
+    password: '',
     database: 'k3'
 }
 class Database {

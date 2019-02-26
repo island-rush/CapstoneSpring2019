@@ -42,7 +42,7 @@ const clearStyle = {
 const link  = "hello"
 
 const menu1Display = {
-  backgroundColor: "black",
+  backgroundColor: "yellow",
   position: "fixed",
   top: 0,
   left: "3.8rem",
@@ -78,24 +78,25 @@ export class Menu1 extends Component {
 
 {/* Buttoms for purchasing pieces */}
       <div backgroundColor="white" height="40%" width="100%">
-        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 1)} style={{...pieceStyle, ...unitImages[1] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 2)} style={{...pieceStyle, ...unitImages[2] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 3)} style={{...pieceStyle, ...unitImages[3] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 4)} style={{...pieceStyle, ...unitImages[4] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 5)} style={{...pieceStyle, ...unitImages[5] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 6)} style={{...pieceStyle, ...unitImages[6] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 7)} style={{...pieceStyle, ...unitImages[7] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 8)} style={{...pieceStyle, ...unitImages[8] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 9)} style={{...pieceStyle, ...unitImages[9] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 10)} style={{...pieceStyle, ...unitImages[10] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 11)} style={{...pieceStyle, ...unitImages[11] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 12)} style={{...pieceStyle, ...unitImages[12] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 13)} style={{...pieceStyle, ...unitImages[13] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 14)} style={{...pieceStyle, ...unitImages[14] }}></div>
-        <div onClick={this.props.updateCart.bind(this, 15)} style={{...pieceStyle, ...unitImages[15] }}></div>
+        <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }} title="Aircraft Carrier"></div>
+        <div onClick={this.props.updateCart.bind(this, 1)} style={{...pieceStyle, ...unitImages[1] }} title="Artillery"></div>
+        <div onClick={this.props.updateCart.bind(this, 2)} style={{...pieceStyle, ...unitImages[2] }} title="Attach Heli"></div>
+        <div onClick={this.props.updateCart.bind(this, 3)} style={{...pieceStyle, ...unitImages[3] }} title="Bomber"></div>
+        <div onClick={this.props.updateCart.bind(this, 4)} style={{...pieceStyle, ...unitImages[4] }} title="Destroyer"></div>
+        <div onClick={this.props.updateCart.bind(this, 5)} style={{...pieceStyle, ...unitImages[5] }} title="Fighter"></div>
+        <div onClick={this.props.updateCart.bind(this, 6)} style={{...pieceStyle, ...unitImages[6] }} title="LAV"></div>
+        <div onClick={this.props.updateCart.bind(this, 7)} style={{...pieceStyle, ...unitImages[7] }} title="Marine"></div>
+        <div onClick={this.props.updateCart.bind(this, 8)} style={{...pieceStyle, ...unitImages[8] }} title="Missile"></div>
+        <div onClick={this.props.updateCart.bind(this, 9)} style={{...pieceStyle, ...unitImages[9] }} title="SAM"></div>
+        <div onClick={this.props.updateCart.bind(this, 10)} style={{...pieceStyle, ...unitImages[10] }} title="Soldier"></div>
+        <div onClick={this.props.updateCart.bind(this, 11)} style={{...pieceStyle, ...unitImages[11] }} title="Stealth Bomber"></div>
+        <div onClick={this.props.updateCart.bind(this, 12)} style={{...pieceStyle, ...unitImages[12] }} title="Submarine"></div>
+        <div onClick={this.props.updateCart.bind(this, 13)} style={{...pieceStyle, ...unitImages[13] }} title="Tank"></div>
+        <div onClick={this.props.updateCart.bind(this, 14)} style={{...pieceStyle, ...unitImages[14] }} title="Tanker"></div>
+        <div onClick={this.props.updateCart.bind(this, 15)} style={{...pieceStyle, ...unitImages[15] }} title="Transport"></div>
 
-        <div color="white">Abilities?</div>
+
+        <div>.......................................................................................</div>
 
         <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }} title = "ATC Scramble"></div>
         <div onClick={this.props.updateCart.bind(this, 0)} style={{...pieceStyle, ...unitImages[0] }} title = "Cyber Dominance"></div>
@@ -116,14 +117,14 @@ export class Menu1 extends Component {
 
       </div>
 
-        <p color="white">Your Cart: </p>
+        <p color="white">================= Your Cart: =================</p>
         {/* your cart items appear here based on the map funcation above. */}
         {PurchasedPiece} 
         <div>
            
         </div>
         {/* empty cart button */}
-        <button onClick={this.props.emptyMyCart} style={{...buttonStyle, ...clearStyle}}><img src="..\images\Red_X.png" style={imageStyle}/></button>
+        <button title="Clear Cart" onClick={this.props.emptyMyCart} style={{...buttonStyle, ...clearStyle}}><img src="..\images\Red_X.png" style={imageStyle}/></button>
 
 
 
