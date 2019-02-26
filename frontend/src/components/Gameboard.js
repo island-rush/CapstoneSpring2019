@@ -36,7 +36,7 @@ function patternSelector(pattern, pieces) {
 
 function singleHex(id, pattern, x, y, selectPos, selectedPos, pieces, highlighted, highlightedType) {
     return (
-        <Hexagon posId={id} q={x} r={y} s={-999} fill={patternSelector(pattern, pieces)} className={selectedPos === id || (highlighted.includes(id) && (highlightedType == "all" || highlightedType == pattern)) ? "selectedPos" : ""} onClick={selectPos.bind(this, id)}>
+        <Hexagon posId={id} q={x} r={y} s={-999} fill={patternSelector(pattern, pieces)} className={selectedPos === id || (highlighted.includes(id) && (highlightedType === "all" || highlightedType === pattern)) ? "selectedPos" : ""} onClick={selectPos.bind(this, id)}>
           {/* <Text>{id}</Text> */}
         </Hexagon>
     )
