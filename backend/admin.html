@@ -117,7 +117,7 @@
         <br>(***Also logs everyone out of the game. If there are problems logging in, turn the game off and back on using this slider.)</div>
     <span>Inactive</span>
     <label  class="switch">
-        <input id="activeToggle" type="checkbox"  onclick="setActive()">
+        <input id="activeToggle" type="checkbox"  onclick="setActive(this)">
         <span class="slider round"></span>
     </label>
     <span>Active</span>
@@ -142,8 +142,13 @@
         document.getElementById('instructor').innerHTML = "Instructor: " + paramSplit[0].substring(1);
         document.getElementById('section').innerHTML = "Section: " + paramSplit[1];
 
-        function setActive(){
-
+        function setActive(element){
+            if (element.id == 'activeToggle') {
+                element.id = 'deactiveToggle';
+            }
+            else if (element.id == 'deactiveToggle') {
+                element.id = 'activeToggle';
+            }
         }
 
         function populateGame() {

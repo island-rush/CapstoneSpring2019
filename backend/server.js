@@ -276,8 +276,8 @@ io.sockets.on('connection', (socket) => {
             let inserts = [gameId, teamId, unitId, positionId, container, visible, moves, fuel];
             sql = mysql.format(sql, inserts);
             database.query(sql);
-            let sql = 'DELETE FROM purchased WHERE purchaseId = ?';
-            let inserts = [purchaseId];
+            sql = 'DELETE FROM purchased WHERE purchaseId = ?';
+            inserts = [purchaseId];
             sql = mysql.format(sql, inserts);
             database.query(sql);
         });
@@ -348,8 +348,8 @@ io.sockets.on('connection', (socket) => {
         sql = mysql.format(sql, inserts);
         database.query(sql);
 
-        let sql = 'DELETE FROM purchased WHERE purchaseId = ?';
-        let inserts = [purchaseId];
+        sql = 'DELETE FROM purchased WHERE purchaseId = ?';
+        inserts = [purchaseId];
         sql = mysql.format(sql, inserts);
         database.query(sql);
 
