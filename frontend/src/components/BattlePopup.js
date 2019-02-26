@@ -26,7 +26,7 @@ const battleHidden = {
 export class BattlePopup extends Component {
   render() {
     return (
-      <div style={this.props.gamePhase === 1 ? battleStyle : battleHidden}>
+      <div style={this.props.gameSlice === 1 ? battleStyle : battleHidden}>
         <p>This is the battle popup</p>
       </div>
     )

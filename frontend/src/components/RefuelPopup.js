@@ -18,7 +18,7 @@ const refuelHidden = {
 export class RefuelPopup extends Component {
   render() {
     return (
-      <div style={this.props.gamePhase === 2 ? refuelStyle : refuelHidden}>
+      <div style={this.props.gameSlice === 2 ? refuelStyle : refuelHidden}>
         <p>This is the refuel popup</p>
       </div>
     )

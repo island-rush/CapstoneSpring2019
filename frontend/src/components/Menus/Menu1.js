@@ -20,22 +20,22 @@ export class Menu1 extends Component {
   render() {
     return (
       <div style={this.props.selectedMenu === 1 ? menu1Display : menu1Hide}>
-        <button><img src="..\images\unitImages\aircraftCarrier.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\artillery.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\attackHeli.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\bomber.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\destroyer.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\fighter.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\lav.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\marine.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\missile.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\sam.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\soldier.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\stealthBomber.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\submarine.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\tank.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\tanker.png" height="45" width="45" alt = "my image"/></button>
-        <button><img src="..\images\unitImages\transport.png" height="45" width="45" alt = "my image"/></button>
+        <button><img src="..\images\unitImages\aircraftCarrier.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\artillery.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\attackHeli.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\bomber.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\destroyer.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\fighter.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\lav.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\marine.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\missile.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\sam.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\soldier.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\stealthBomber.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\submarine.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\tank.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\tanker.png" height="45" width="45" /></button>
+        <button><img src="..\images\unitImages\transport.png" height="45" width="45" /></button>
 
 
         <p>A Selection of pieces to buy</p>
