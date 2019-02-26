@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// eslint-disable-next-line
 import { HexGrid, Layout, Hexagon, Pattern, Text } from 'react-hexgrid';
 
 const imageSize = { x: 3.4, y: 2.75 };
