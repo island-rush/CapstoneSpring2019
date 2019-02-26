@@ -91,7 +91,7 @@ app.get('/adminLoginVerify', (req, res) => {
             } else {
                 req.session.gameId = results[0].gameId;
                 req.session.secretAdminSessionVariable = 1;
-                res.redirect('/admin.html');
+                res.redirect('/admin.html?' + req.query.adminInstructor + '&' + req.query.adminSection);
             }
         });
     }
@@ -276,8 +276,8 @@ io.sockets.on('connection', (socket) => {
             let inserts = [gameId, teamId, unitId, positionId, container, visible, moves, fuel];
             sql = mysql.format(sql, inserts);
             database.query(sql);
-            let sql = 'DELETE FROM purchased WHERE purchaseId = ?';
-            let inserts = [purchaseId];
+            sql = 'DELETE FROM purchased WHERE purchaseId = ?';
+            inserts = [purchaseId];
             sql = mysql.format(sql, inserts);
             database.query(sql);
         });
@@ -348,8 +348,8 @@ io.sockets.on('connection', (socket) => {
         sql = mysql.format(sql, inserts);
         database.query(sql);
 
-        let sql = 'DELETE FROM purchased WHERE purchaseId = ?';
-        let inserts = [purchaseId];
+        sql = 'DELETE FROM purchased WHERE purchaseId = ?';
+        inserts = [purchaseId];
         sql = mysql.format(sql, inserts);
         database.query(sql);
 
