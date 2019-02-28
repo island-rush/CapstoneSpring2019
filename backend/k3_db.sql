@@ -3,6 +3,8 @@ CREATE DATABASE k3;
 USE k3;
 SET SQL_SAFE_UPDATES = 0;
 
+-- SELECT * FROM games;
+
 CREATE TABLE IF NOT EXISTS games(
 	gameId INT(2) NOT NULL UNIQUE AUTO_INCREMENT,
 	gameSection VARCHAR(4) NOT NULL,  -- "M1A1"
@@ -63,7 +65,7 @@ CREATE TABLE IF NOT EXISTS purchased (
     purchaseTeamId INT(1) NOT NULL,
     purchaseUnitId INT(2) NOT NULL,
     PRIMARY KEY(purchaseId),
-    FOREIGN KEY (purhcaseGameId) REFERENCES games(gameId)
+    FOREIGN KEY (purchaseGameId) REFERENCES games(gameId)
 ) AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS plans(

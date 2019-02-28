@@ -101,7 +101,7 @@ export class Bottombar extends Component {
       <div style={bottombarStyle}>
       {/* Planning Div holds the buttons that are used to edit and submit movements for each piece */}
         <div style={planningDivStyle}>
-          <button onClick={this.props.planStart}     style={{...planningStartStyle[(this.props.gamePhase===3 && this.props.gameSlice===0 && !this.props.planningMove && this.props.selectedPiece!=-1) ? 0 : 1]}} title="Start a Movement">Move this Piece</button>
+          <button onClick={this.props.planStart}     style={{...planningStartStyle[(this.props.gamePhase===3 && this.props.gameSlice===0 && !this.props.planningMove && this.props.selectedPiece!==-1) ? 0 : 1]}} title="Start a Movement">Move this Piece</button>
           <button onClick={this.props.planUndo}      style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[0]}} title="Undo Move"></button>
           <button onClick={this.props.planCancel}    style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[1]}} title="Cancel Movement"></button>
           <button onClick={this.props.planContainer} style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[2]}} title="Plan to Open Container"></button>
