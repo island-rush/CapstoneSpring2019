@@ -22,7 +22,7 @@ const planningDivStyle = {
 
 const userFeedbackStyle = {
   backgroundColor: "lightGray",
-  height: "100%",
+  height: "90%",
   width: "70%",
   position: "relative",
   float: "left",
@@ -40,30 +40,31 @@ const controlButtonDivStyle = {
 
 const planningStartStyle = [
   {
-   padding: 0,
-   margin: "2%",
-   height: "70%",
-   width: "70%",
-   backgroundColor: "lightGreen",
-  //  backgroundRepeat: "no-repeat",
-  //  backgroundSize: "100% 100%",
-  //  backgroundColor: planningDivStyle.backgroundColor,
-   border: "none",
-   borderRadius: "40%",
-   textAlign: "center",
-   cursor: 'pointer',
- },
- {
-   display: "none"
- }
-]
-
-const planningButtonStyle = [
-   {
+    display: "inline",
     padding: 0,
     margin: "2%",
     height: "70%",
-    width: "15%",
+    width: "70%",
+    backgroundColor: "lightGreen",
+    border: "none",
+    borderRadius: "10%",
+    textAlign: "center",
+    cursor: 'pointer',
+    fontFamily: "Impact",
+    fontSize: "110%"
+  },
+  {
+    display: "none"
+  }
+]
+
+const planningButtonStyle = [
+  {
+    display: "inline",
+    padding: 0,
+    margin: "2%",
+    height: "70%",
+    width: "20%",
     backgroundRepeat: "no-repeat",
     backgroundSize: "100% 100%",
     backgroundColor: planningDivStyle.backgroundColor,
@@ -100,13 +101,13 @@ export class Bottombar extends Component {
       <div style={bottombarStyle}>
       {/* Planning Div holds the buttons that are used to edit and submit movements for each piece */}
         <div style={planningDivStyle}>
-          <button onclick={this.props.planStart}     style={{...planningStartStyle[this.props.gamePhase===3 && this.props.gameSlice===0 && !this.props.planning ? 0 : 1]}} title = "Start a Movement"></button>
-          <button onclick={this.props.planUndo}      style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[0]}} title = "Undo Move"></button>
-          <button onclick={this.props.planCancel}    style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[1]}} title = "Cancel Movement"></button>
-          <button onclick={this.props.planContainer} style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[2]}} title = "Plan to Open Container"></button>
-          <button onclick={this.props.planDone}      style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[3]}} title = "Confirm Movement"></button>
+          <button onClick={this.props.planStart}     style={{...planningStartStyle[(this.props.gamePhase===3 && this.props.gameSlice===0 && !this.props.planningMove && this.props.selectedPiece!=-1) ? 0 : 1]}} title="Start a Movement">Move this Piece</button>
+          <button onClick={this.props.planUndo}      style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[0]}} title="Undo Move"></button>
+          <button onClick={this.props.planCancel}    style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[1]}} title="Cancel Movement"></button>
+          <button onClick={this.props.planContainer} style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[2]}} title="Plan to Open Container"></button>
+          <button onClick={this.props.planDone}      style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[3]}} title="Confirm Movement"></button>
         </div>
-        <div style={userFeedbackStyle}>User Feedback</div>
+        <div style={userFeedbackStyle}>{this.props.userFeedback}</div>
         {/* Control Button is used by the CoCommander to move between phases */}
         <div style={controlButtonDivStyle}>
           <button onClick={this.props.controlButtonClick} style={controlButtonStyle}>{this.props.status === 0 ? "Control Button" : "Waiting..."}</button>
