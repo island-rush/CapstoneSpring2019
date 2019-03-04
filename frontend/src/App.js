@@ -34,7 +34,26 @@ class App extends Component {
     
     myTeam: "Red",  //could use different values, this is what is inside the session for now
     points: 0,
-    status: 0,  //for waiting or not
+    positions: [],
+    cart: [
+      {
+        id: 1,
+        type: 2
+      },
+      {
+        id: 2,
+        type: 3
+      }, 
+      {
+        id: 4,
+        type: 4
+      }, 
+      {
+        id: 5,
+        type: 5
+      }
+    ], 
+    // status: 0,  //for waiting or not
     
     refuelTankerPositions: [],
     refuelPlanePositions: [],
@@ -181,6 +200,33 @@ class App extends Component {
     this.setState({positionTypes: array});
   }
 
+  updateCart = (pieceType) => {
+    // THIS WILL CALL SERVER AND SERVER WILL GIVE THE OBJECT TO APPEND TO CART ARRAY
+    // get {id: myID
+    //      type: anything from 1-16
+    //     }
+    this.setState({
+      cart: this.state.cart.concat([ {id: 10, type: pieceType} ])
+    })
+  }
+
+  emptyCart = () => {
+    this.setState({
+      cart: []
+    })
+  }
+  
+  // code to remove a specific piece from the cart
+  removeFromCart = (pieceId) => {
+      let originalCart =  this.state.cart;
+      originalCart.slice(originalCart.findIndex(object => object.id == pieceId), 1);
+      let newcart = originalCart.filter(o => o.id != [pieceId]);
+      
+
+      this.setState({
+        cart: newcart
+      });
+    }
   controlButtonClick = () => {
     this.socket.emit('controlButtonClick', (serverResponse) => {
       //make sure the serverResponse is valid
@@ -263,11 +309,13 @@ class App extends Component {
       <div className="App" style={this.appStyle}>
         <Bottombar gamePhase={this.state.gamePhase} gameSlice={this.state.gameSlice} planningMove={this.state.planningMove} selectedPiece={this.state.selectedPiece} userFeedback={this.state.userFeedback} controlButtonClick={this.controlButtonClick} planStart={this.planningButtonClickStart} planDone={this.planningButtonClickDone} planCancel={this.planningButtonClickCancel} planUndo={this.planningButtonClickUndo} planContainer={this.planningButtonClickContainer}/>
         <Gameboard plannedPos={this.state.plannedPos} positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.positionTypes} highlighted={this.state.highlighted} highlightedType={this.state.highlightedType} selectedPos={this.state.selectedPos} />
-        <Sidebar selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
+        <Sidebar removeFromCart={this.removeFromCart} emptyCart={this.emptyCart} updateCart={this.updateCart} cart={this.state.cart} selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.positionTypes}/>
+        <Bottombar controlButtonClick={this.controlButtonClick} planStart={this.planningButtonClickStart} planDone={this.planningButtonClickDone} planCancel={this.planningButtonClickCancel} planUndo={this.planningButtonClickUndo} planContainer={this.planningButtonClickContainer}/>
         <NewsAlertPopup gamePhase={this.state.gamePhase} />
         <BattlePopup gameSlice={this.state.gameSlice} />
         <RefuelPopup gameSlice={this.state.gameSlice} />
+        <NewsAlertPopup gamePhase={this.state.gamePhase} />
       </div>
     );
   }

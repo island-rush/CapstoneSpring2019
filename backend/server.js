@@ -98,7 +98,6 @@ app.get('/adminLoginVerify', (req, res) => {
 });
 
 app.get('/gameLoginVerify', (req, res) => {
-    console.log("Got here");
     if(!req.query.gameSection || !req.query.gameInstructor || !req.query.gameTeam) {
         res.redirect('/index.html?err=BadParameters');  // didn't hit the backend with right query parameters
     } else {
@@ -108,7 +107,6 @@ app.get('/gameLoginVerify', (req, res) => {
         database.query(sql)
         .then(results => {
             if (results.length !== 1) {
-                console.log(results);
                 res.redirect('/index.html?err=GameDoesNotExist');
             } else {
                 const correspondingTeamValues = [0, 1, 2, 3, 0, 1, 2, 3];
