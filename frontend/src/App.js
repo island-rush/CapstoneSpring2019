@@ -80,27 +80,29 @@ class App extends Component {
   selectPos = (id) => {
       this.setState({selectedPos: id, selectedMenu: 0});
     if (this.state.planningMove){
-      //Show planned positions in this plan
-      let statePlannedPos = this.state.plannedPos;
-      for(let x=0; x<this.state.plannedMove.movesArray.length; x++){
-        statePlannedPos.push(this.state.plannedMove.movesArray[x].newPosition)
-      }
-
       let nextPos = id;
+      let statePlannedMove = this.state.plannedMove;
+      let prevPos = this.state.selectedPiece.piecePositionId;
+      if (statePlannedMove.movesArray.length != 0) {
+        prevPos = statePlannedMove.movesArray[statePlannedMove.movesArray.length-1].newPosition;
+      }
       //make sure the next position is adjacent
-      if( this.state.distanceMatrix[this.state.selectedPiece.piecePositionId][nextPos] === 1){
+      if( this.state.distanceMatrix[prevPos][nextPos] == 1){
         //update the plan with the new move
-        let statePlannedMove = this.state.plannedMove;
         statePlannedMove.pieceId = this.state.selectedPiece.pieceId;
         statePlannedMove.movesArray.push({
           newPosition: nextPos,
           specialFlag: 0
         });
         this.setState({plannedMove: statePlannedMove});
-        //show available next positions
-        //if (not out moves) ?
-      }
-      this.showAdjacent(this.state.plannedMove.movesArray[this.state.plannedMove.movesArray.length-1].newPosition, 1, "all");      
+        // Add the move to the path
+        let statePlannedPos = this.state.plannedPos;
+        statePlannedPos.push(nextPos);
+        this.setState({plannedPos: statePlannedPos});
+        //Show the positons it can move to next
+          //TODO: if (not out moves) ?
+        this.showAdjacent(statePlannedPos[statePlannedPos.length-1], 1, "all"); 
+      }     
     }
     else{
       this.resetPieceOpen();
@@ -220,10 +222,21 @@ class App extends Component {
   }
   planningButtonClickUndo = () => {
     // Remove from queue the highest # move for this Piece ID
-    // this.state.plannedMove.movesArray.pop();
     let statePlannedMove = this.state.plannedMove;
     statePlannedMove.movesArray.pop();
     this.setState({plannedMove: statePlannedMove});
+    // Remove the planned move so it doesnt mark red anymore
+    let statePlannedPos = this.state.plannedPos;
+    statePlannedPos.pop();
+    this.setState({plannedPos: statePlannedPos});
+    //get the last planned postion after the undo 
+    let prevPos;
+    if (statePlannedPos.length != 0){
+      prevPos = statePlannedPos[statePlannedPos.length-1];
+      // Call selectPos with old position to update visuals. Since same pos as last planned move, it wont submit another move
+      this.selectPos(prevPos);
+    }
+
   }
   planningButtonClickContainer = () => {
     // Plan a Container open popup at this position
