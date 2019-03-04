@@ -23,16 +23,37 @@ class App extends Component {
   state = {
     selectedPos: 0,
     highlighted: [],
+    plannedPos: [],
     highlightedType: "all",
     selectedMenu: 0,
     planningMove: false,
+    selectedPiece: -1,
     gamePhase: 3,
     gameRound: 0,
     gameSlice: 0,
     
     myTeam: "Red",  //could use different values, this is what is inside the session for now
     points: 0,
-    status: 0,  //for waiting or not
+    positions: [],
+    cart: [
+      {
+        id: 1,
+        type: 2
+      },
+      {
+        id: 2,
+        type: 3
+      }, 
+      {
+        id: 4,
+        type: 4
+      }, 
+      {
+        id: 5,
+        type: 5
+      }
+    ], 
+    // status: 0,  //for waiting or not
     
     refuelTankerPositions: [],
     refuelPlanePositions: [],
@@ -42,7 +63,16 @@ class App extends Component {
     
     positions: [],
     
-    distanceMatrix: []
+    distanceMatrix: [],
+
+    confirmedPlans: [], //an array of plannedMoves for any/all piece
+
+    plannedMove: {   // an object to describe a planned move for a certain piece
+      pieceId: -1,
+      movesArray: []
+    },
+    
+    userFeedback: "User Feedback Placeholder"
   }
 
   //could throw this into the gameboard once done working with it
@@ -67,18 +97,44 @@ class App extends Component {
   }
 
   selectPos = (id) => {
-    this.setState({selectedPos: id, selectedMenu: 0});
-    this.resetPieceOpen();
-
-
-    this.showAdjacent(id, 3, "land");
+      this.setState({selectedPos: id, selectedMenu: 0});
+    if (this.state.planningMove){
+      let nextPos = id;
+      let statePlannedMove = this.state.plannedMove;
+      let prevPos = this.state.selectedPiece.piecePositionId;
+      if (statePlannedMove.movesArray.length != 0) {
+        prevPos = statePlannedMove.movesArray[statePlannedMove.movesArray.length-1].newPosition;
+      }
+      //make sure the next position is adjacent
+      if( this.state.distanceMatrix[prevPos][nextPos] == 1){
+        //update the plan with the new move
+        statePlannedMove.pieceId = this.state.selectedPiece.pieceId;
+        statePlannedMove.movesArray.push({
+          newPosition: nextPos,
+          specialFlag: 0
+        });
+        this.setState({plannedMove: statePlannedMove});
+        // Add the move to the path
+        let statePlannedPos = this.state.plannedPos;
+        statePlannedPos.push(nextPos);
+        this.setState({plannedPos: statePlannedPos});
+        //Show the positons it can move to next
+          //TODO: if (not out moves) ?
+        this.showAdjacent(statePlannedPos[statePlannedPos.length-1], 1, "all"); 
+      }     
+    }
+    else{
+      this.resetPieceOpen();
+      this.setState({selectedPiece: -1});
+      this.userFeedback("you selected a position!");
+    }
+    
+    // this.showAdjacent(id, 3, "land");
   }
 
   showAdjacent = (pos, radius, type) => {
-
     let searchAreaLow = (pos - (radius * 17) - 4);
     let searchAreaHigh = (pos + (radius * 17) + 4);
-
     searchAreaLow = searchAreaLow < 0 ? 0 : searchAreaLow;
     searchAreaHigh = searchAreaHigh >= 727 ? 727 : searchAreaHigh;
 
@@ -101,50 +157,29 @@ class App extends Component {
   }
 
   pieceClick = (pieceId, piecePositionId) => {
-    let thisPiece = this.state.positions[piecePositionId].find(piece => piece.pieceId === pieceId);
-    //based on the phase of the game? (default to trying to open if a container)
-    this.resetPieceOpen();
-    //if it is a container (could change to use the containerId negatives to see pieceTypes (-2, -3, -4...))
-    if (thisPiece.pieceUnitId === 0) {
-      thisPiece.pieceOpen = true;  //Not possible to click the piece when it was open?
-      let array = this.state.positions;
-      let pieces = array[piecePositionId];
-      let pieceIndex = pieces.findIndex(piece => piece.pieceId === pieceId);
-      pieces.splice(pieceIndex, 1, thisPiece);
-      array[piecePositionId] = pieces;
-      this.setState({positions: array});
-    }
+    // Clicking a piece doesnt do anything if youre planning. Must finish planning before able to click another piece.
+    if(!this.state.planningMove){
+      let thisPiece = this.state.positions[piecePositionId].find(piece => piece.pieceId === pieceId);
+    
 
-    // PLANNING MOVES
-    if(this.state.planningMove){ // if they want to start planning a move (determined by a Planning Start button)
-      let plan = {
-        pieceId: thisPiece.pieceId,
-        // movementTurn = 0,
-        positionId: -1, //for now, this will update when we click a spot.
+      //Save the selected Piece ID for planning moves
+      this.setState({selectedPiece: thisPiece})
+      if(this.state.gamePhase===3 && this.state.gameSlice===0){
+        this.userFeedback("Now you can plan a movement for this piece using the Plan Start button to the left.")
       }
 
-      const spencersArrayOfPlansForASinglePiece = [
-        {
-          pieceId: 1,
-          newPosition: 3,
-          specialFlag: 0
-        },
-        {
-          pieceId: 1,
-          newPosition: 4,
-          specialFlag: 0
-        },
-        {
-          pieceId: 1,
-          newPosition: 5,
-          specialFlag: 0
-        },
-        {
-          pieceId: 1,
-          newPosition: 5,
-          specialFlag: 1  // bombard or something
-        }
-      ];
+      //based on the phase of the game? (default to trying to open if a container)
+      this.resetPieceOpen();
+      //if it is a container (could change to use the containerId negatives to see pieceTypes (-2, -3, -4...))
+      if (thisPiece.pieceUnitId === 0) {
+        thisPiece.pieceOpen = true;  //Not possible to click the piece when it was open?
+        let array = this.state.positions;
+        let pieces = array[piecePositionId];
+        let pieceIndex = pieces.findIndex(piece => piece.pieceId === pieceId);
+        pieces.splice(pieceIndex, 1, thisPiece);
+        array[piecePositionId] = pieces;
+        this.setState({positions: array});
+      }
     }
   }
 
@@ -165,6 +200,33 @@ class App extends Component {
     this.setState({positionTypes: array});
   }
 
+  updateCart = (pieceType) => {
+    // THIS WILL CALL SERVER AND SERVER WILL GIVE THE OBJECT TO APPEND TO CART ARRAY
+    // get {id: myID
+    //      type: anything from 1-16
+    //     }
+    this.setState({
+      cart: this.state.cart.concat([ {id: 10, type: pieceType} ])
+    })
+  }
+
+  emptyCart = () => {
+    this.setState({
+      cart: []
+    })
+  }
+  
+  // code to remove a specific piece from the cart
+  removeFromCart = (pieceId) => {
+      let originalCart =  this.state.cart;
+      originalCart.slice(originalCart.findIndex(object => object.id == pieceId), 1);
+      let newcart = originalCart.filter(o => o.id != [pieceId]);
+      
+
+      this.setState({
+        cart: newcart
+      });
+    }
   controlButtonClick = () => {
     this.socket.emit('controlButtonClick', (serverResponse) => {
       //make sure the serverResponse is valid
@@ -175,25 +237,64 @@ class App extends Component {
     });
   }
 
+  userFeedback = (textString) => {
+    this.setState({userFeedback: textString})
+  }
+
   planningButtonClickStart = () => {
-    
-    if(this.state.gamePhase == 3 && this.gameSlice == 0){
+    if(this.state.gamePhase === 3 && this.state.gameSlice === 0){
       this.setState({planningMove: true})
     }
   }
   planningButtonClickDone = () => {
     // Submit current move to DB
+    this.setState({
+      plannedMove: {
+        pieceId: -1,
+        movesArray: []
+      }
+    });
     this.setState({planningMove: false})
   }
   planningButtonClickCancel = () => {
     // Remove all moves from queue with this pieceID
+    this.setState({
+      plannedMove: {
+        pieceId: -1,
+        movesArray: []
+      }
+    });
     this.setState({planningMove: false})
   }
   planningButtonClickUndo = () => {
     // Remove from queue the highest # move for this Piece ID
+    let statePlannedMove = this.state.plannedMove;
+    statePlannedMove.movesArray.pop();
+    this.setState({plannedMove: statePlannedMove});
+    // Remove the planned move so it doesnt mark red anymore
+    let statePlannedPos = this.state.plannedPos;
+    statePlannedPos.pop();
+    this.setState({plannedPos: statePlannedPos});
+    //get the last planned postion after the undo 
+    let prevPos;
+    if (statePlannedPos.length != 0){
+      prevPos = statePlannedPos[statePlannedPos.length-1];
+      // Call selectPos with old position to update visuals. Since same pos as last planned move, it wont submit another move
+      this.selectPos(prevPos);
+    }
+
   }
   planningButtonClickContainer = () => {
     // Plan a Container open popup at this position
+    let statePlannedMove = this.state.plannedMove;
+    statePlannedMove.movesArray.push({
+      newPosition: this.state.selectedPiece.piecePositionId,
+      specialFlag: 2
+    });
+    this.setState({plannedMove: statePlannedMove});
+
+  
+
   }
 
   appStyle = {
@@ -206,13 +307,15 @@ class App extends Component {
   render() {
     return (
       <div className="App" style={this.appStyle}>
-        <Bottombar gamePhase={this.state.gamePhase} gameSlice={this.state.gameSlice} planningMove={this.state.planningMove} controlButtonClick={this.controlButtonClick} planStart={this.planningButtonClickStart} planDone={this.planningButtonClickDone} planCancel={this.planningButtonClickCancel} planUndo={this.planningButtonClickUndo} planContainer={this.planningButtonClickContainer}/>
-        <Gameboard positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.positionTypes} highlighted={this.state.highlighted} highlightedType={this.state.highlightedType} selectedPos={this.state.selectedPos} />
-        <Sidebar selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
+        <Bottombar gamePhase={this.state.gamePhase} gameSlice={this.state.gameSlice} planningMove={this.state.planningMove} selectedPiece={this.state.selectedPiece} userFeedback={this.state.userFeedback} controlButtonClick={this.controlButtonClick} planStart={this.planningButtonClickStart} planDone={this.planningButtonClickDone} planCancel={this.planningButtonClickCancel} planUndo={this.planningButtonClickUndo} planContainer={this.planningButtonClickContainer}/>
+        <Gameboard plannedPos={this.state.plannedPos} positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.positionTypes} highlighted={this.state.highlighted} highlightedType={this.state.highlightedType} selectedPos={this.state.selectedPos} />
+        <Sidebar removeFromCart={this.removeFromCart} emptyCart={this.emptyCart} updateCart={this.updateCart} cart={this.state.cart} selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.positionTypes}/>
+        <Bottombar controlButtonClick={this.controlButtonClick} planStart={this.planningButtonClickStart} planDone={this.planningButtonClickDone} planCancel={this.planningButtonClickCancel} planUndo={this.planningButtonClickUndo} planContainer={this.planningButtonClickContainer}/>
         <NewsAlertPopup gamePhase={this.state.gamePhase} />
         <BattlePopup gameSlice={this.state.gameSlice} />
         <RefuelPopup gameSlice={this.state.gameSlice} />
+        <NewsAlertPopup gamePhase={this.state.gamePhase} />
       </div>
     );
   }

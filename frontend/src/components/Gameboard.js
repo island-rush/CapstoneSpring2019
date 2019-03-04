@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// eslint-disable-next-line
 import { HexGrid, Layout, Hexagon, Pattern, Text } from 'react-hexgrid';
 
 const imageSize = { x: 3.4, y: 2.75 };
@@ -36,7 +37,10 @@ function patternSelector(pattern, pieces) {
 
 function singleHex(id, pattern, x, y, selectPos, selectedPos, pieces, highlighted, highlightedType) {
     return (
-        <Hexagon posId={id} q={x} r={y} s={-999} fill={patternSelector(pattern, pieces)} className={selectedPos === id || (highlighted.includes(id) && (highlightedType === "all" || highlightedType === pattern)) ? "selectedPos" : ""} onClick={selectPos.bind(this, id)}>
+        <Hexagon posId={id} q={x} r={y} s={-999} fill={patternSelector(pattern, pieces)} 
+          // className={selectedPos === id || (highlighted.includes(id) && (highlightedType === "all" || highlightedType === pattern)) ? "selectedPos" : plannedPos.includes(id) ? "plannedPos" : ""} 
+          className={plannedPos.includes(id) ? "plannedPos" : (selectedPos === id || (highlighted.includes(id) && (highlightedType === "all" || highlightedType === pattern))) ? "selectedPos" : ""} 
+          onClick={selectPos.bind(this, id)}>
           {/* <Text>{id}</Text> */}
         </Hexagon>
     )

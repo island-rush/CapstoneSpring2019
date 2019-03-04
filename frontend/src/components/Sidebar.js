@@ -10,7 +10,7 @@ export class Sidebar extends Component {
         <button style={btn1Style} onClick={this.props.selectMenu.bind(this, 1)}>Shop</button>
         <button style={btn2Style} onClick={this.props.selectMenu.bind(this, 2)}>Inv</button>
         <button style={btn3Style} onClick={this.props.selectMenu.bind(this, 3)}>Settings</button>
-        <Menu1 selectedMenu={this.props.selectedMenu} />
+        <Menu1 removeFromCart={this.props.removeFromCart} emptyMyCart={this.props.emptyCart}  updateCart={this.props.updateCart} cart={this.props.cart} selectedMenu={this.props.selectedMenu} />
         <Menu2 selectedMenu={this.props.selectedMenu} />
         <Menu3 selectedMenu={this.props.selectedMenu} />
       </div>
