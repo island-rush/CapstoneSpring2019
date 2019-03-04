@@ -158,6 +158,9 @@
                 var xhttp = new XMLHttpRequest();
                 xhttp.open("GET", "/adminResetGame", true)
                 xhttp.send();
+                if (document.getElementById('activeToggle').checked) {
+                    document.getElementById('activeToggle').checked = false;
+                }
             }
         }
         </script>
