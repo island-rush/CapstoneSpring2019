@@ -102,7 +102,6 @@
 
 <body>
 <h1>Island Rush Admin</h1>
-
 <div class="adminWrapper">             <!------------------------ the  actual  body ---------------------------->
 
     <h1>Admin Tools</h1>
@@ -117,7 +116,7 @@
         <br>(***Also logs everyone out of the game. If there are problems logging in, turn the game off and back on using this slider.)</div>
     <span>Inactive</span>
     <label  class="switch">
-        <input id="activeToggle" type="checkbox"  onclick="setActive(this)">
+        <input id="activeToggle" type="checkbox"  onchange="setActive()">
         <span class="slider round"></span>
     </label>
     <span>Active</span>
@@ -126,7 +125,7 @@
     <hr>
     <h3>Reset Game</h3>
     <span>Completely reset this particular game:</span>
-    <button class="btn btn-danger" id="populateButton" onclick="populateGame()">RESET GAME</button>
+    <button class="btn btn-danger" id="populateButton" onClick="populateGame();">RESET GAME</button>
 
     <br>
     <hr>
@@ -142,19 +141,25 @@
         document.getElementById('instructor').innerHTML = "Instructor: " + paramSplit[0].substring(1);
         document.getElementById('section').innerHTML = "Section: " + paramSplit[1];
 
-        function setActive(element){
-            if (element.id == 'activeToggle') {
-                element.id = 'deactiveToggle';
+        function setActive(){
+            var toggleState = document.getElementById('activeToggle').checked
+            var xhttp = new XMLHttpRequest();
+            if (toggleState) {
+                xhttp.open("GET", "/adminToggleGame?state=1", true);
             }
-            else if (element.id == 'deactiveToggle') {
-                element.id = 'activeToggle';
+            else {
+                xhttp.open("GET", "/adminToggleGame?state=0", true);
             }
+            xhttp.send();
         }
 
         function populateGame() {
-
+            if (confirm("Are you sure you want to reset this game?")){
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("GET", "/adminResetGame", true)
+                xhttp.send();
+            }
         }
-
         </script>
 </body>
 </html>

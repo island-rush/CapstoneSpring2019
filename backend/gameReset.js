@@ -1,4 +1,12 @@
 module.exports = function() { 
+    const mysql = require('mysql');
+    const config = {
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'k3'
+}
+
     this.resetGame = function(dbConn, gameID) {
         //Games Table: Update all non-permanent attributes in games table
         let sql = 'SELECT * FROM games WHERE gameId = ?';
