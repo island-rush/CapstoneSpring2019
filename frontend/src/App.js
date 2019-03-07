@@ -31,8 +31,45 @@ class App extends Component {
     cart: [],  //currently buying, menu1
     inv: [],  //inventory, menu2
 
-    battleZone0: [],  //Red team battle
-    battleZone1: [],  //Blue team battle
+
+
+    selectedFriendlyBattlePiece: -1,
+    battleZone0: [
+      {
+        battlePieceAttacking: {pieceId: 1, pieceUnitId: 1},
+        battlePieceTarget: null,  //piece-like object, id + unit?
+        battlePieceTargetIndex: -1,
+        battleDiceRolled: 0
+      },
+      {
+        battlePieceAttacking: {pieceId: 2, pieceUnitId: 1},
+        battlePieceTarget: null,  //piece-like object, id + unit?
+        battlePieceTargetIndex: -1,
+        battleDiceRolled: 0
+      },
+      {
+        battlePieceAttacking: {pieceId: 3, pieceUnitId: 2},
+        battlePieceTarget: null,  //piece-like object, id + unit?
+        battlePieceTargetIndex: -1,
+        battleDiceRolled: 0
+      }
+    ],  //Friendly team battle
+    battleZone1: [
+      {
+        battlePieceAttacking: {pieceId: 4, pieceUnitId: 2},
+        battlePieceTarget: null,  //piece-like object, id + unit?
+        battlePieceTargetIndex: -1,
+        battleDiceRolled: 0
+      },
+      {
+        battlePieceAttacking: {pieceId: 5, pieceUnitId: 3},
+        battlePieceTarget: null,  //piece-like object, id + unit?
+        battlePieceTargetIndex: -1,
+        battleDiceRolled: 0
+      }
+    ],  //Enemy team battle
+
+
 
     tankerZone: [],  //Tankers giving fuel side
     refuelZone: [],  //Pieces getting fuel side
@@ -163,6 +200,28 @@ class App extends Component {
     });
   }
 
+  //Make this piece the selected Battle piece (highlighted)
+  leftBattlePieceClick = (indexOfPiece) => {
+    if (this.state.selectedFriendlyBattlePiece === indexOfPiece) {
+      this.setState({selectedFriendlyBattlePiece: -1});
+      this.userFeedback("Unselected the attacker...");
+    } else {
+      this.setState({selectedFriendlyBattlePiece: indexOfPiece});
+      this.userFeedback("Selected the attacker...");
+    }
+  }
+
+  //Clear the piece from the state object
+  rightBattlePieceClick = (indexOfPiece) => {
+    let fullArray = this.state.battleZone0;
+    let battlePieceObject = fullArray[indexOfPiece];
+    battlePieceObject.battlePieceTarget = null;
+    battlePieceObject.battlePieceTargetIndex = -1;
+    fullArray[indexOfPiece] = battlePieceObject;
+    this.setState({battleZone0: fullArray});
+    this.userFeedback("Unselected the target...");
+  }
+
   controlButtonClick = () => {
     // this.socket.emit('controlButtonClick', (serverResponse) => {
     //   //make sure the serverResponse is valid
@@ -220,6 +279,25 @@ class App extends Component {
     this.setState({plannedMove: statePlannedMove});
   }
 
+  enemyLeft = (pieceIndex) => {
+    if (this.state.selectedFriendlyBattlePiece !== -1) {
+      let friendlyArray = this.state.battleZone0;
+      let pieceObject = friendlyArray[this.state.selectedFriendlyBattlePiece];
+      let enemyObject = this.state.battleZone1[pieceIndex].battlePieceAttacking;
+      pieceObject.battlePieceTarget = enemyObject;
+      pieceObject.battlePieceTargetIndex = pieceIndex;
+      friendlyArray[this.state.selectedFriendlyBattlePiece] = pieceObject;
+      this.setState({battleZone0: friendlyArray});
+      this.userFeedback("Selected the target...");
+    } else {
+      this.userFeedback("Must select a left side piece first...");
+    }
+  }
+
+  enemyRight = (pieceIndex) => {
+    //should be nothing, but must have a function for it (probably)
+  }
+
   appStyle = {
     position: "relative",
     backgroundColor: "black",
@@ -235,7 +313,7 @@ class App extends Component {
         <Sidebar removeFromCart={this.removeFromCart} emptyCart={this.emptyCart} updateCart={this.updateCart} inv={this.state.inv} cart={this.state.cart} selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox selectedPiece={this.state.selectedPiece} pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.positionTypes}/>
         <NewsAlertPopup gamePhase={this.state.gamePhase} />
-        <BattlePopup gameSlice={this.state.gameSlice} />
+        <BattlePopup enemyLeft={this.enemyLeft} enemyRight={this.enemyRight} rightBattlePieceClick={this.rightBattlePieceClick} leftBattlePieceClick={this.leftBattlePieceClick} selectedFriendlyBattlePiece={this.state.selectedFriendlyBattlePiece} friendlyBattle={this.state.battleZone0} enemyBattle={this.state.battleZone1} gameSlice={this.state.gameSlice} />
         <RefuelPopup gameSlice={this.state.gameSlice} />
       </div>
     );

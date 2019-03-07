@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import BattlePiecePart from './BattlePiecePart';
 
 const battleStyle = {
     position: "absolute",
-    bottom: "33%",
-    left: "37%",
-    height: "40%",
-    width: "40%",
+    bottom: "27%",
+    left: "30%",
+    height: "60%",
+    width: "60%",
     backgroundColor: "white",
     zIndex: 4,
     display: "block"
@@ -15,11 +16,43 @@ const battleHidden = {
     display: 'none'
 }
 
+const leftBattleStyle = {
+  position: "relative",
+  float: "left",
+  backgroundColor: "grey",
+  height: "96%",
+  width: "48%",
+  margin: "1%"
+}
+
+const rightBattleStyle = {
+  position: "relative",
+  backgroundColor: "grey",
+  height: "96%",
+  width: "48%",
+  float: "right",
+  margin: "1%"
+}
+
 export class BattlePopup extends Component {
   render() {
+
+    const friendlyBattlePieces = this.props.friendlyBattle.map((piece, index) => (
+      <BattlePiecePart side={0} leftBattlePieceClick={this.props.leftBattlePieceClick} rightBattlePieceClick={this.props.rightBattlePieceClick} selectedFriendlyBattlePiece={this.props.selectedFriendlyBattlePiece} key={index} pieceIndex={index} pieceInfo={piece} />
+    ));
+
+    const enemyBattlePieces = this.props.enemyBattle.map((piece, index) => (
+      <BattlePiecePart side={1} leftBattlePieceClick={this.props.enemyLeft} rightBattlePieceClick={this.props.enemyRight} selectedFriendlyBattlePiece={this.props.selectedFriendlyBattlePiece} key={index} pieceIndex={index} pieceInfo={piece} />
+    ));
+
     return (
       <div style={this.props.gameSlice === 1 ? battleStyle : battleHidden}>
-        <p>This is the battle popup</p>
+        <div style={leftBattleStyle}>
+          {friendlyBattlePieces}
+        </div>
+        <div style={rightBattleStyle}>
+          {enemyBattlePieces}
+        </div>
       </div>
     )
   }
