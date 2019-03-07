@@ -23,16 +23,13 @@ const zoomboxColoring = {
 export class Zoombox extends Component {
   render() {
     const positionContainer = this.props.positions.map((position, index) => (
-      <PositionContainer pieceClick={this.props.pieceClick} key={index} positionId={index} selectedPos={this.props.selectedPos} pieces={position} />
+      <PositionContainer selectedPiece={this.props.selectedPiece} pieceClick={this.props.pieceClick} key={index} positionId={index} selectedPos={this.props.selectedPos} pieces={position} />
     ))
 
     return (
-      // <div style={{...zoomboxStyle, ...zoomboxColoring[this.props.positionTypes[this.props.selectedPos]]}}>
-      //   {positionContainer}
-      // </div>
-      <div>
-        stuff
-    </div>
+      <div style={{...zoomboxStyle, ...zoomboxColoring[this.props.positionTypes[this.props.selectedPos]]}}>
+        {positionContainer}
+      </div>
     )
   }
 }

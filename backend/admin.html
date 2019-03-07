@@ -96,19 +96,15 @@
         }
     </style>
     <title>Island Rush Admin</title>
-    <link rel="stylesheet" type="text/css" href="index.css">
-
 </head>
 
 <body>
 <h1>Island Rush Admin</h1>
 <div class="adminWrapper">             <!------------------------ the  actual  body ---------------------------->
-
     <h1>Admin Tools</h1>
     <div>You are logged in for the Game:</div>
     <span class="important" id="section">Section: </span>
     <span class="important" id="instructor">Instructor:</span>
-
     <br>
     <hr>
     <h3>Turn Game Off/On</h3>
@@ -120,47 +116,35 @@
         <span class="slider round"></span>
     </label>
     <span>Active</span>
-
     <br>
     <hr>
     <h3>Reset Game</h3>
     <span>Completely reset this particular game:</span>
     <button class="btn btn-danger" id="populateButton" onClick="populateGame();">RESET GAME</button>
-
     <br>
-    <hr>
-    <h3>News Alerts for this game:</h3>
-    <div id="newsAlertsContainer">
-        <!-- populate the current UNUSED news alerts for this game, using the php above.-->
 
-    </div>
     <script type="text/javascript">
-
-        const paramString = window.location.search.substring('?');
-        const paramSplit = paramString.split('&')
-        document.getElementById('instructor').innerHTML = "Instructor: " + paramSplit[0].substring(1);
-        document.getElementById('section').innerHTML = "Section: " + paramSplit[1];
-
-        function setActive(){
-            var toggleState = document.getElementById('activeToggle').checked
-            var xhttp = new XMLHttpRequest();
-            if (toggleState) {
-                xhttp.open("GET", "/adminToggleGame?state=1", true);
-            }
-            else {
-                xhttp.open("GET", "/adminToggleGame?state=0", true);
-            }
-            xhttp.send();
-        }
+        // const paramString = window.location.search.substring('?');
+        // const paramSplit = paramString.split('&')
+        // document.getElementById('instructor').innerHTML = "Instructor: " + paramSplit[0].substring(1);
+        // document.getElementById('section').innerHTML = "Section: " + paramSplit[1];
+        // function setActive(){
+        //     var toggleState = document.getElementById('activeToggle').checked
+        //     var xhttp = new XMLHttpRequest();
+        //     if (toggleState) {
+        //         xhttp.open("GET", "/adminToggleGame?state=1", true);
+        //     }
+        //     else {
+        //         xhttp.open("GET", "/adminToggleGame?state=0", true);
+        //     }
+        //     xhttp.send();
+        // }
 
         function populateGame() {
             if (confirm("Are you sure you want to reset this game?")){
                 var xhttp = new XMLHttpRequest();
                 xhttp.open("GET", "/adminResetGame", true)
                 xhttp.send();
-                if (document.getElementById('activeToggle').checked) {
-                    document.getElementById('activeToggle').checked = false;
-                }
             }
         }
         </script>

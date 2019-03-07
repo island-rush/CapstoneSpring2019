@@ -26,7 +26,7 @@ export class SingleContainer extends Component {
     }
     
     const thisPieces = topLevelPieces.map((piece, index) => (
-        <Piece pieces={arrayContainedPieces[index]} pieceClick={this.props.pieceClick} key={piece.pieceId} pieceInfo={piece} />
+        <Piece selectedPiece={this.props.selectedPiece} pieces={arrayContainedPieces[index]} pieceClick={this.props.pieceClick} key={piece.pieceId} pieceInfo={piece} />
     ))
 
     return (
