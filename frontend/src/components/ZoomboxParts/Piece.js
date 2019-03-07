@@ -15,7 +15,8 @@ const pieceStyle = {
 
 const teamStyles = [
     {boxShadow: "0px 0px 0px 2px rgba(255, 0, 0, 0.55) inset"},
-    {boxShadow: "0px 0px 0px 2px rgba(0, 111, 255, 0.67) inset"}
+    {boxShadow: "0px 0px 0px 2px rgba(0, 111, 255, 0.67) inset"},
+    {boxShadow: "0px 0px 0px 2px rgba(255, 255, 50, 0.55) inset"}
 ]
 
 const unitStyles = [
@@ -65,9 +66,9 @@ export class Piece extends Component {
     const fuelTitle = pieceFuel === -1 ? "" : "\nFuel: " + pieceFuel;
 
     return (
-      <div onClick={this.props.pieceClick.bind(this, pieceId, piecePositionId)} style={{...pieceStyle, ...unitStyles[pieceUnitId], ...teamStyles[pieceTeamId], ...openLevels[pieceOpen ? 1 : 0]}} title={"Moves: " + pieceMoves + fuelTitle} >
+      <div onClick={this.props.pieceClick.bind(this, pieceId, piecePositionId)} style={{...pieceStyle, ...unitStyles[pieceUnitId], ...teamStyles[this.props.selectedPiece != null && this.props.selectedPiece.pieceId == pieceId ? 2 : pieceTeamId], ...openLevels[pieceOpen ? 1 : 0]}} title={"Moves: " + pieceMoves + fuelTitle} >
         <div style={pieceOpen ? containerOpenStyle : containerClosedStyle}>
-          <PieceSubContainer pieces={this.props.pieces} pieceClick={this.props.pieceClick} />
+          <PieceSubContainer selectedPiece={this.props.selectedPiece} pieces={this.props.pieces} pieceClick={this.props.pieceClick} />
         </div>
       </div>
     )
