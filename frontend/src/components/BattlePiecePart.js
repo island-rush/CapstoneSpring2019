@@ -25,7 +25,7 @@ const battlePartStyle = {
     height: "15%",
     width: "96%",
     margin: "1%",
-    padding: "1%",
+    padding: "1%"
     // backgroundRepeat: "no-repeat",
     // backgroundSize: "90% 90%",
     // backgroundPosition: "center",

@@ -7,6 +7,7 @@ import Zoombox from './components/Zoombox';
 import NewsAlertPopup from './components/NewsAlertPopup';
 import BattlePopup from './components/BattlePopup';
 import RefuelPopup from './components/RefuelPopup';
+import ContainerPopup from './components/ContainerPopup';
 import './App.css';
 
 class App extends Component {
@@ -68,6 +69,44 @@ class App extends Component {
         battleDiceRolled: 0
       }
     ],  //Enemy team battle
+
+
+    selectedContainerPiece: -1,
+    containerPieces: [
+      {
+        pieceId: 1,
+        pieceUnitId: 0,
+        contents: [
+          {
+            pieceId: 6,
+            pieceUnitId: 6
+          },
+          {
+            pieceId: 7,
+            pieceUnitId: 7
+          }
+        ]
+      },
+      {
+        pieceId: 2,
+        pieceUnitId: 15,
+        contents: []
+      }
+    ],
+    actualPieces: [
+      {
+        pieceId: 3,
+        pieceUnitId: 3
+      },
+      {
+        pieceId: 4,
+        pieceUnitId: 4
+      },
+      {
+        pieceId: 5,
+        pieceUnitId: 5
+      }
+    ],
 
 
 
@@ -200,6 +239,53 @@ class App extends Component {
     });
   }
 
+
+  //Container Functions
+  containerSelect = (indexOfPiece) => {
+    if (this.state.selectedContainerPiece === indexOfPiece) {
+      this.setState({selectedContainerPiece: -1});
+      this.userFeedback("Unselected the container...");
+    } else {
+      this.setState({selectedContainerPiece: indexOfPiece});
+      this.userFeedback("Selected the container...");
+    }
+  }
+
+  actualPieceSelect = (indexOfPiece) => {
+    if (this.state.selectedContainerPiece !== -1) {
+      let containerArray = this.state.containerPieces;
+      let actualArray = this.state.actualPieces;
+
+      let containerPiece = containerArray[this.state.selectedContainerPiece];
+      let actualPiece = actualArray[indexOfPiece];
+
+      containerPiece.contents.push(actualPiece);
+      containerArray[this.state.selectedContainerPiece] = containerPiece;
+
+      actualArray.splice(indexOfPiece, 1);
+
+      this.setState({containerPieces: containerArray, actualPieces: actualArray});
+      this.userFeedback("Selected the piece to enter container...");
+    } else {
+      this.userFeedback("Must select a container first...");
+    }
+  }
+
+  containedPieceRemove = (containerPieceIndex, containedPieceIndex) => {
+    let fullArray = this.state.containerPieces;
+    let containerPiece = fullArray[containerPieceIndex];
+    let containedPiece = containerPiece.contents[containedPieceIndex];
+    containerPiece.contents.splice(containedPieceIndex, 1);
+    fullArray[containerPieceIndex] = containerPiece;
+    let actualPieces = this.state.actualPieces;
+    actualPieces.push(containedPiece);
+    this.setState({containerPieces: fullArray, actualPieces: actualPieces})
+    this.userFeedback("Removed from container...");
+  }
+  // -------------------------
+
+
+
   //Make this piece the selected Battle piece (highlighted)
   leftBattlePieceClick = (indexOfPiece) => {
     if (this.state.selectedFriendlyBattlePiece === indexOfPiece) {
@@ -315,6 +401,7 @@ class App extends Component {
         <NewsAlertPopup gamePhase={this.state.gamePhase} />
         <BattlePopup enemyLeft={this.enemyLeft} enemyRight={this.enemyRight} rightBattlePieceClick={this.rightBattlePieceClick} leftBattlePieceClick={this.leftBattlePieceClick} selectedFriendlyBattlePiece={this.state.selectedFriendlyBattlePiece} friendlyBattle={this.state.battleZone0} enemyBattle={this.state.battleZone1} gameSlice={this.state.gameSlice} />
         <RefuelPopup gameSlice={this.state.gameSlice} />
+        <ContainerPopup containedPieceRemove={this.containedPieceRemove} actualPieceSelect={this.actualPieceSelect} containerSelect={this.containerSelect} selectedContainerPiece={this.state.selectedContainerPiece} containerPieces={this.state.containerPieces} actualPieces={this.state.actualPieces} gameSlice={this.state.gameSlice} />
       </div>
     );
   }
