@@ -2,6 +2,7 @@
 // Server Setup and Configuration
 // ----------------------------------------------------------------------------------------
 
+const resetGame = require('./gameReset.js').resetGame;
 const app = require('express')();
 const server = require('http').createServer(app);
 const port = '4000';
@@ -109,7 +110,7 @@ app.get('/adminResetGame', (req, res) => {
     if (!req.session.secretAdminSessionVariable) {
         res.redirect('/index.html?err=UnauthorizedAdmin');
     } else {
-        //Reset Game
+        resetGame(mysql, database, req.session.gameId);
     }
 });
 
