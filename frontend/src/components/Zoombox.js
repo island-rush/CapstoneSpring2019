@@ -27,12 +27,9 @@ export class Zoombox extends Component {
     ))
 
     return (
-      // <div style={{...zoomboxStyle, ...zoomboxColoring[this.props.positionTypes[this.props.selectedPos]]}}>
-      //   {positionContainer}
-      // </div>
-      <div>
-        stuff
-    </div>
+      <div style={{...zoomboxStyle, ...zoomboxColoring[this.props.positionTypes[this.props.selectedPos]]}}>
+        {positionContainer}
+      </div>
     )
   }
 }

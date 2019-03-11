@@ -27,7 +27,7 @@ class App extends Component {
     highlightedType: "all",
     selectedMenu: 0,
     planningMove: false,
-    selectedPiece: -1,
+    selectedPiece: null,
     gamePhase: 3,
     gameRound: 0,
     gameSlice: 0,
@@ -125,7 +125,7 @@ class App extends Component {
     }
     else{
       this.resetPieceOpen();
-      this.setState({selectedPiece: -1});
+      this.setState({selectedPiece: null});
       this.userFeedback("you selected a position!");
     }
     

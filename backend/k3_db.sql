@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS purchased (
     purchaseTeamId INT(1) NOT NULL,
     purchaseUnitId INT(2) NOT NULL,
     PRIMARY KEY(purchaseId),
-    FOREIGN KEY (purhcaseGameId) REFERENCES games(gameId)
+    FOREIGN KEY (purchaseGameId) REFERENCES games(gameId)
 ) AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS plans(
