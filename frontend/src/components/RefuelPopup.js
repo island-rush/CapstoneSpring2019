@@ -73,7 +73,7 @@ export default class RefuelPopup extends Component {
     ))
 
     const refuelPieces = this.props.refuelPieces.map((piece, index) => (
-        <div key={index} onClick={this.props.refuelSelect.bind(this, index)} style={{...boxStyle, ...unitImages[piece.pieceUnitId]}} >Fuel: {piece.pieceFuel}</div>
+        <div key={index} onClick={this.props.refuelSelect.bind(this, index)} style={{...boxStyle, ...unitImages[piece.pieceUnitId]}} >{piece.pieceFuel} / {piece.pieceFuelAllowed}</div>
     ))
 
     return (
