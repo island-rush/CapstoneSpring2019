@@ -1,3 +1,6 @@
+Repository for K3, Below is auto-generated 'readme' by react
+This represents the front end capabilities of the project.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

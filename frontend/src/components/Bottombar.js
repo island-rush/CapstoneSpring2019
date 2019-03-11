@@ -4,7 +4,6 @@ const bottombarStyle = {
   position: "absolute",
   bottom: ".25%",
   right: ".25%",
-  // backgroundColor: "purple",
   height: "6.75%",
   width: "80.75%",
   zIndex: 2
@@ -71,10 +70,7 @@ const planningButtonStyle = [
     border: "none",
     borderRadius: "40%",
     textAlign: "center",
-    cursor: 'pointer',
-    // hover:{
-    //   backgroundColor: "lightGray"
-    // }
+    cursor: 'pointer'
   },
   {
     display: "none"
@@ -94,21 +90,18 @@ const controlButtonStyle = {
   margin: "3%"
 }
 
-
 export class Bottombar extends Component {
   render() {
     return (
       <div style={bottombarStyle}>
-      {/* Planning Div holds the buttons that are used to edit and submit movements for each piece */}
         <div style={planningDivStyle}>
-          <button onClick={this.props.planStart}     style={{...planningStartStyle[(this.props.gamePhase==3 && this.props.gameSlice==0 && !this.props.planningMove && this.props.selectedPiece != null) ? 0 : 1]}} title="Start a Movement">Move this Piece</button>
+          <button onClick={this.props.planStart}     style={{...planningStartStyle[(this.props.gamePhase===3 && this.props.gameSlice===0 && this.props.planningMove == false && this.props.selectedPiece != null) ? 0 : 1]}} title="Start a Movement">Move this Piece</button>
           <button onClick={this.props.planUndo}      style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[0]}} title="Undo Move"></button>
           <button onClick={this.props.planCancel}    style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[1]}} title="Cancel Movement"></button>
           <button onClick={this.props.planContainer} style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[2]}} title="Plan to Open Container"></button>
           <button onClick={this.props.planDone}      style={{...planningButtonStyle[this.props.planningMove ? 0 : 1], ...buttonImages[3]}} title="Confirm Movement"></button>
         </div>
         <div style={userFeedbackStyle}>{this.props.userFeedback}</div>
-        {/* Control Button is used by the CoCommander to move between phases */}
         <div style={controlButtonDivStyle}>
           <button onClick={this.props.controlButtonClick} style={controlButtonStyle}>{this.props.status === 0 ? "Control Button" : "Waiting..."}</button>
         </div>

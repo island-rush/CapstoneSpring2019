@@ -1,6 +1,0 @@
-USE k3;
-SET SQL_SAFE_UPDATES = 0;
-
-
-SELECT * FROM pieces;
-

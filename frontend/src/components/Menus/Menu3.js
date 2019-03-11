@@ -19,7 +19,7 @@ const menu3 = [
     opacity: 0,
     visibility: "hidden"
   }
-]
+];
 
 export class Menu3 extends Component {
   render() {
