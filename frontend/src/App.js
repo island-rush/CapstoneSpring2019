@@ -24,7 +24,7 @@ class App extends Component {
     points: -1,
     gamePhase: 2,  //news, buy, gameplay, place
     gameRound: 0,  //0, 1, 2
-    gameSlice: 2,  //plan, battle/move, refuel, container
+    gameSlice: 0,  //plan, battle/move, refuel, container
     status: 0,  //0 = active, 1 = waiting
 
     positions: [],  //main board positions
@@ -171,27 +171,33 @@ class App extends Component {
   //App Level Functions
   selectPos = (id) => {
     this.setState({selectedPos: id, selectedMenu: 0});
+    // Planning moves stuff
     if (this.state.planningMove === true) {
       let nextPos = id;
       let statePlannedMove = this.state.plannedMove;
+      // Figure out previous position
       let prevPos = this.state.selectedPiece.piecePositionId;
       if (statePlannedMove.movesArray.length != 0) {
         prevPos = statePlannedMove.movesArray[statePlannedMove.movesArray.length-1].newPosition;
       }
+      // check adjacent and add move to plan
       if( this.state.distanceMatrix[prevPos][nextPos] == 1){
         statePlannedMove.pieceId = this.state.selectedPiece.pieceId;
         statePlannedMove.movesArray.push({
           newPosition: nextPos,
           specialFlag: 0
         });
+        //update the visual path of the plan
         this.setState({plannedMove: statePlannedMove});
         let statePlannedPos = this.state.plannedPos;
         statePlannedPos.push(nextPos);
         this.setState({plannedPos: statePlannedPos});
+        // Show the next possible moves for this piece/path
+        //TODO: Change statement below to  show possible moves based on piece type and if it has moves left
         this.showAdjacent(statePlannedPos[statePlannedPos.length-1], 1, "all"); 
         this.userFeedback("added a movement!");
       }
-    } else {
+    } else { // NOT planning
       this.resetPieceOpen();
       this.userFeedback("you selected a position!");
     }
@@ -227,6 +233,20 @@ class App extends Component {
       this.setState({selectedPiece: thisPiece})
       if(this.state.gamePhase===3 && this.state.gameSlice===0){
         //TODO: if this pieces has any plans, show it? (pressing to start plan should cancel this plan)
+        //TODO: i think i did the above, but could it be done better/cleaner if just make the state's plannedMove this pieces? then always show state plannedMove if in gameSlice = 0?
+        //Show this pieces current plan (if any)
+        let thisPiecesPlan = {};
+        for (let x = 0; x < this.state.confirmedPlans.length; x++){
+          if (this.state.confirmedPlans[x].pieceId === pieceId){
+            thisPiecesPlan = this.state.confirmedPlans[x];
+          }
+        }
+        if (thisPiecesPlan){
+          let statePlannedPos = [];
+          for (let x = 0; x < thisPiecesPlan.movesArray.length; x++){
+            statePlannedPos.push(thisPiecesPlan.movesArray[x].newPosition);
+          }
+        }
         this.userFeedback("Now you can plan a movement for this piece using the Plan Start button to the left.")
       }
       if (thisPiece.pieceUnitId === 0) {

@@ -20,26 +20,29 @@ const teamStyles = [
 ]
 
 const unitStyles = [
-    {backgroundImage: "url(\"./images/unitImages/transport.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/bomber.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/stealthBomber.png\")"},
     {backgroundImage: "url(\"./images/unitImages/fighter.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/tanker.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // air transport
+    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // air ISR
+    {backgroundImage: "url(\"./images/unitImages/soldier.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/artillery.png\")"},
     {backgroundImage: "url(\"./images/unitImages/tank.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/marine.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/attackHeli.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, //convoy
+    {backgroundImage: "url(\"./images/unitImages/sam.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/destroyer.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/aircraftCarrier.png\")"},
     {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"}
+    {backgroundImage: "url(\"./images/unitImages/transport.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // MC-12
+    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // C-130
+    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // SOF team
+    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // RADAR
+    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // Sea mines
+    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}  // Drones
 ]
 
 // Ensures that Top Piece has greater zIndex than neighbor pieces (so child container is on top of them)
