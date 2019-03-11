@@ -226,6 +226,7 @@ class App extends Component {
       this.resetPieceOpen();
       this.setState({selectedPiece: thisPiece})
       if(this.state.gamePhase===3 && this.state.gameSlice===0){
+        //TODO: if this pieces has any plans, show it? (pressing to start plan should cancel this plan)
         this.userFeedback("Now you can plan a movement for this piece using the Plan Start button to the left.")
       }
       if (thisPiece.pieceUnitId === 0) {
@@ -238,7 +239,6 @@ class App extends Component {
         this.setState({positions: array});
       }
 
-      //if this pieces has any plans, show it? (pressing to start plan should cancel this plan)
     }
   }
 
