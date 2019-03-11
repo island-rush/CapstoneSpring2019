@@ -22,9 +22,9 @@ class App extends Component {
     teamId: -1,  //0 = red, 1 = blue
     controllerId: -1,
     points: -1,
-    gamePhase: 0,  //news, buy, gameplay, place
+    gamePhase: 2,  //news, buy, gameplay, place
     gameRound: 0,  //0, 1, 2
-    gameSlice: 0,  //plan, battle/move, container, refuel
+    gameSlice: 2,  //plan, battle/move, refuel, container
     status: 0,  //0 = active, 1 = waiting
 
     positions: [],  //main board positions
@@ -70,7 +70,6 @@ class App extends Component {
       }
     ],  //Enemy team battle
 
-
     selectedContainerPiece: -1,
     containerPieces: [
       {
@@ -108,7 +107,37 @@ class App extends Component {
       }
     ],
 
-
+    selectedTankerPiece: -1,
+    tankerPieces: [
+      {
+        pieceId: 3,
+        pieceUnitId: 3,
+        pieceFuel: 50,
+        pieceRemovedFuel: 5,
+        contents: [
+          {
+            pieceId: 5,
+            pieceUnitId: 5,
+            pieceFuel: 10,
+            pieceFuelAllowed: 15
+          }
+        ]
+      }
+    ],
+    refuelPieces: [
+      {
+        pieceId: 1,
+        pieceUnitId: 1,
+        pieceFuel: 10,
+        pieceFuelAllowed: 15
+      },
+      {
+        pieceId: 2,
+        pieceUnitId: 2,
+        pieceFuel: 5,
+        pieceFuelAllowed: 15
+      }
+    ],
 
     tankerZone: [],  //Tankers giving fuel side
     refuelZone: [],  //Pieces getting fuel side
@@ -284,7 +313,53 @@ class App extends Component {
   }
   // -------------------------
 
+  //Refuel Functions
+  tankerSelect = (indexOfPiece) => {
+    if (this.state.selectedTankerPiece === indexOfPiece) {
+      this.setState({selectedTankerPiece: -1});
+      this.userFeedback("Unselected the tanker...");
+    } else {
+      this.setState({selectedTankerPiece: indexOfPiece});
+      this.userFeedback("Selected the tanker...");
+    }
+  }
 
+  refuelSelect = (indexOfPiece) => {
+    if (this.state.selectedTankerPiece !== -1) {
+      //tanker need enough fuel (can't be left with less than 1 fuel left?)
+      let tankerArray = this.state.tankerPieces;
+      let refuelArray = this.state.refuelPieces;
+      let tanker = tankerArray[this.state.selectedTankerPiece]
+      let refuelPiece = refuelArray[indexOfPiece];
+      const fuelToGive = refuelPiece.pieceFuelAllowed - refuelPiece.pieceFuel;
+      if ((tanker.pieceFuel - tanker.pieceRemovedFuel) - fuelToGive >= 1) {
+        tanker.pieceRemovedFuel = tanker.pieceRemovedFuel + fuelToGive;
+        tanker.contents.push(refuelPiece);
+        tankerArray[this.state.selectedTankerPiece] = tanker;
+        refuelArray.splice(indexOfPiece, 1);
+        this.setState({tankerPieces: tankerArray, refuelPieces: refuelArray});
+        this.userFeedback("Added fuel to thing...");
+      } else {
+        this.userFeedback("Tanker would be left with 0 fuel left...");
+      }
+    } else {
+      this.userFeedback("Must select a tanker first...");
+    }
+  }
+
+  refuelRemove = (tankerPieceIndex, refuelPieceIndex) => {
+    let tankerArray = this.state.tankerPieces;
+    let tanker = tankerArray[tankerPieceIndex];
+    let refuelPiece = tanker.contents[refuelPieceIndex];
+    tanker.contents.splice(refuelPieceIndex, 1);
+    tanker.pieceRemovedFuel = tanker.pieceRemovedFuel - (refuelPiece.pieceFuelAllowed - refuelPiece.pieceFuel);
+    tankerArray[tankerPieceIndex] = tanker;
+    let refuelPiecesArray = this.state.refuelPieces;
+    refuelPiecesArray.push(refuelPiece);
+    this.setState({tankerPieces: tankerArray, refuelPieces: refuelPiecesArray});
+    this.userFeedback("Removed from tanker refueling...");
+  }
+  // -------------------------
 
   //Make this piece the selected Battle piece (highlighted)
   leftBattlePieceClick = (indexOfPiece) => {
@@ -400,8 +475,8 @@ class App extends Component {
         <Zoombox selectedPiece={this.state.selectedPiece} pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.positionTypes}/>
         <NewsAlertPopup gamePhase={this.state.gamePhase} />
         <BattlePopup enemyLeft={this.enemyLeft} enemyRight={this.enemyRight} rightBattlePieceClick={this.rightBattlePieceClick} leftBattlePieceClick={this.leftBattlePieceClick} selectedFriendlyBattlePiece={this.state.selectedFriendlyBattlePiece} friendlyBattle={this.state.battleZone0} enemyBattle={this.state.battleZone1} gameSlice={this.state.gameSlice} />
-        <RefuelPopup gameSlice={this.state.gameSlice} />
         <ContainerPopup containedPieceRemove={this.containedPieceRemove} actualPieceSelect={this.actualPieceSelect} containerSelect={this.containerSelect} selectedContainerPiece={this.state.selectedContainerPiece} containerPieces={this.state.containerPieces} actualPieces={this.state.actualPieces} gameSlice={this.state.gameSlice} />
+        <RefuelPopup selectedTankerPiece={this.state.selectedTankerPiece} tankerPieces={this.state.tankerPieces} refuelPieces={this.state.refuelPieces} refuelRemove={this.refuelRemove} tankerSelect={this.tankerSelect} refuelSelect={this.refuelSelect} gameSlice={this.state.gameSlice} />
       </div>
     );
   }

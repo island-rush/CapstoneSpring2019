@@ -18,7 +18,7 @@ const popupHidden = {
 export class NewsAlertPopup extends Component {
   render() {
     return (
-      <div style={this.props.gamePhase === 100000 ? popupStyle : popupHidden}>
+      <div style={this.props.gamePhase === 0 ? popupStyle : popupHidden}>
         <p>This is the News Alert Text</p>
       </div>
     )
