@@ -55,6 +55,8 @@ export class Sidebar extends Component {
         <button style={btn1Style} onClick={this.props.selectMenu.bind(this, 1)}>Shop</button>
         <button style={btn2Style} onClick={this.props.selectMenu.bind(this, 2)}>Inv</button>
         <button style={btn3Style} onClick={this.props.selectMenu.bind(this, 3)}>Settings</button>
+        <p>Phase: {this.props.gamePhase}</p>
+        <p>Points: {this.props.points}</p>
         <Menu1 removeFromCart={this.props.removeFromCart} updateCart={this.props.updateCart} cart={this.props.cart} selectedMenu={this.props.selectedMenu} />
         <Menu2 inv={this.props.inv} selectedMenu={this.props.selectedMenu} />
         <Menu3 selectedMenu={this.props.selectedMenu} />

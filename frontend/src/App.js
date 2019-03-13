@@ -22,10 +22,10 @@ class App extends Component {
     teamId: -1,  //0 = red, 1 = blue
     controllerId: -1,
     points: -1,
-    gamePhase: 2,  //news, buy, gameplay, place
-    gameRound: 0,  //0, 1, 2
-    gameSlice: 2,  //plan, battle/move, refuel, container
-    status: 0,  //0 = active, 1 = waiting
+    gamePhase: -1,  //news, buy, gameplay, place
+    gameRound: -1,  //0, 1, 2
+    gameSlice: -1,  //plan, battle/move, refuel, container
+    status: 1,  //0 = active, 1 = waiting
 
     positions: [],  //main board positions
 
@@ -166,6 +166,9 @@ class App extends Component {
     this.socket.emit('getInitialGameState', (gameState) => {
       this.setState(gameState);
     });
+    this.socket.on('serverSetState', (gameState) => {
+      this.setState(gameState);
+    });
   }
 
   //App Level Functions
@@ -224,21 +227,24 @@ class App extends Component {
     if(!this.state.planningMove){
       let thisPiece = this.state.positions[piecePositionId].find(piece => piece.pieceId === pieceId);
       this.resetPieceOpen();
-      this.setState({selectedPiece: thisPiece})
-      if(this.state.gamePhase===3 && this.state.gameSlice===0){
-        //TODO: if this pieces has any plans, show it? (pressing to start plan should cancel this plan)
-        this.userFeedback("Now you can plan a movement for this piece using the Plan Start button to the left.")
+      if (this.state.selectedPiece != null && this.state.selectedPiece.pieceId === thisPiece.pieceId) {
+        this.setState({selectedPiece: null});
+      } else {
+        this.setState({selectedPiece: thisPiece});
+        if(this.state.gamePhase===3 && this.state.gameSlice===0){
+          //TODO: if this pieces has any plans, show it? (pressing to start plan should cancel this plan)
+          this.userFeedback("Now you can plan a movement for this piece using the Plan Start button to the left.");
+        }
+        if (thisPiece.pieceUnitId === 0) {
+          thisPiece.pieceOpen = true;  //Not possible to click the piece when it was open?
+          let array = this.state.positions;
+          let pieces = array[piecePositionId];
+          let pieceIndex = pieces.findIndex(piece => piece.pieceId === pieceId);
+          pieces.splice(pieceIndex, 1, thisPiece);
+          array[piecePositionId] = pieces;
+          this.setState({positions: array});
+        }
       }
-      if (thisPiece.pieceUnitId === 0) {
-        thisPiece.pieceOpen = true;  //Not possible to click the piece when it was open?
-        let array = this.state.positions;
-        let pieces = array[piecePositionId];
-        let pieceIndex = pieces.findIndex(piece => piece.pieceId === pieceId);
-        pieces.splice(pieceIndex, 1, thisPiece);
-        array[piecePositionId] = pieces;
-        this.setState({positions: array});
-      }
-
     }
   }
 
@@ -260,8 +266,8 @@ class App extends Component {
     });
   }
 
-  removeFromCart = (pieceId) => {
-    this.socket.emit('refundRequest', pieceId, (serverResponse) => {
+  removeFromCart = (pieceId, pieceUnitId) => {
+    this.socket.emit('refundRequest', pieceId, pieceUnitId, (serverResponse) => {
       if (serverResponse) {
         this.setState(serverResponse); 
       }
@@ -384,13 +390,13 @@ class App extends Component {
   }
 
   controlButtonClick = () => {
-    // this.socket.emit('controlButtonClick', (serverResponse) => {
-    //   //make sure the serverResponse is valid
-    //   if (serverResponse) {
-    //     // alert(serverResponse);
-    //     this.setState(serverResponse); 
-    //   }
-    // });
+    this.socket.emit('controlButtonClick', (serverResponse) => {
+      //make sure the serverResponse is valid
+      if (serverResponse) {
+        // alert(serverResponse);
+        this.setState(serverResponse); 
+      }
+    });
   }
 
   userFeedback = (textString) => {
@@ -398,7 +404,7 @@ class App extends Component {
   }
 
   planningButtonClickStart = () => {
-    if(this.state.gamePhase === 3 && this.state.gameSlice === 0){
+    if(this.state.gamePhase === 2 && this.state.gameSlice === 0){
       this.setState({planningMove: true, plannedPos: [this.state.selectedPos]});
       this.showAdjacent(this.state.selectedPos, 1, "all");
     }
@@ -471,7 +477,7 @@ class App extends Component {
       <div className="App" style={this.appStyle}>
         <Bottombar status={this.state.status} gamePhase={this.state.gamePhase} gameSlice={this.state.gameSlice} planningMove={this.state.planningMove} selectedPiece={this.state.selectedPiece} userFeedback={this.state.userFeedback} controlButtonClick={this.controlButtonClick} planStart={this.planningButtonClickStart} planDone={this.planningButtonClickDone} planCancel={this.planningButtonClickCancel} planUndo={this.planningButtonClickUndo} planContainer={this.planningButtonClickContainer}/>
         <Gameboard plannedPos={this.state.plannedPos} positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.positionTypes} highlighted={this.state.highlighted} highlightedType={this.state.highlightedType} selectedPos={this.state.selectedPos} />
-        <Sidebar removeFromCart={this.removeFromCart} emptyCart={this.emptyCart} updateCart={this.updateCart} inv={this.state.inv} cart={this.state.cart} selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
+        <Sidebar points={this.state.points} gamePhase={this.state.gamePhase} removeFromCart={this.removeFromCart} emptyCart={this.emptyCart} updateCart={this.updateCart} inv={this.state.inv} cart={this.state.cart} selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox selectedPiece={this.state.selectedPiece} pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.positionTypes}/>
         <NewsAlertPopup gamePhase={this.state.gamePhase} />
         <BattlePopup enemyLeft={this.enemyLeft} enemyRight={this.enemyRight} rightBattlePieceClick={this.rightBattlePieceClick} leftBattlePieceClick={this.leftBattlePieceClick} selectedFriendlyBattlePiece={this.state.selectedFriendlyBattlePiece} friendlyBattle={this.state.battleZone0} enemyBattle={this.state.battleZone1} gameSlice={this.state.gameSlice} />
