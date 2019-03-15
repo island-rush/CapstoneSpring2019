@@ -18,13 +18,18 @@ class App extends Component {
   state = {
     distanceMatrix: [],  //hardcoded, comes from server
 
+    currentNewsAlert: {
+      text: "News Alert Text",
+      title: "News Alert Title"
+    },
+
     gameId: -1,
     teamId: -1,  //0 = red, 1 = blue
     controllerId: -1,
     points: -1,
-    gamePhase: 2,  //news, buy, gameplay, place
+    gamePhase: 0,  //news, buy, gameplay, place
     gameRound: 0,  //0, 1, 2
-    gameSlice: 2,  //plan, battle/move, refuel, container
+    gameSlice: 0,  //plan, battle/move, refuel, container
     status: 0,  //0 = active, 1 = waiting
 
     positions: [],  //main board positions
@@ -473,7 +478,7 @@ class App extends Component {
         <Gameboard plannedPos={this.state.plannedPos} positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.positionTypes} highlighted={this.state.highlighted} highlightedType={this.state.highlightedType} selectedPos={this.state.selectedPos} />
         <Sidebar removeFromCart={this.removeFromCart} emptyCart={this.emptyCart} updateCart={this.updateCart} inv={this.state.inv} cart={this.state.cart} selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox selectedPiece={this.state.selectedPiece} pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.positionTypes}/>
-        <NewsAlertPopup gamePhase={this.state.gamePhase} />
+        <NewsAlertPopup gamePhase={this.state.gamePhase} currentNewsAlert={this.state.currentNewsAlert} />
         <BattlePopup enemyLeft={this.enemyLeft} enemyRight={this.enemyRight} rightBattlePieceClick={this.rightBattlePieceClick} leftBattlePieceClick={this.leftBattlePieceClick} selectedFriendlyBattlePiece={this.state.selectedFriendlyBattlePiece} friendlyBattle={this.state.battleZone0} enemyBattle={this.state.battleZone1} gameSlice={this.state.gameSlice} />
         <ContainerPopup containedPieceRemove={this.containedPieceRemove} actualPieceSelect={this.actualPieceSelect} containerSelect={this.containerSelect} selectedContainerPiece={this.state.selectedContainerPiece} containerPieces={this.state.containerPieces} actualPieces={this.state.actualPieces} gameSlice={this.state.gameSlice} />
         <RefuelPopup selectedTankerPiece={this.state.selectedTankerPiece} tankerPieces={this.state.tankerPieces} refuelPieces={this.state.refuelPieces} refuelRemove={this.refuelRemove} tankerSelect={this.tankerSelect} refuelSelect={this.refuelSelect} gameSlice={this.state.gameSlice} />
