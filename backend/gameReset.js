@@ -83,15 +83,63 @@ module.exports = {
             //only need this once
             sqlPieceInsert = 'INSERT INTO pieces (pieceGameId, pieceTeamId, pieceUnitId, piecePositionId, pieceContainerId, pieceVisible, pieceMoves, pieceFuel) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
-            inserts = [gameId, redTeam, tanker, 11, notContained, notVisible, moves[tanker], noFuel];
+            inserts = [gameId, redTeam, marines, 86, notContained, visible, moves[marines], noFuel];
             sql = mysql.format(sqlPieceInsert, inserts);
             database.query(sql);
 
-            inserts = [gameId, redTeam, tanker, 12, notContained, notVisible, moves[tanker], noFuel];
+            inserts = [gameId, redTeam, tanker, 84, notContained, visible, moves[tanker], tankerFuel];
             sql = mysql.format(sqlPieceInsert, inserts);
             database.query(sql);
 
-            inserts = [gameId, redTeam, tanker, 12, notContained, notVisible, moves[tanker], noFuel];
+            inserts = [gameId, redTeam, fighter, 84, notContained, visible, moves[fighter], fighterFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, redTeam, fighter, 84, notContained, visible, moves[fighter], fighterFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, redTeam, bomber, 84, notContained, visible, moves[bomber], bomberFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, redTeam, artillery, 102, notContained, visible, moves[artillery], noFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, redTeam, transport, 138, notContained, visible, moves[transport], noFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, redTeam, destroyer, 137, notContained, visible, moves[destroyer], noFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, redTeam, submarine, 171, notContained, notVisible, moves[submarine], noFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, blueTeam, tanker, 236, notContained, visible, moves[tanker], tankerFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, blueTeam, fighter, 236, notContained, visible, moves[fighter], fighterFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, blueTeam, aircraftCarrier, 204, notContained, visible, moves[aircraftCarrier], noFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, blueTeam, sam, 186, notContained, visible, moves[sam], noFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, blueTeam, convoy, 169, notContained, visible, moves[convoy], noFuel];
+            sql = mysql.format(sqlPieceInsert, inserts);
+            database.query(sql);
+
+            inserts = [gameId, blueTeam, transport, 204, notContained, visible, moves[transport], noFuel];
             sql = mysql.format(sqlPieceInsert, inserts);
             database.query(sql);
         });

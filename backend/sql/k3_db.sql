@@ -67,8 +67,7 @@ CREATE TABLE IF NOT EXISTS pieces(
     pieceVisible INT(1) NOT NULL,
     pieceMoves INT(2) NOT NULL,
     pieceFuel INT(2) NOT NULL, -- -1: if piece does not use fuel, but is limited by moves
-    PRIMARY KEY(pieceId),
-    FOREIGN KEY (pieceGameId) REFERENCES games(gameId)
+    PRIMARY KEY(pieceId)
 ) AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS purchases (
@@ -76,8 +75,7 @@ CREATE TABLE IF NOT EXISTS purchases (
     purchaseGameId INT(3) NOT NULL,
     purchaseTeamId INT(1) NOT NULL,
     purchaseUnitId INT(2) NOT NULL,
-    PRIMARY KEY(purchaseId),
-    FOREIGN KEY (purchaseGameId) REFERENCES games(gameId)
+    PRIMARY KEY(purchaseId)
 ) AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS invs (
@@ -85,8 +83,7 @@ CREATE TABLE IF NOT EXISTS invs (
     invGameId INT(3) NOT NULL,
     invTeamId INT(1) NOT NULL,
     invUnitId INT(2) NOT NULL,
-    PRIMARY KEY(invId),
-    FOREIGN KEY (invGameId) REFERENCES games(gameId)
+    PRIMARY KEY(invId)
 ) AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS plans(
@@ -97,8 +94,7 @@ CREATE TABLE IF NOT EXISTS plans(
     planMovementOrder INT(2) NOT NULL,  -- references the order of plans  (1, 2, 3) (these get deleted after use) (only exist for 1/3)
     planPositionId INT(4) NOT NULL,  -- hex#
     planSpecialFlag INT(1) NOT NULL DEFAULT 0,  -- 0 = nothing (plain move), 1 = bombard, 2 = container open, ...
-    PRIMARY KEY(planId),
-    FOREIGN KEY (planGameId) REFERENCES games(gameId)
+    PRIMARY KEY(planId)
 ) AUTO_INCREMENT=1;
 
 
