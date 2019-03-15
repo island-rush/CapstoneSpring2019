@@ -11,6 +11,26 @@ const popupStyle = {
     display: "block"
 }
 
+const titleStyle = {
+  position: "absolute",
+  top: "2%",
+  left: "40%",
+  height: "10%",
+  width: "20%",
+  backgroundColor: "grey",
+  display: "block"
+}
+
+const textStyle = {
+  position: "absolute",
+  top: "13%",
+  left: "2.5%",
+  height: "85%",
+  width: "95%",
+  backgroundColor: "grey",
+  display: "block"
+}
+
 const popupHidden = {
     display: "none"
 }
@@ -19,7 +39,8 @@ export class NewsAlertPopup extends Component {
   render() {
     return (
       <div style={this.props.gamePhase === 0 ? popupStyle : popupHidden}>
-        <p>This is the News Alert Text</p>
+        <div style={titleStyle}>{this.props.currentNewsAlert.title}</div>
+        <div style={textStyle}>{this.props.currentNewsAlert.text}</div>
       </div>
     )
   }
