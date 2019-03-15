@@ -124,21 +124,11 @@
     <br>
 
     <script type="text/javascript">
-        // const paramString = window.location.search.substring('?');
-        // const paramSplit = paramString.split('&')
-        // document.getElementById('instructor').innerHTML = "Instructor: " + paramSplit[0].substring(1);
-        // document.getElementById('section').innerHTML = "Section: " + paramSplit[1];
-        // function setActive(){
-        //     var toggleState = document.getElementById('activeToggle').checked
-        //     var xhttp = new XMLHttpRequest();
-        //     if (toggleState) {
-        //         xhttp.open("GET", "/adminToggleGame?state=1", true);
-        //     }
-        //     else {
-        //         xhttp.open("GET", "/adminToggleGame?state=0", true);
-        //     }
-        //     xhttp.send();
-        // }
+        function setActive(){
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/adminToggleGame", true);
+            xhttp.send();
+        }
 
         function populateGame() {
             if (confirm("Are you sure you want to reset this game?")){
@@ -147,6 +137,19 @@
                 xhttp.send();
             }
         }
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                if (this.responseText == "active") {
+                    document.getElementById("activeToggle").checked = true;
+                } else {
+                    document.getElementById("activeToggle").checked = false;
+                }
+            }  
+        };
+        xhttp.open("GET", "/adminGetGameState", true);
+        xhttp.send();
         </script>
 </body>
 </html>

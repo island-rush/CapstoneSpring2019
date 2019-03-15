@@ -77,7 +77,7 @@ export class Menu1 extends Component {
   render() {
     const PurchasedPiece = this.props.cart.map( 
       (purchaseableObject) => (
-        <div key={purchaseableObject.purchaseId} onClick={this.props.removeFromCart.bind(this, purchaseableObject.purchaseId)} style={{...pieceStyle, ...unitImages[purchaseableObject.purchaseUnitId] }}></div>
+        <div key={purchaseableObject.purchaseId} onClick={this.props.removeFromCart.bind(this, purchaseableObject.purchaseId, purchaseableObject.purchaseUnitId)} style={{...pieceStyle, ...unitImages[purchaseableObject.purchaseUnitId] }}></div>
       )
     )
 
