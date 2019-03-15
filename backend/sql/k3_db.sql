@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS games(
     game0Points INT(4) NOT NULL DEFAULT 10,
 	game1Points INT(4) NOT NULL DEFAULT 20,
 
-	gamePhase INT(1) NOT NULL DEFAULT 3, -- 0: news, 1: buy, 2: gameplay, 3: place inv
+	gamePhase INT(1) NOT NULL DEFAULT 0, -- 0: news, 1: buy, 2: gameplay, 3: place inv
     gameRound INT(1) NOT NULL DEFAULT 0, -- 0, 1, 2
     gameSlice INT(1) NOT NULL DEFAULT 0, -- 0: plan, 1: battle/movement, 2: refuel, 3: containers
 

@@ -1,5 +1,7 @@
 module.exports = { 
     resetGame: function(mysql, database, gameId) {
+        console.log("reseting the game");
+
         let sql = 'SELECT * FROM games WHERE gameId = ?';
         let inserts = [gameId];
         sql = mysql.format(sql, inserts);
@@ -31,8 +33,8 @@ module.exports = {
             sql = mysql.format(sql, inserts);
             database.query(sql);
 
-            sqlGameInsert = 'INSERT INTO games (gameSection, gameInstructor, gameAdminPassword) VALUES (?, ?, ?)';
-            inserts = [gameSection, gameInstructor, gameAdminPassword];
+            sqlGameInsert = 'INSERT INTO games (gameId, gameSection, gameInstructor, gameAdminPassword) VALUES (?, ?, ?, ?)';
+            inserts = [gameId, gameSection, gameInstructor, gameAdminPassword];
             sql = mysql.format(sqlGameInsert, inserts);
             database.query(sql);
 

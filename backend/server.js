@@ -335,20 +335,20 @@ io.sockets.on('connection', (socket) => {
                 });
             });
         });
-
-
-
-
-        
     });
 
-    // socket.on('insertPlan', (plan, callback) => {
-    //     callback();
-    // });
+    socket.on('planRequest', (plan, callback) => {
+        //make sure the plan makes sense
+        //if they have a plan already, delete it
 
-    // socket.on('deletePlan', (plan, callback) => {
-    //     callback();
-    // });
+        console.log(plan);
+        callback({userFeedback: "set the plan"}); 
+    });
+
+    socket.on('deletePlan', (plan, callback) => {
+        console.log(plan);
+        callback({userFeedback: "deleted the plan"});
+    });
 
     socket.on('controlButtonClick', (callback) => {
         // Get the game info from the session

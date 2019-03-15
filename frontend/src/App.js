@@ -208,6 +208,7 @@ class App extends Component {
     } else { // NOT planning
       this.resetPieceOpen();
       this.userFeedback("you selected a position!");
+      this.setState({plannedPos: [], selectedPiece: null});
     }
   }
 
@@ -239,17 +240,18 @@ class App extends Component {
       let thisPiece = this.state.positions[piecePositionId].find(piece => piece.pieceId === pieceId);
       this.resetPieceOpen();
       this.setState({selectedPiece: thisPiece})
-      if(this.state.gamePhase===3 && this.state.gameSlice===0){
+      if(this.state.gamePhase===2 && this.state.gameSlice===0){
         //TODO: if this pieces has any plans, show it? (pressing to start plan should cancel this plan)
         //TODO: i think i did the above, but could it be done better/cleaner if just make the state's plannedMove this pieces? then always show state plannedMove if in gameSlice = 0?
         //Show this pieces current plan (if any)
-        let thisPiecesPlan = {};
+        let thisPiecesPlan = null;
         for (let x = 0; x < this.state.confirmedPlans.length; x++){
           if (this.state.confirmedPlans[x].pieceId === pieceId){
             thisPiecesPlan = this.state.confirmedPlans[x];
+            break;
           }
         }
-        if (thisPiecesPlan.length > 0){
+        if (thisPiecesPlan != null && thisPiecesPlan.movesArray.length > 0){
           let statePlannedPos = [];
           for (let x = 0; x < thisPiecesPlan.movesArray.length; x++){
             statePlannedPos.push(thisPiecesPlan.movesArray[x].newPosition);
@@ -433,13 +435,18 @@ class App extends Component {
   }
   
   planningButtonClickDone = () => {
-    this.setState({plannedMove: {pieceId: -1, movesArray: []}});
-    this.setState({planningMove: false, highlighted: [], selectedPos: this.state.plannedPos[0], plannedPos: []});
     //TODO: Submit current move to DB
+    this.socket.emit('planRequest', this.state.plannedMove, (serverResponse) => {
+      if (serverResponse) {
+        this.setState(serverResponse); 
+      }
+    });
     // For now, add to state immediately,
     let stateConfirmedPlans = this.state.confirmedPlans;
-    stateConfirmedPlans.push(this.state.plannedMove)
+    stateConfirmedPlans.push(this.state.plannedMove);
     this.setState({confirmedPlans: stateConfirmedPlans});
+    //reset all planning things in state.
+    this.setState({planningMove: false, highlighted: [], selectedPos: this.state.plannedPos[0], selectedPiece:null, plannedPos: [], plannedMove: {pieceId: -1, movesArray: []}});
     }
 
   planningButtonClickCancel = () => {
