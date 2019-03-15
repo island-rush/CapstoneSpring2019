@@ -241,11 +241,12 @@ class App extends Component {
             thisPiecesPlan = this.state.confirmedPlans[x];
           }
         }
-        if (thisPiecesPlan){
+        if (thisPiecesPlan.length > 0){
           let statePlannedPos = [];
           for (let x = 0; x < thisPiecesPlan.movesArray.length; x++){
             statePlannedPos.push(thisPiecesPlan.movesArray[x].newPosition);
           }
+          this.setState({plannedPos: statePlannedPos});
         }
         this.userFeedback("Now you can plan a movement for this piece using the Plan Start button to the left.")
       }
@@ -425,10 +426,14 @@ class App extends Component {
   }
   
   planningButtonClickDone = () => {
-    // Submit current move to DB
     this.setState({plannedMove: {pieceId: -1, movesArray: []}});
     this.setState({planningMove: false, highlighted: [], selectedPos: this.state.plannedPos[0], plannedPos: []});
-  }
+    //TODO: Submit current move to DB
+    // For now, add to state immediately,
+    let stateConfirmedPlans = this.state.confirmedPlans;
+    stateConfirmedPlans.push(this.state.plannedMove)
+    this.setState({confirmedPlans: stateConfirmedPlans});
+    }
 
   planningButtonClickCancel = () => {
     // Remove current plan, does not change old stored plan
