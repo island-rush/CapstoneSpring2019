@@ -27,10 +27,10 @@ class App extends Component {
     teamId: -1,  //0 = red, 1 = blue
     controllerId: -1,
     points: -1,
-    gamePhase: 0,  //news, buy, gameplay, place
+    gamePhase: 3,  //news, buy, gameplay, place
     gameRound: 0,  //0, 1, 2
     gameSlice: 0,  //plan, battle/move, refuel, container
-    status: 0,  //0 = active, 1 = waiting
+    status: 1,  //0 = active, 1 = waiting
 
     positions: [],  //main board positions
 
@@ -171,32 +171,41 @@ class App extends Component {
     this.socket.emit('getInitialGameState', (gameState) => {
       this.setState(gameState);
     });
+    this.socket.on('serverSetState', (gameState) => {
+      this.setState(gameState);
+    });
   }
 
   //App Level Functions
   selectPos = (id) => {
     this.setState({selectedPos: id, selectedMenu: 0});
+    // Planning moves stuff
     if (this.state.planningMove === true) {
       let nextPos = id;
       let statePlannedMove = this.state.plannedMove;
+      // Figure out previous position
       let prevPos = this.state.selectedPiece.piecePositionId;
       if (statePlannedMove.movesArray.length != 0) {
         prevPos = statePlannedMove.movesArray[statePlannedMove.movesArray.length-1].newPosition;
       }
+      // check adjacent and add move to plan
       if( this.state.distanceMatrix[prevPos][nextPos] == 1){
         statePlannedMove.pieceId = this.state.selectedPiece.pieceId;
         statePlannedMove.movesArray.push({
           newPosition: nextPos,
           specialFlag: 0
         });
+        //update the visual path of the plan
         this.setState({plannedMove: statePlannedMove});
         let statePlannedPos = this.state.plannedPos;
         statePlannedPos.push(nextPos);
         this.setState({plannedPos: statePlannedPos});
+        // Show the next possible moves for this piece/path
+        //TODO: Change statement below to  show possible moves based on piece type and if it has moves left
         this.showAdjacent(statePlannedPos[statePlannedPos.length-1], 1, "all"); 
         this.userFeedback("added a movement!");
       }
-    } else {
+    } else { // NOT planning
       this.resetPieceOpen();
       this.userFeedback("you selected a position!");
     }
@@ -232,6 +241,21 @@ class App extends Component {
       this.setState({selectedPiece: thisPiece})
       if(this.state.gamePhase===3 && this.state.gameSlice===0){
         //TODO: if this pieces has any plans, show it? (pressing to start plan should cancel this plan)
+        //TODO: i think i did the above, but could it be done better/cleaner if just make the state's plannedMove this pieces? then always show state plannedMove if in gameSlice = 0?
+        //Show this pieces current plan (if any)
+        let thisPiecesPlan = {};
+        for (let x = 0; x < this.state.confirmedPlans.length; x++){
+          if (this.state.confirmedPlans[x].pieceId === pieceId){
+            thisPiecesPlan = this.state.confirmedPlans[x];
+          }
+        }
+        if (thisPiecesPlan.length > 0){
+          let statePlannedPos = [];
+          for (let x = 0; x < thisPiecesPlan.movesArray.length; x++){
+            statePlannedPos.push(thisPiecesPlan.movesArray[x].newPosition);
+          }
+          this.setState({plannedPos: statePlannedPos});
+        }
         this.userFeedback("Now you can plan a movement for this piece using the Plan Start button to the left.")
       }
       if (thisPiece.pieceUnitId === 0) {
@@ -243,7 +267,6 @@ class App extends Component {
         array[piecePositionId] = pieces;
         this.setState({positions: array});
       }
-
     }
   }
 
@@ -265,8 +288,8 @@ class App extends Component {
     });
   }
 
-  removeFromCart = (pieceId) => {
-    this.socket.emit('refundRequest', pieceId, (serverResponse) => {
+  removeFromCart = (pieceId, pieceUnitId) => {
+    this.socket.emit('refundRequest', pieceId, pieceUnitId, (serverResponse) => {
       if (serverResponse) {
         this.setState(serverResponse); 
       }
@@ -389,13 +412,13 @@ class App extends Component {
   }
 
   controlButtonClick = () => {
-    // this.socket.emit('controlButtonClick', (serverResponse) => {
-    //   //make sure the serverResponse is valid
-    //   if (serverResponse) {
-    //     // alert(serverResponse);
-    //     this.setState(serverResponse); 
-    //   }
-    // });
+    this.socket.emit('controlButtonClick', (serverResponse) => {
+      //make sure the serverResponse is valid
+      if (serverResponse) {
+        // alert(serverResponse);
+        this.setState(serverResponse); 
+      }
+    });
   }
 
   userFeedback = (textString) => {
@@ -403,17 +426,21 @@ class App extends Component {
   }
 
   planningButtonClickStart = () => {
-    if(this.state.gamePhase === 3 && this.state.gameSlice === 0){
+    if(this.state.gamePhase === 2 && this.state.gameSlice === 0){
       this.setState({planningMove: true, plannedPos: [this.state.selectedPos]});
       this.showAdjacent(this.state.selectedPos, 1, "all");
     }
   }
   
   planningButtonClickDone = () => {
-    // Submit current move to DB
     this.setState({plannedMove: {pieceId: -1, movesArray: []}});
     this.setState({planningMove: false, highlighted: [], selectedPos: this.state.plannedPos[0], plannedPos: []});
-  }
+    //TODO: Submit current move to DB
+    // For now, add to state immediately,
+    let stateConfirmedPlans = this.state.confirmedPlans;
+    stateConfirmedPlans.push(this.state.plannedMove)
+    this.setState({confirmedPlans: stateConfirmedPlans});
+    }
 
   planningButtonClickCancel = () => {
     // Remove current plan, does not change old stored plan
@@ -476,7 +503,7 @@ class App extends Component {
       <div className="App" style={this.appStyle}>
         <Bottombar status={this.state.status} gamePhase={this.state.gamePhase} gameSlice={this.state.gameSlice} planningMove={this.state.planningMove} selectedPiece={this.state.selectedPiece} userFeedback={this.state.userFeedback} controlButtonClick={this.controlButtonClick} planStart={this.planningButtonClickStart} planDone={this.planningButtonClickDone} planCancel={this.planningButtonClickCancel} planUndo={this.planningButtonClickUndo} planContainer={this.planningButtonClickContainer}/>
         <Gameboard plannedPos={this.state.plannedPos} positions={this.state.positions} selectPos={this.selectPos} positionTypes={this.positionTypes} highlighted={this.state.highlighted} highlightedType={this.state.highlightedType} selectedPos={this.state.selectedPos} />
-        <Sidebar removeFromCart={this.removeFromCart} emptyCart={this.emptyCart} updateCart={this.updateCart} inv={this.state.inv} cart={this.state.cart} selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
+        <Sidebar points={this.state.points} gamePhase={this.state.gamePhase} removeFromCart={this.removeFromCart} emptyCart={this.emptyCart} updateCart={this.updateCart} inv={this.state.inv} cart={this.state.cart} selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox selectedPiece={this.state.selectedPiece} pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.positionTypes}/>
         <NewsAlertPopup gamePhase={this.state.gamePhase} currentNewsAlert={this.state.currentNewsAlert} />
         <BattlePopup enemyLeft={this.enemyLeft} enemyRight={this.enemyRight} rightBattlePieceClick={this.rightBattlePieceClick} leftBattlePieceClick={this.leftBattlePieceClick} selectedFriendlyBattlePiece={this.state.selectedFriendlyBattlePiece} friendlyBattle={this.state.battleZone0} enemyBattle={this.state.battleZone1} gameSlice={this.state.gameSlice} />
