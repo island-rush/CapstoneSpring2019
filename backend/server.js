@@ -338,11 +338,49 @@ io.sockets.on('connection', (socket) => {
     });
 
     socket.on('planRequest', (plan, callback) => {
-        //make sure the plan makes sense
-        //if they have a plan already, delete it
+        //*check the plan
 
-        console.log(plan);
-        callback({userFeedback: "set the plan"}); 
+        const {pieceId, movesArray} = plan;
+
+        let sql = 'DELETE FROM plans WHERE planPieceId = ?';
+        let inserts = [pieceId];
+        sql = mysql.format(sql, inserts);
+        database.query(sql)
+        .then(() => {
+            for (let x = 0; x < movesArray.length; x++) {
+                sql = 'INSERT INTO plans (planGameId, planTeamId, planPieceId, planMovementOrder, planPositionId, planSpecialFlag) VALUES (?, ?, ?, ?, ?, ?)';
+                inserts = [socket.handshake.session.gameId, socket.handshake.session.teamId, pieceId, x, movesArray[x].newPosition, movesArray[x].specialFlag];
+                sql = mysql.format(sql, inserts);
+                database.query(sql);
+            }
+        })
+        .then(() => {
+            //Select all the plans and put them into an array, each an 'overall plan' object (confirmed plans?)
+            sql = 'SELECT * FROM plans WHERE planGameId = ? AND planTeamId = ? ORDER BY planPieceId, planMovementOrder ASC';
+            inserts = [socket.handshake.session.gameId, socket.handshake.session.teamId];
+            sql = mysql.format(sql, inserts);
+            database.query(sql)
+            .then(results => {
+                let confirmedPlans = {};
+                for (let y = 0; y < results.length; y++) {
+                    const {planPieceId, planPositionId, planMovementOrder, planSpecialFlag} = results[y];
+                    if (confirmedPlans[planPieceId] == undefined) {
+                        confirmedPlans[planPieceId] = [];
+                    }
+                    confirmedPlans[planPieceId].push({newPosition: planPositionId, specialFlag: planSpecialFlag});
+                }
+                let finalConfirmedPlans = [];
+                let newPiecePlan;
+                const keys = Object.keys(confirmedPlans);
+                for (let z = 0; z < keys.length; z++) {
+                    newPiecePlan = {};
+                    newPiecePlan.pieceId = parseInt(keys[z]);
+                    newPiecePlan.movesArray = confirmedPlans[keys[z]];
+                    finalConfirmedPlans.push(newPiecePlan);
+                }
+                callback({confirmedPlans: finalConfirmedPlans, userFeedback: "set the new plan, got all confirmed"});
+            });
+        });
     });
 
     socket.on('deletePlan', (plan, callback) => {
@@ -385,16 +423,25 @@ io.sockets.on('connection', (socket) => {
                         database.query(sql);
                         callback({ status: 1, userFeedback: "waitin on other main controller..." });
                     }
-                } else if (gameInfo.gamePhase === 2 && (gameInfo.gameSlice === 0 || gameInfo.gameSlice === 1 || gameInfo.gameSlice === 2)) {
+                } else if (gameInfo.gamePhase === 2 && gameInfo.gameSlice === 0) {
+                    //done planning for this round, figure out all the events and throw them into the queue table, along with pieces?
+
+
+
                     const otherStatus = teamId === 0 ? gameInfo.game1Status : gameInfo.game0Status;
                     if (otherStatus === 1) {
                         //update teams to be both status 0 and change their phase
-                        let sql = 'UPDATE games SET ?? = 0, gameSlice = (gameSlice + 1) % 4 WHERE gameId = ?';
+                        let sql = 'UPDATE games SET ?? = 0, gameSlice = (gameSlice + 1) % 5 WHERE gameId = ?';
                         let inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
                         sql = mysql.format(sql, inserts);
                         database.query(sql);
-                        io.sockets.in('game' + gameId).emit('serverSetState', { gameRound: gameInfo.gameRound, gamePhase: gameInfo.gamePhase, gameSlice: (gameInfo.gameSlice + 1) % 4, status: 0, userFeedback: "new phase / slice" });
-                        callback({userFeedback: "new phase/slice probably"});
+
+                        //get all collision battles into event queue
+
+
+
+                        // io.sockets.in('game' + gameId).emit('serverSetState', { gameRound: gameInfo.gameRound, gamePhase: gameInfo.gamePhase, gameSlice: (gameInfo.gameSlice + 1) % 4, status: 0, userFeedback: "new phase / slice" });
+                        // callback({userFeedback: "new phase/slice probably"});
                     } else {
                         //update this team's status to 1
                         let sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
@@ -403,16 +450,24 @@ io.sockets.on('connection', (socket) => {
                         database.query(sql);
                         callback({ status: 1, userFeedback: "waitin on other main controller..." });
                     }
-                } else if (gameInfo.gamePhase === 2 && gameInfo.gameSlice === 3 && gameInfo.gameRound < 2) {
+                } else if (gameInfo.gamePhase === 2 && gameInfo.gameSlice === 1) {
                     const otherStatus = teamId === 0 ? gameInfo.game1Status : gameInfo.game0Status;
                     if (otherStatus === 1) {
-                        //update teams to be both status 0 and change their phase
-                        let sql = 'UPDATE games SET ?? = 0, gameSlice = 0, gameRound = (gameRound + 1) % 3 WHERE gameId = ?';
+                        let sql = 'UPDATE games SET ?? = 0, gameSlice = (gameSlice + 1) % 5 WHERE gameId = ?';
                         let inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
                         sql = mysql.format(sql, inserts);
                         database.query(sql);
-                        io.sockets.in('game' + gameId).emit('serverSetState', { gameRound: (gameInfo.gameRound + 1) % 3, gamePhase: gameInfo.gamePhase, status: 0, gameSlice: 0, userFeedback: "new phase / slice" });
-                        callback({userFeedback: "new phase/slice probably"});
+
+                        //move the pieces
+
+                        //check for position battles
+
+                        //insert them into the event queue
+
+                        //if nothing, tell the client to immediately try and change phase? (find a way to skip the slices automatically if not needed)
+
+                        // io.sockets.in('game' + gameId).emit('serverSetState', { gameRound: gameInfo.gameRound, gamePhase: gameInfo.gamePhase, gameSlice: (gameInfo.gameSlice + 1) % 4, status: 0, userFeedback: "new phase / slice" });
+                        // callback({userFeedback: "new phase/slice probably"});
                     } else {
                         //update this team's status to 1
                         let sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
@@ -421,16 +476,22 @@ io.sockets.on('connection', (socket) => {
                         database.query(sql);
                         callback({ status: 1, userFeedback: "waitin on other main controller..." });
                     }
-                } else if (gameInfo.gamePhase === 2 && gameInfo.gameSlice === 3 && gameInfo.gameRound === 2) {
+                } else if (gameInfo.gamePhase === 2 && gameInfo.gameSlice === 2) {
                     const otherStatus = teamId === 0 ? gameInfo.game1Status : gameInfo.game0Status;
                     if (otherStatus === 1) {
-                        //update teams to be both status 0 and change their phase
-                        let sql = 'UPDATE games SET ?? = 0, gamePhase = 3, gameSlice = 0, gameRound = 0 WHERE gameId = ?';
+                        let sql = 'UPDATE games SET ?? = 0, gameSlice = (gameSlice + 1) % 5 WHERE gameId = ?';
                         let inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
                         sql = mysql.format(sql, inserts);
                         database.query(sql);
-                        io.sockets.in('game' + gameId).emit('serverSetState', { gameRound: 0, gamePhase: (gameInfo.gamePhase + 1) % 4, status: 0, gameSlice: 0, userFeedback: "new phase / slice" });
-                        callback({userFeedback: "new phase/slice probably"});
+
+                        //start doing other events in the queue, refuel first and then containers?
+
+                        //players will set up the refuel, and then confirm with the button?
+
+                        //players will set up the contanier, and the confirm with the button?
+
+                        // io.sockets.in('game' + gameId).emit('serverSetState', { gameRound: gameInfo.gameRound, gamePhase: gameInfo.gamePhase, gameSlice: (gameInfo.gameSlice + 1) % 4, status: 0, userFeedback: "new phase / slice" });
+                        // callback({userFeedback: "new phase/slice probably"});
                     } else {
                         //update this team's status to 1
                         let sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
@@ -446,6 +507,100 @@ io.sockets.on('connection', (socket) => {
         } else {
             callback({userFeedback: "not main controller"});
         }
+    });
+
+    socket.on('controlButtonClick2', (callback) => {
+        const gameId = socket.handshake.session.gameId;
+        const teamId = socket.handshake.session.teamId;
+        const controllerId = socket.handshake.session.controllerId;
+        //who clicked it?, why did they click it?, what should come next?, who should be aware?, what does the client need back?
+
+        let sql = 'SELECT * FROM games WHERE gameId = ?';
+        let inserts = [gameId];
+        sql = mysql.format(sql, inserts);
+        database.query(sql)
+        .then(results => {
+            const {game0Status, game1Status, gamePhase, gameRound, gameSlice} = results[0];
+
+            //Simply changing the phase, news->buy, buy->plan, place->news
+            if (gamePhase === 0 || gamePhase === 1 || gamePhase === 3) {
+                const otherStatus = teamId === 0 ? game1Status : game0Status;
+                if (otherStatus === 1) {
+                    //update teams to be both status 0 and change their phase
+                    let sql = 'UPDATE games SET ?? = 0, gamePhase = (gamePhase + 1) % 4 WHERE gameId = ?';
+                    let inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
+                    sql = mysql.format(sql, inserts);
+                    database.query(sql);
+                    io.sockets.in('game' + gameId).emit('serverSetState', { gameRound: gameRound, gameSlice: 0, gamePhase: (gamePhase + 1) % 4, status: 0, userFeedback: "new phase / slice" });
+                    callback({userFeedback: "new phase probably"});
+                } else {
+                    //update this team's status to 1
+                    let sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
+                    let inserts = [teamId == 0 ? `game0Status` : `game1Status`, gameId];
+                    sql = mysql.format(sql, inserts);
+                    database.query(sql);
+                    callback({ status: 1, userFeedback: "waitin on other main controller..." });
+                }
+            }
+
+            //clicking done on planning phase
+            if (gamePhase === 2 && gameSlice === 0) {
+                //change the slice into 1* (executing...)
+
+                //nothing happens, but player is now 'stepping' through the plans, also wait for other player to be done with planning phase
+            }
+
+            if (gamePhase === 2 && gameSlice === 1) {
+                //make sure no other events to handle, if so, don't let them press the button (other buttons for events)
+                //still need to wait for other player to be done observing last events / whatever?
+
+                //player is 'stepping' through the events / moves
+
+                //figure out collisions from plans (if no collisions, skip to moving the pieces / let player step?) (what pieces collide with others?)
+                //get 1st battles into the event queue
+                //conduct the battles
+                //move the pieces
+                //get 2nd battles into the event queue
+                //conduct the battles
+                //figure out refuels
+                //conduct the refuels
+                //figure out containers
+                //conduct the containers
+                //increment the gameRound
+
+                //currently executing, are there events in the queue to deal with?
+                //no events = restart the big list of stuff to do above...
+
+                //events, deal with them and present the next one? (done with the last event)
+
+            }
+
+            //can / will they click done on a battle? (optional battles!?!?)
+
+            //clicking done on a refuel setup?
+
+            //clicking done on a container setup?
+
+        });
+    });
+
+    socket.on('battleDone', (callback) => {
+        //battle event completely done, process it / delete it?
+        //new battle?
+        //movement?
+        //what is next?
+    });
+
+    socket.on('containerDone', (callback) => {
+        //container event done, process it
+        //figure out if there is a next event
+        //give back the new event, or set the client back to planning or something?
+    });
+
+    socket.on('refuelDone', (callback) => {
+        //refuel event done, process it
+        //figure out if there is a next event
+        //give back the new event, or set the client back to planning or something
     });
 
     // socket.on('invUse', (invPlan, callback) => {
