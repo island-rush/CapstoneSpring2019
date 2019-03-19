@@ -190,7 +190,7 @@ app.get('/gameLoginVerify', (req, res) => {
 
 io.sockets.on('connection', (socket) => {
     //All Sockets are part of a gameId 'room', sockets are only used within game.html and nowhere else inside backend services
-    socket.join('game' + socket.handshake.session.gameId);
+    socket.join('game' + socket.handshake.session.gameId + 'team' + socket.handshake.session.teamId);
     socket.on('disconnect', () => {  //mark this person as logged out of the game
         if (socket.handshake.session) {
             sql = `UPDATE games SET ?? = 0 WHERE gameId = ?`;
@@ -338,11 +338,49 @@ io.sockets.on('connection', (socket) => {
     });
 
     socket.on('planRequest', (plan, callback) => {
-        //make sure the plan makes sense
-        //if they have a plan already, delete it
+        //*check the plan
 
-        console.log(plan);
-        callback({userFeedback: "set the plan"}); 
+        const {pieceId, movesArray} = plan;
+
+        let sql = 'DELETE FROM plans WHERE planPieceId = ?';
+        let inserts = [pieceId];
+        sql = mysql.format(sql, inserts);
+        database.query(sql)
+        .then(() => {
+            for (let x = 0; x < movesArray.length; x++) {
+                sql = 'INSERT INTO plans (planGameId, planTeamId, planPieceId, planMovementOrder, planPositionId, planSpecialFlag) VALUES (?, ?, ?, ?, ?, ?)';
+                inserts = [socket.handshake.session.gameId, socket.handshake.session.teamId, pieceId, x, movesArray[x].newPosition, movesArray[x].specialFlag];
+                sql = mysql.format(sql, inserts);
+                database.query(sql);
+            }
+        })
+        .then(() => {
+            //Select all the plans and put them into an array, each an 'overall plan' object (confirmed plans?)
+            sql = 'SELECT * FROM plans WHERE planGameId = ? AND planTeamId = ? ORDER BY planPieceId, planMovementOrder ASC';
+            inserts = [socket.handshake.session.gameId, socket.handshake.session.teamId];
+            sql = mysql.format(sql, inserts);
+            database.query(sql)
+            .then(results => {
+                let confirmedPlans = {};
+                for (let y = 0; y < results.length; y++) {
+                    const {planPieceId, planPositionId, planMovementOrder, planSpecialFlag} = results[y];
+                    if (confirmedPlans[planPieceId] == undefined) {
+                        confirmedPlans[planPieceId] = [];
+                    }
+                    confirmedPlans[planPieceId].push({newPosition: planPositionId, specialFlag: planSpecialFlag});
+                }
+                let finalConfirmedPlans = [];
+                let newPiecePlan;
+                const keys = Object.keys(confirmedPlans);
+                for (let z = 0; z < keys.length; z++) {
+                    newPiecePlan = {};
+                    newPiecePlan.pieceId = parseInt(keys[z]);
+                    newPiecePlan.movesArray = confirmedPlans[keys[z]];
+                    finalConfirmedPlans.push(newPiecePlan);
+                }
+                callback({confirmedPlans: finalConfirmedPlans, userFeedback: "set the new plan, got all confirmed"});
+            });
+        });
     });
 
     socket.on('deletePlan', (plan, callback) => {
@@ -351,101 +389,199 @@ io.sockets.on('connection', (socket) => {
     });
 
     socket.on('controlButtonClick', (callback) => {
-        // Get the game info from the session
         const gameId = socket.handshake.session.gameId;
         const teamId = socket.handshake.session.teamId;
         const controllerId = socket.handshake.session.controllerId;
+        //who clicked it?, why did they click it?, what should come next?, who should be aware?, what does the client need back?
 
-        //only the main controller can 'click' the control button (for now)
-        if (controllerId === 0) {
-            let sql = 'SELECT * FROM games WHERE gameId = ?';
-            let inserts = [gameId];
-            sql = mysql.format(sql, inserts);
-            database.query(sql)
-            .then(results => {
-                return results[0];
-            })
-            .then(gameInfo => {
-                //NEWS PHASE -> control button advances into the buy phase for all clients
-                if (gameInfo.gamePhase === 0 || gameInfo.gamePhase === 1 || gameInfo.gamePhase === 3) {
-                    const otherStatus = teamId === 0 ? gameInfo.game1Status : gameInfo.game0Status;
-                    if (otherStatus === 1) {
-                        //update teams to be both status 0 and change their phase
-                        let sql = 'UPDATE games SET ?? = 0, gamePhase = (gamePhase + 1) % 4 WHERE gameId = ?';
-                        let inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
-                        sql = mysql.format(sql, inserts);
-                        database.query(sql);
-                        io.sockets.in('game' + gameId).emit('serverSetState', { gameRound: gameInfo.gameRound, gamePhase: (gameInfo.gamePhase + 1) % 4, status: 0, userFeedback: "new phase / slice" });
-                        callback({userFeedback: "new phase probably"});
-                    } else {
-                        //update this team's status to 1
-                        let sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
-                        let inserts = [teamId == 0 ? `game0Status` : `game1Status`, gameId];
-                        sql = mysql.format(sql, inserts);
-                        database.query(sql);
-                        callback({ status: 1, userFeedback: "waitin on other main controller..." });
-                    }
-                } else if (gameInfo.gamePhase === 2 && (gameInfo.gameSlice === 0 || gameInfo.gameSlice === 1 || gameInfo.gameSlice === 2)) {
-                    const otherStatus = teamId === 0 ? gameInfo.game1Status : gameInfo.game0Status;
-                    if (otherStatus === 1) {
-                        //update teams to be both status 0 and change their phase
-                        let sql = 'UPDATE games SET ?? = 0, gameSlice = (gameSlice + 1) % 4 WHERE gameId = ?';
-                        let inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
-                        sql = mysql.format(sql, inserts);
-                        database.query(sql);
-                        io.sockets.in('game' + gameId).emit('serverSetState', { gameRound: gameInfo.gameRound, gamePhase: gameInfo.gamePhase, gameSlice: (gameInfo.gameSlice + 1) % 4, status: 0, userFeedback: "new phase / slice" });
-                        callback({userFeedback: "new phase/slice probably"});
-                    } else {
-                        //update this team's status to 1
-                        let sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
-                        let inserts = [teamId == 0 ? `game0Status` : `game1Status`, gameId];
-                        sql = mysql.format(sql, inserts);
-                        database.query(sql);
-                        callback({ status: 1, userFeedback: "waitin on other main controller..." });
-                    }
-                } else if (gameInfo.gamePhase === 2 && gameInfo.gameSlice === 3 && gameInfo.gameRound < 2) {
-                    const otherStatus = teamId === 0 ? gameInfo.game1Status : gameInfo.game0Status;
-                    if (otherStatus === 1) {
-                        //update teams to be both status 0 and change their phase
-                        let sql = 'UPDATE games SET ?? = 0, gameSlice = 0, gameRound = (gameRound + 1) % 3 WHERE gameId = ?';
-                        let inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
-                        sql = mysql.format(sql, inserts);
-                        database.query(sql);
-                        io.sockets.in('game' + gameId).emit('serverSetState', { gameRound: (gameInfo.gameRound + 1) % 3, gamePhase: gameInfo.gamePhase, status: 0, gameSlice: 0, userFeedback: "new phase / slice" });
-                        callback({userFeedback: "new phase/slice probably"});
-                    } else {
-                        //update this team's status to 1
-                        let sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
-                        let inserts = [teamId == 0 ? `game0Status` : `game1Status`, gameId];
-                        sql = mysql.format(sql, inserts);
-                        database.query(sql);
-                        callback({ status: 1, userFeedback: "waitin on other main controller..." });
-                    }
-                } else if (gameInfo.gamePhase === 2 && gameInfo.gameSlice === 3 && gameInfo.gameRound === 2) {
-                    const otherStatus = teamId === 0 ? gameInfo.game1Status : gameInfo.game0Status;
-                    if (otherStatus === 1) {
-                        //update teams to be both status 0 and change their phase
-                        let sql = 'UPDATE games SET ?? = 0, gamePhase = 3, gameSlice = 0, gameRound = 0 WHERE gameId = ?';
-                        let inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
-                        sql = mysql.format(sql, inserts);
-                        database.query(sql);
-                        io.sockets.in('game' + gameId).emit('serverSetState', { gameRound: 0, gamePhase: (gameInfo.gamePhase + 1) % 4, status: 0, gameSlice: 0, userFeedback: "new phase / slice" });
-                        callback({userFeedback: "new phase/slice probably"});
-                    } else {
-                        //update this team's status to 1
-                        let sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
-                        let inserts = [teamId == 0 ? `game0Status` : `game1Status`, gameId];
-                        sql = mysql.format(sql, inserts);
-                        database.query(sql);
-                        callback({ status: 1, userFeedback: "waitin on other main controller..." });
-                    }
+        let sql = 'SELECT * FROM games WHERE gameId = ?';
+        let inserts = [gameId];
+        sql = mysql.format(sql, inserts);
+        database.query(sql)
+        .then(results => {
+            const {game0Status, game1Status, gamePhase, gameRound, gameSlice} = results[0];
+
+            //Simply changing the phase, news->buy, buy->plan, place->news
+            if (gamePhase === 0 || gamePhase === 1 || gamePhase === 3) {
+                const otherStatus = teamId === 0 ? game1Status : game0Status;
+                if (otherStatus === 1) {
+                    //update teams to be both status 0 and change their phase
+                    let sql = 'UPDATE games SET ?? = 0, gamePhase = (gamePhase + 1) % 4 WHERE gameId = ?';
+                    let inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
+                    sql = mysql.format(sql, inserts);
+                    database.query(sql);
+                    io.sockets.in('game' + gameId + 'team0').emit('serverSetState', { gameRound: gameRound, gameSlice: 0, gamePhase: (gamePhase + 1) % 4, status: 0, userFeedback: "new phase / slice" });
+                    io.sockets.in('game' + gameId + 'team1').emit('serverSetState', { gameRound: gameRound, gameSlice: 0, gamePhase: (gamePhase + 1) % 4, status: 0, userFeedback: "new phase / slice" });
+                    callback({userFeedback: "new phase probably"});
                 } else {
-                    callback({userFeedback: "unknown control button request?"});
+                    //update this team's status to 1
+                    let sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
+                    let inserts = [teamId == 0 ? `game0Status` : `game1Status`, gameId];
+                    sql = mysql.format(sql, inserts);
+                    database.query(sql);
+                    callback({ status: 1, userFeedback: "waitin on other main controller..." });
                 }
-            });
-        } else {
-            callback({userFeedback: "not main controller"});
-        }
+            }
+
+            //clicking done on planning phase
+            if (gamePhase === 2 && gameSlice === 0) {
+                //change the slice into 1* (executing...)
+                const otherStatus = teamId === 0 ? game1Status : game0Status;
+                if (otherStatus === 1) {
+                    //update teams to be both status 0 and change their phase
+                    let sql = 'UPDATE games SET ?? = 0, gameSlice = 1 WHERE gameId = ?';
+                    let inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
+                    sql = mysql.format(sql, inserts);
+                    database.query(sql);
+                    io.sockets.in('game' + gameId + 'team0').emit('serverSetState', { gameSlice: 1, status: 0, userFeedback: "new phase / slice" });
+                    io.sockets.in('game' + gameId + 'team1').emit('serverSetState', { gameSlice: 1, status: 0, userFeedback: "new phase / slice" });
+                    callback({});
+                } else {
+                    //update this team's status to 1
+                    let sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
+                    let inserts = [teamId == 0 ? `game0Status` : `game1Status`, gameId];
+                    sql = mysql.format(sql, inserts);
+                    database.query(sql);
+                    callback({ status: 1, userFeedback: "waitin on other main controller..." });
+                }
+            }
+
+            //stepping through the movements
+            if (gamePhase === 2 && gameSlice > 0) {
+                const otherStatus = teamId === 0 ? game1Status : game0Status;
+                if (otherStatus !== 1) {
+                    //update this team's status to 1
+                    sql = 'UPDATE games SET ?? = 1 WHERE gameId = ?';
+                    inserts = [teamId == 0 ? `game0Status` : `game1Status`, gameId];
+                    sql = mysql.format(sql, inserts);
+                    database.query(sql);
+                    callback({ status: 1, userFeedback: "waitin on other main controller..." });
+                } else {
+                    let sql2 = 'SELECT * FROM plans WHERE planGameId = ?';
+                    let inserts2 = [gameId];
+                    sql2 = mysql.format(sql2, inserts2);
+                    database.query(sql2)
+                    .then(results => {
+                        if (results.length <= 0) {
+                            if (gameRound === 2) {
+                                //next phase
+                                sql = 'UPDATE games SET ?? = 0, gameSlice = 0, gamePhase = 3, gameRound = 0 WHERE gameId = ?';
+                                inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
+                                sql = mysql.format(sql, inserts);
+                                database.query(sql);
+                                io.sockets.in('game' + gameId + 'team0').emit('serverSetState', { status: 0, userFeedback: "next phase 0", gamePhase: 3, gameSlice: 0 });
+                                io.sockets.in('game' + gameId + 'team1').emit('serverSetState', { status: 0, userFeedback: "next phase 1", gamePhase: 3, gameSlice: 0 });
+                            } else {
+                                //next round
+                                sql = 'UPDATE games SET ?? = 0, gameSlice = 0, gameRound = gameRound + 1 WHERE gameId = ?';
+                                inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
+                                sql = mysql.format(sql, inserts);
+                                database.query(sql);
+                                io.sockets.in('game' + gameId + 'team0').emit('serverSetState', { status: 0, userFeedback: "stepped0", gameSlice: 0, gameRound: gameRound + 1 });
+                                io.sockets.in('game' + gameId + 'team1').emit('serverSetState', { status: 0, userFeedback: "stepped0", gameSlice: 0, gameRound: gameRound + 1 });
+                            }
+                            callback({});
+                        } else {
+                            //update teams to be both status 0
+                            //check for any more plans
+                            //if no more plans, need to update the game or something to be the next round, and into planning... (NEED TO CHECK IF OTHER TEAM HAS NO MORE PLANS, DONT KEEP THEM WAITING FOR OTHER PLAYER)
+                            //slice back to 0, increment round, possibly update the phase...
+                            sql = 'UPDATE games SET ?? = 0, gameSlice = gameSlice + 1 WHERE gameId = ?';
+                            inserts = [teamId == 0 ? `game1Status` : `game0Status`, gameId];
+                            sql = mysql.format(sql, inserts);
+                            database.query(sql);
+
+                            //figure out all collision events (including optionals)
+                            //
+                            //
+                            // block of code goes here
+                            //
+                            const numberOfCollisionEvents = 0;
+
+                            if (numberOfCollisionEvents !== 0) {
+                                //give out the first collision event (socket io to room?)
+                                callback({userFeedback: "collision event goes here..."});
+                            } else {
+                                //could improve this into a single statement using merge or better update, but doesn't work well with mariaDB? (or workbench)
+                                sql = 'SELECT * FROM plans WHERE planGameId = ? AND planMovementOrder = ? AND planSpecialFlag = 0';
+                                inserts = [gameId, gameSlice - 1];
+                                sql = mysql.format(sql, inserts);
+                                database.query(sql)
+                                .then(results => {
+                                    //for each result, update the piece it is refering to (delete the plan)
+                                    for (let x = 0; x < results.length; x++) {
+                                        sql = 'UPDATE pieces SET piecePositionId = ? WHERE pieceId = ?';
+                                        inserts = [results[x].planPositionId, results[x].planPieceId];
+                                        sql = mysql.format(sql, inserts);
+                                        database.query(sql);
+
+                                        sql = 'DELETE FROM plans WHERE planId = ?';
+                                        inserts = [results[x].planId];
+                                        sql = mysql.format(sql, inserts);
+                                        database.query(sql);
+                                    }
+
+                                    let positions = [];
+                                    for (let y = 0; y < 727; y++) {
+                                        positions[y] = [];
+                                    }
+                                    sql = 'SELECT pieceId, pieceFuel, pieceMoves, pieceUnitId, pieceTeamId, piecePositionId, pieceContainerId FROM pieces WHERE pieceGameId = ? AND (pieceVisible = 1 OR pieceTeamId = ?) ORDER BY piecePositionId';
+                                    inserts = [gameId, 0];
+                                    sql = mysql.format(sql, inserts);
+                                    database.query(sql)
+                                    .then(results => {
+                                        results.map(result => {
+                                            positions[result.piecePositionId].push(result);
+                                        });
+                                        io.sockets.in('game' + gameId + 'team0').emit('serverSetState', { positions: positions, status: 0, userFeedback: "stepped0" });
+                                    });
+
+                                    let positions2 = [];
+                                    for (let z = 0; z < 727; z++) {
+                                        positions2[z] = [];
+                                    }
+                                    sql = 'SELECT pieceId, pieceFuel, pieceMoves, pieceUnitId, pieceTeamId, piecePositionId, pieceContainerId FROM pieces WHERE pieceGameId = ? AND (pieceVisible = 1 OR pieceTeamId = ?) ORDER BY piecePositionId';
+                                    inserts = [gameId, 1];
+                                    sql = mysql.format(sql, inserts);
+                                    database.query(sql)
+                                    .then(results => {
+                                        results.map(result => {
+                                            positions2[result.piecePositionId].push(result);
+                                        });
+                                        io.sockets.in('game' + gameId + 'team1').emit('serverSetState', { positions: positions2, status: 0, userFeedback: "stepped1" });
+                                    });
+
+                                    callback({});
+                                });
+                            }
+                        }
+                    });                    
+                }
+            }
+        });
+    });
+
+    socket.on('battleDone', (callback) => {
+        //battle event completely done, process it / delete it?
+        //new battle?
+        //movement?
+        //what is next?
+    });
+
+    socket.on('collisionDone', (callback) => {
+        //check for last collision, move pieces and such?
+    });
+
+    socket.on('containerDone', (callback) => {
+        //container event done, process it
+        //figure out if there is a next event
+        //give back the new event, or set the client back to planning or something?
+    });
+
+    socket.on('refuelDone', (callback) => {
+        //refuel event done, process it
+        //figure out if there is a next event
+        //give back the new event, or set the client back to planning or something
     });
 
     // socket.on('invUse', (invPlan, callback) => {

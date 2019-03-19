@@ -441,9 +441,9 @@ class App extends Component {
       }
     });
     // For now, add to state immediately,
-    let stateConfirmedPlans = this.state.confirmedPlans;
-    stateConfirmedPlans.push(this.state.plannedMove);
-    this.setState({confirmedPlans: stateConfirmedPlans});
+    // let stateConfirmedPlans = this.state.confirmedPlans;
+    // stateConfirmedPlans.push(this.state.plannedMove);
+    // this.setState({confirmedPlans: stateConfirmedPlans});
     //reset all planning things in state.
     this.setState({planningMove: false, highlighted: [], selectedPos: this.state.plannedPos[0], selectedPiece:null, plannedPos: [], plannedMove: {pieceId: -1, movesArray: []}});
     }

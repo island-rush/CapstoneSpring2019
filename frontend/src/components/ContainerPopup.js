@@ -78,7 +78,7 @@ export default class ContainerPopup extends Component {
     ))
 
     return (
-      <div style={this.props.gameSlice === 3 ? containerPopupStyle : containerPopupHidden}>
+      <div style={this.props.gameSlice === 333 ? containerPopupStyle : containerPopupHidden}>
         <div style={leftContainerStyle}>
             {containerPieces}
         </div>
