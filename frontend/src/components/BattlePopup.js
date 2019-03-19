@@ -46,7 +46,7 @@ export class BattlePopup extends Component {
     ));
 
     return (
-      <div style={this.props.gameSlice === 1 ? battleStyle : battleHidden}>
+      <div style={this.props.gameSlice === -5 ? battleStyle : battleHidden}>
         <div style={leftBattleStyle}>
           {friendlyBattlePieces}
         </div>

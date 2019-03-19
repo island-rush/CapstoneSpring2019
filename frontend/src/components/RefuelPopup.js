@@ -77,7 +77,7 @@ export default class RefuelPopup extends Component {
     ))
 
     return (
-      <div style={this.props.gameSlice === 2 ? refuelPopupStyle : refuelPopupHidden}>
+      <div style={this.props.gameSlice === 222 ? refuelPopupStyle : refuelPopupHidden}>
         <div style={leftContainerStyle}>
             {tankerPieces}
         </div>

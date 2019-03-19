@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS games(
 	gameSection VARCHAR(4) NOT NULL,  -- ex: "M1A1"
 	gameInstructor VARCHAR(32) NOT NULL,  -- ex: "Adolph"
 	gameAdminPassword VARCHAR(32) NOT NULL DEFAULT '5f4dcc3b5aa765d61d8327deb882cf99',  -- md5('password') is the default, use md5 for all hashes
-	game0Password VARCHAR(32) NOT NULL DEFAULT '5f4dcc3b5aa765d61d8327deb882cf99',  -- md5('password') is the default, use md5 for all hashes
-	game1Password VARCHAR(32) NOT NULL DEFAULT '5f4dcc3b5aa765d61d8327deb882cf99',  -- md5('password') is the default, use md5 for all hashes
+    game0Password VARCHAR(32) NOT NULL DEFAULT '5f4dcc3b5aa765d61d8327deb882cf99',
+    game1Password VARCHAR(32) NOT NULL DEFAULT '5f4dcc3b5aa765d61d8327deb882cf99',
 
 	gameActive INT(1) NOT NULL DEFAULT 0,  -- 0: inactive, 1: active (set by the admin)
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS games(
     game0Points INT(4) NOT NULL DEFAULT 10,
 	game1Points INT(4) NOT NULL DEFAULT 20,
 
-	gamePhase INT(1) NOT NULL DEFAULT 0, -- 0: news, 1: buy, 2: gameplay, 3: place inv
+	gamePhase INT(1) NOT NULL DEFAULT 2, -- 0: news, 1: buy, 2: gameplay, 3: place inv
     gameRound INT(1) NOT NULL DEFAULT 0, -- 0, 1, 2
     gameSlice INT(1) NOT NULL DEFAULT 0, -- 0: plan, 1: battle/movement, 2: refuel, 3: containers
 
@@ -97,6 +97,21 @@ CREATE TABLE IF NOT EXISTS plans(
     PRIMARY KEY(planId)
 ) AUTO_INCREMENT=1;
 
+CREATE TABLE IF NOT EXISTS eventQueue(
+	eventId INT(8) NOT NULL AUTO_INCREMENT,
+    eventGameId INT(2) NOT NULL,
+    eventTeamId INT(1) NOT NULL, -- 0 for red, 1 for blue, 2 for ALL (battles)
+    eventType INT(1) NOT NULL,  -- 0 for collision battle, 1 for pos battle, 2 for refuel, 3 for container
+    PRIMARY KEY(eventId)
+) AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS actionPieces(
+	actionPieceId INT(8) NOT NULL,  -- references the actual pieceId (probably)
+    actionEventId INT(2) NOT NULL,
+    PRIMARY KEY(actionPieceId, actionEventId)
+);
+
+-- SELECT * FROM plans ORDER BY planPieceId, planMovementOrder ASC;
 
 
 -- ---------------------------------------------------------------------
@@ -104,30 +119,18 @@ CREATE TABLE IF NOT EXISTS plans(
 -- ---------------------------------------------------------------------
 INSERT INTO games (gameId, gameSection, gameInstructor) VALUES (1, 'M1A1', 'Adolph');
 
--- INSERT INTO pieces 
--- (pieceId, pieceGameId, pieceTeamId, pieceUnitId, piecePositionId, pieceContainerId, pieceVisible, pieceMoves, pieceFuel) 
--- VALUES 
--- (1, 1, 0, 0, 84, -1, 1, 6, 15),
--- (2, 1, 0, 1, 84, -1, 1, 8, 12),
--- (3, 1, 0, 2, 84, -1, 1, 8, 12),
--- (4, 1, 0, 2, 84, -1, 1, 8, 12),
--- (5, 1, 0, 3, 84, -1, 1, 6, 22),
--- (6, 1, 0, 10, 84, -1, 1, 2, 3),
--- (7, 1, 0, 8, 119, -1, 1, 2, -1),
--- (8, 1, 0, 6, 72, -1, 1, 1, -1),
--- (9, 1, 0, 16, 121, -1, 1, 2, -1),
--- (10, 1, 1, 16, 205, -1, 1, 2, -1),
--- (11, 1, 1, 2, 202, -1, 1, 8, 12),
--- (12, 1, 1, 2, 202, -1, 1, 8, 12),
--- (13, 1, 1, 3, 202, -1, 1, 6, 22),
--- (14, 1, 1, 12, 186, -1, 1, 1, -1),
--- (15, 1, 1, 15, 170, -1, 1, 2, -1),
--- (16, 1, 1, 5, 202, -1, 1, 7, 13),
--- (17, 1, 1, 11, 203, -1, 1, 2, -1),
--- (18, 1, 1, 7, 202, -1, 1, 1, -1),
--- (19, 1, 1, 4, 202, -1, 1, 7, 17),
--- (20, 1, 1, 13, 154, 1, 1, 2, -1);
+INSERT INTO pieces 
+(pieceId, pieceGameId, pieceTeamId, pieceUnitId, piecePositionId, pieceContainerId, pieceVisible, pieceMoves, pieceFuel) 
+VALUES 
+(1, 1, 0, 0, 0, -1, 0, 2, -1),
+(2, 1, 0, 0, 0, -1, 0, 2, -1),
+(3, 1, 0, 0, 0, -1, 0, 2, -1),
+(4, 1, 0, 3, 0, -1, 0, 2, -1),
+(5, 1, 0, 1, 0, 1, 0, 2, -1);
 
 -- INSERT INTO invs (invGameId, invTeamId, invUnitId) VALUES (1, 0, 4);
-
+-- SELECT * FROM games;
+-- SELECT * FROM pieces;
 -- SELECT * FROM purchases;
+
+-- SELECT * FROM plans;
