@@ -241,8 +241,7 @@ class App extends Component {
       this.resetPieceOpen();
       this.setState({selectedPiece: thisPiece})
       if(this.state.gamePhase===2 && this.state.gameSlice===0){
-        //TODO: if this pieces has any plans, show it? (pressing to start plan should cancel this plan)
-        //TODO: i think i did the above, but could it be done better/cleaner if just make the state's plannedMove this pieces? then always show state plannedMove if in gameSlice = 0?
+        //TODO: i show the plan, but could it be done better/cleaner if just make the state's plannedMove this pieces? then always show state plannedMove if in gameSlice = 0?
         //Show this pieces current plan (if any)
         let thisPiecesPlan = null;
         for (let x = 0; x < this.state.confirmedPlans.length; x++){

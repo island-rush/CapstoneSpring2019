@@ -33,8 +33,15 @@ module.exports = {
             sql = mysql.format(sql, inserts);
             database.query(sql);
 
-            sqlGameInsert = 'INSERT INTO games (gameId, gameSection, gameInstructor, gameAdminPassword) VALUES (?, ?, ?, ?)';
-            inserts = [gameId, gameSection, gameInstructor, gameAdminPassword];
+            //TODO: this is the real one.
+            // sqlGameInsert = 'INSERT INTO games (gameId, gameSection, gameInstructor, gameAdminPassword) VALUES (?, ?, ?, ?)';
+            // inserts = [gameId, gameSection, gameInstructor, gameAdminPassword];
+            // sql = mysql.format(sqlGameInsert, inserts);
+            // database.query(sql);
+
+            //TODO: this is the dev one, resets it in a certain phase
+            sqlGameInsert = 'INSERT INTO games (gameId, gameSection, gameInstructor, gameAdminPassword, gamePhase) VALUES (?, ?, ?, ?, ?)';
+            inserts = [gameId, gameSection, gameInstructor, gameAdminPassword, 2];
             sql = mysql.format(sqlGameInsert, inserts);
             database.query(sql);
 
