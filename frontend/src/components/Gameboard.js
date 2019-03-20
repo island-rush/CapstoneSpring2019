@@ -5,8 +5,8 @@ const imageSize = { x: 3.4, y: 2.75 };
 const hexagonSize = { x: 3.15, y: 3.15 };
 
 function patternSelector(pattern, pieces) {
-  const lowPieces = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const highPieces = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+  const lowPieces = [0, 1, 2, 3, 4, 5, 10, 17, 18, 22];
+  const highPieces = [6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 19, 20, 21];
   let redHigh = 0;
   let redLow = 0;
   let blueHigh = 0;

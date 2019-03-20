@@ -25,7 +25,7 @@ const unitStyles = [
     {backgroundImage: "url(\"./images/unitImages/fighter.png\")"},
     {backgroundImage: "url(\"./images/unitImages/tanker.png\")"},
     {backgroundImage: "url(\"./images/unitImages/c17.png\")"}, // air transport
-    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // air ISR
+    {backgroundImage: "url(\"./images/unitImages/e3.png\")"}, // air ISR
     {backgroundImage: "url(\"./images/unitImages/soldier.png\")"},
     {backgroundImage: "url(\"./images/unitImages/artillery.png\")"},
     {backgroundImage: "url(\"./images/unitImages/tank.png\")"},
@@ -38,11 +38,11 @@ const unitStyles = [
     {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
     {backgroundImage: "url(\"./images/unitImages/transport.png\")"},
     {backgroundImage: "url(\"./images/unitImages/mc12.png\")"}, // MC-12
-    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // C-130
-    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // SOF team
-    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // RADAR
-    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}, // Sea mines
-    {backgroundImage: "url(\"./images/unitImages/missile.png\")"}  // Drone swarm
+    {backgroundImage: "url(\"./images/unitImages/c130.png\")"}, // C-130
+    {backgroundImage: "url(\"./images/unitImages/sofTeam.png\")"}, // SOF team
+    {backgroundImage: "url(\"./images/unitImages/radar.png\")"}, // RADAR
+    {backgroundImage: "url(\"./images/unitImages/seaMine.png\")"}, // Sea mines
+    {backgroundImage: "url(\"./images/unitImages/droneSwarm.png\")"}  // Drone swarm
 ]
 
 // Ensures that Top Piece has greater zIndex than neighbor pieces (so child container is on top of them)
