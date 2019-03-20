@@ -12,7 +12,7 @@ import './App.css';
 
 class App extends Component {
   //Each Position has a hard-coded type (land, water, flag...)
-  positionTypes = ["land","land","land","land","land","land","land","land","water","water","water","water","water","water","land","flag","land","land","land","land","land","land","land","water","water","water","water","land","land","land","land","land","land","land","airfield","land","land","water","water","water","water","land","land","land","land","land","land","land","land","land","water","water","water","water","land","land","land","land","land","land","land","water","water","water","water","water","water","water","land","land","land","land","land","land","water","water","water","water","water","water","water","water","water","land","airfield","land","land","land","water","water","water","missile","land","water","water","water","water","water","water","land","land","land","land","land","water","water","water","water","airfield","flag","water","water","water","water","water","water","water","land","missile","land","water","water","water","water","water","water","water","water","water","land","land","water","water","water","water","water","water","water","water","water","water","water","water","water","water","land","land","water","water","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","land","water","water","water","land","land","water","water","land","water","water","water","water","land","land","flag","land","water","water","water","water","land","land","land","water","land","land","water","water","water","water","land","land","airfield","water","water","water","land","flag","land","water","water","land","land","land","water","water","water","water","water","water","water","water","water","water","land","land","water","water","land","flag","land","land","water","water","water","water","water","water","water","water","water","airfield","land","water","land","land","missile","water","water","water","water","water","water","water","water","water","water","water","land","land","water","water","land","land","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","water","water","water","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","water","land","land","water","water","water","water","water","water","water","water","water","water","missile","land","land","water","water","land","land","land","missile","land","land","land","water","water","water","water","water","land","land","land","land","water","land","land","land","land","land","land","land","water","water","water","water","water","land","flag","land","water","water","land","land","flag","airfield","land","land","land","land","water","water","water","land","land","land","land","water","water","water","land","land","water","water","water","land","land","water","water","land","land","land","land","land","water","water","water","water","land","land","water","water","land","land","water","water","water","missile","land","land","land","water","water","water","water","land","land","water","water","water","water","water","water","water","water","land","land","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","land","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","flag","land","water","water","water","water","land","missile","water","water","water","water","water","land","airfield","land","water","land","land","water","water","water","land","land","land","water","water","water","water","water","land","land","water","water","water","water","water","water","water","water","land","land","water","water","land","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","land","land","water","water","water","water","water","water","water","water","water","water","water","water","land","land","land","land","land","land","water","water","water","water","water","water","land","water","water","water","water","land","land","land","land","water","water","water","water","water","water","water","land","land","water","water","water","water","water","land","flag","land","water","water","water","water","water","water","water","land","airfield","land","water","water","water","water","land","land","land","water","water","water","missile","land","land","land","land","land","land","water","land","land","water","water","water","land","water","water","water","water","land","land","land","land","land","land","land","land","land","land","water","water","water","water","water","water","water","land","land","land","land","land","land","land","land","airfield","land","land","water","water","water","water","water","water","land","land","land","land","land","land","land","land","land","land","land","water","water","water","water","water","land","land","land","land","land","land","land","land","flag","land","land","land","water","water","water","water","water","airfield","land","land","land","land","land","land","land","land","land","land","water","water","water","water","water","water","water","land","land","land","land","land","flag","land"];
+  positionTypes = ['land', 'land', 'land', 'land', 'land', 'flag', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'flag', 'land', 'land', 'land', 'land', 'land', 'land', 'airfield', 'land', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'airfield', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'missile', 'airfield', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'flag', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'missile', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'land', 'land', 'water', 'water', 'land', 'water', 'water', 'water', 'water', 'land', 'land', 'flag', 'land', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'water', 'land', 'land', 'water', 'water', 'water', 'water', 'land', 'land', 'airfield', 'water', 'water', 'water', 'land', 'flag', 'land', 'water', 'water', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'water', 'water', 'land', 'land', 'land', 'missile', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'water', 'land', 'flag', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'airfield', 'land', 'water', 'water', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'water', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'water', 'flag', 'land', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'land', 'airfield', 'water', 'water', 'water', 'land', 'land', 'water', 'water', 'land', 'flag', 'land', 'airfield', 'land', 'water', 'water', 'water', 'water', 'land', 'land', 'water', 'water', 'land', 'missile', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'missile', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'missile', 'land', 'water', 'water', 'water', 'water', 'water', 'land', 'flag', 'land', 'water', 'land', 'land', 'water', 'water', 'water', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'water', 'water', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'flag', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'water', 'water', 'water', 'missile', 'land', 'land', 'land', 'land', 'land', 'land', 'water', 'land', 'airfield', 'water', 'water', 'water', 'missile', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'airfield', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'flag', 'land', 'land', 'land', 'land', 'land', 'flag', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'land', 'land', 'land', 'land', 'land', 'land', 'flag', 'land', 'land', 'land', 'land', 'water', 'water', 'water', 'water', 'water', 'water', 'water', 'land', 'airfield', 'land', 'land', 'land', 'land', 'land'];
 
   //App level state used to control the game
   state = {
@@ -151,6 +151,7 @@ class App extends Component {
     highlightedType: "all",  //Used to only highlight "land" or "water" for specific pieces (in planning)
 
     planningMove: false,  //is the client currently making a plan
+    planningContainer: false,  //is the client planning a container open
     plannedPos: [],  //positions to be highlighted because they are part of a selected plan
     confirmedPlans: [],  //plan objects that are known to the client
     plannedMove: {  //current plan object being made
@@ -179,33 +180,52 @@ class App extends Component {
   //App Level Functions
   selectPos = (id) => {
     this.setState({selectedPos: id, selectedMenu: 0});
-    // Planning moves stuff
+    // IN PLANNING MOVES
     if (this.state.planningMove === true) {
       let nextPos = id;
       let statePlannedMove = this.state.plannedMove;
       // Figure out previous position
-      let prevPos = this.state.selectedPiece.piecePositionId;
-      if (statePlannedMove.movesArray.length != 0) {
-        prevPos = statePlannedMove.movesArray[statePlannedMove.movesArray.length-1].newPosition;
+      // find the last pos the piece moved to (non-specialFlag) (to show adj. possible moves) (need this for container bc it doesnt actually move there but its in plannnedPos)
+      let lastMovedPosition = this.state.selectedPiece.piecePositionId;
+      for(let x = 0; x < statePlannedMove.movesArray.length; x++){
+        if(statePlannedMove.movesArray[x].specialFlag == 0){
+          lastMovedPosition = statePlannedMove.movesArray[x].newPosition;
+        }
       }
       // check adjacent and add move to plan
-      if( this.state.distanceMatrix[prevPos][nextPos] == 1){
-        statePlannedMove.pieceId = this.state.selectedPiece.pieceId;
-        statePlannedMove.movesArray.push({
-          newPosition: nextPos,
-          specialFlag: 0
-        });
+      if( this.state.distanceMatrix[lastMovedPosition][nextPos] == 1){
+        if(this.state.planningContainer){
+          //add an open container "move" at the selected (adj) position
+          statePlannedMove.pieceId = this.state.selectedPiece.pieceId;
+          statePlannedMove.movesArray.push({
+            newPosition: nextPos,
+            specialFlag: 2
+          });
+          this.setState({planningContainer: false});
+        }
+        else{ //not container; just plain moving
+          statePlannedMove.pieceId = this.state.selectedPiece.pieceId;
+          statePlannedMove.movesArray.push({
+            newPosition: nextPos,
+            specialFlag: 0
+          });
+        }
         //update the visual path of the plan
         this.setState({plannedMove: statePlannedMove});
         let statePlannedPos = this.state.plannedPos;
         statePlannedPos.push(nextPos);
         this.setState({plannedPos: statePlannedPos});
         // Show the next possible moves for this piece/path
+        for(let x = 0; x < statePlannedMove.movesArray.length; x++){
+          if(statePlannedMove.movesArray[x].specialFlag == 0){
+            lastMovedPosition = statePlannedMove.movesArray[x].newPosition;
+          }
+        }
         //TODO: Change statement below to  show possible moves based on piece type and if it has moves left
-        this.showAdjacent(statePlannedPos[statePlannedPos.length-1], 1, "all"); 
+        this.showAdjacent(lastMovedPosition, 1, "all"); 
         this.userFeedback("added a movement!");
       }
-    } else { // NOT planning
+    } else { // NOT in planning; just clicking positions normally
       this.resetPieceOpen();
       this.userFeedback("you selected a position!");
       this.setState({plannedPos: [], selectedPiece: null});
@@ -239,7 +259,7 @@ class App extends Component {
     if(!this.state.planningMove){
       let thisPiece = this.state.positions[piecePositionId].find(piece => piece.pieceId === pieceId);
       this.resetPieceOpen();
-      this.setState({selectedPiece: thisPiece})
+      this.setState({selectedPiece: thisPiece, plannedPos: []});
       if(this.state.gamePhase===2 && this.state.gameSlice===0){
         //TODO: i show the plan, but could it be done better/cleaner if just make the state's plannedMove this pieces? then always show state plannedMove if in gameSlice = 0?
         //Show this pieces current plan (if any)
@@ -428,13 +448,14 @@ class App extends Component {
 
   planningButtonClickStart = () => {
     if(this.state.gamePhase === 2 && this.state.gameSlice === 0){
+      this.userFeedback("Click adjacent positions to create a path for ths unit to move.");
       this.setState({planningMove: true, plannedPos: [this.state.selectedPos]});
       this.showAdjacent(this.state.selectedPos, 1, "all");
     }
   }
   
   planningButtonClickDone = () => {
-    //TODO: Submit current move to DB
+    //Submit current move to DB
     this.socket.emit('planRequest', this.state.plannedMove, (serverResponse) => {
       if (serverResponse) {
         this.setState(serverResponse); 
@@ -460,8 +481,15 @@ class App extends Component {
       this.setState({plannedMove: statePlannedMove});
       let statePlannedPos = this.state.plannedPos;
       statePlannedPos.pop();
-      this.setState({plannedPos: statePlannedPos, highlighted: [], selectedPos: statePlannedPos[statePlannedPos.length-1]});
-      this.showAdjacent(statePlannedPos[statePlannedPos.length-1], 1, "all");
+      let lastMovedPosition = this.state.selectedPiece.piecePositionId;
+      for(let x = 0; x < statePlannedMove.movesArray.length; x++){
+        if(statePlannedMove.movesArray[x].specialFlag == 0){
+          lastMovedPosition = statePlannedMove.movesArray[x].newPosition;
+        }
+      }
+      console.log(lastMovedPosition);
+      this.setState({plannedPos: statePlannedPos, highlighted: [], selectedPos: lastMovedPosition});
+      this.showAdjacent(lastMovedPosition, 1, "all");
       this.userFeedback("undid a movement");
     } else {
       this.userFeedback("Can't undo anymore...");
@@ -469,13 +497,21 @@ class App extends Component {
   }
 
   planningButtonClickContainer = () => {
-    // Plan a Container open popup at this position, need another array to show different highlight?
-    let statePlannedMove = this.state.plannedMove;
-    statePlannedMove.movesArray.push({
-      newPosition: this.state.selectedPiece.piecePositionId,
-      specialFlag: 2
-    });
-    this.setState({plannedMove: statePlannedMove});
+    // Plan a Container open popup at the next adjacent position clicked (rest of code is in selectPos)
+    if(!this.state.planningContainer){ //TODO: make sure the selected piece is a container?
+      this.setState({planningContainer: true});
+      this.userFeedback("Now click an ajacent position where you would like to open the container.");
+    }else{
+      this.setState({planningContainer: false});
+      this.userFeedback("Click adjacent positions to create a path for ths unit to move.");
+    }
+
+    // let statePlannedMove = this.state.plannedMove;
+    // statePlannedMove.movesArray.push({
+    //   newPosition: this.state.selectedPiece.piecePositionId,
+    //   specialFlag: 2
+    // });
+    // this.setState({plannedMove: statePlannedMove});
   }
 
   enemyLeft = (pieceIndex) => {

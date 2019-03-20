@@ -385,6 +385,7 @@ io.sockets.on('connection', (socket) => {
 
     socket.on('deletePlan', (plan, callback) => {
         console.log(plan);
+        //TODO: delete the plan
         callback({userFeedback: "deleted the plan"});
     });
 
