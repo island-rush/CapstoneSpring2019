@@ -19,17 +19,17 @@ class App extends Component {
     distanceMatrix: [],  //hardcoded, comes from server
 
     currentNewsAlert: {
-      text: "News Alert Text",
-      title: "News Alert Title"
+      title: "News Alert Title",
+      text: "News Alert Text"
     },
 
     gameId: -1,
     teamId: -1,  //0 = red, 1 = blue
     controllerId: -1,
     points: -1,
-    gamePhase: 3,  //news, buy, gameplay, place
+    gamePhase: 2,  //news, buy, gameplay, place
     gameRound: 0,  //0, 1, 2
-    gameSlice: 0,  //plan, battle/move, refuel, container
+    gameSlice: 222,  //plan, battle/move, refuel, container
     status: 1,  //0 = active, 1 = waiting
 
     positions: [],  //main board positions
@@ -58,6 +58,30 @@ class App extends Component {
         battlePieceTarget: null,  //piece-like object, id + unit?
         battlePieceTargetIndex: -1,
         battleDiceRolled: 0
+      },
+      {
+        battlePieceAttacking: {pieceId: 4, pieceUnitId: 6},
+        battlePieceTarget: null,  //piece-like object, id + unit?
+        battlePieceTargetIndex: -1,
+        battleDiceRolled: 0
+      },
+      {
+        battlePieceAttacking: {pieceId: 5, pieceUnitId: 6},
+        battlePieceTarget: null,  //piece-like object, id + unit?
+        battlePieceTargetIndex: -1,
+        battleDiceRolled: 0
+      },
+      {
+        battlePieceAttacking: {pieceId: 6, pieceUnitId: 6},
+        battlePieceTarget: null,  //piece-like object, id + unit?
+        battlePieceTargetIndex: -1,
+        battleDiceRolled: 0
+      },
+      {
+        battlePieceAttacking: {pieceId: 7, pieceUnitId: 6},
+        battlePieceTarget: null,  //piece-like object, id + unit?
+        battlePieceTargetIndex: -1,
+        battleDiceRolled: 0
       }
     ],  //Friendly team battle
     battleZone1: [
@@ -78,7 +102,7 @@ class App extends Component {
     selectedContainerPiece: -1,
     containerPieces: [
       {
-        pieceId: 1,
+        pieceId: 4,
         pieceUnitId: 0,
         contents: [
           {
@@ -86,29 +110,37 @@ class App extends Component {
             pieceUnitId: 6
           },
           {
-            pieceId: 7,
-            pieceUnitId: 7
+            pieceId: 9,
+            pieceUnitId: 9
           }
         ]
       },
       {
-        pieceId: 2,
-        pieceUnitId: 15,
+        pieceId: 16,
+        pieceUnitId: 16,
         contents: []
       }
     ],
     actualPieces: [
       {
-        pieceId: 3,
-        pieceUnitId: 3
+        pieceId: 8,
+        pieceUnitId: 8
       },
       {
-        pieceId: 4,
-        pieceUnitId: 4
+        pieceId: 9,
+        pieceUnitId: 9
       },
       {
-        pieceId: 5,
-        pieceUnitId: 5
+        pieceId: 9,
+        pieceUnitId: 9
+      },
+      {
+        pieceId: 13,
+        pieceUnitId: 13
+      },
+      {
+        pieceId: 15,
+        pieceUnitId: 15
       }
     ],
 
@@ -316,7 +348,7 @@ class App extends Component {
       }
     });
   }
-
+  // -------------------------
 
   //Container Functions
   containerSelect = (indexOfPiece) => {
@@ -359,6 +391,10 @@ class App extends Component {
     actualPieces.push(containedPiece);
     this.setState({containerPieces: fullArray, actualPieces: actualPieces})
     this.userFeedback("Removed from container...");
+  }
+
+  containerConfirm = () => {
+    // empty function for now
   }
   // -------------------------
 
@@ -408,7 +444,13 @@ class App extends Component {
     this.setState({tankerPieces: tankerArray, refuelPieces: refuelPiecesArray});
     this.userFeedback("Removed from tanker refueling...");
   }
+
+  refuelConfirm = () => {
+    //empty function for now
+  }
   // -------------------------
+
+  // Battle functions
 
   //Make this piece the selected Battle piece (highlighted)
   leftBattlePieceClick = (indexOfPiece) => {
@@ -431,6 +473,13 @@ class App extends Component {
     this.setState({battleZone0: fullArray});
     this.userFeedback("Unselected the target...");
   }
+
+  battleConfirm = () => {
+    //empty function
+  }
+
+  // -------------------------
+
 
   controlButtonClick = () => {
     this.socket.emit('controlButtonClick', (serverResponse) => {
@@ -548,9 +597,9 @@ class App extends Component {
         <Sidebar points={this.state.points} gamePhase={this.state.gamePhase} removeFromCart={this.removeFromCart} emptyCart={this.emptyCart} updateCart={this.updateCart} inv={this.state.inv} cart={this.state.cart} selectedMenu={this.state.selectedMenu} selectMenu={this.selectMenu} />
         <Zoombox selectedPiece={this.state.selectedPiece} pieceClick={this.pieceClick} selectedPos={this.state.selectedPos} positions={this.state.positions} positionTypes={this.positionTypes}/>
         <NewsAlertPopup gamePhase={this.state.gamePhase} currentNewsAlert={this.state.currentNewsAlert} />
-        <BattlePopup enemyLeft={this.enemyLeft} enemyRight={this.enemyRight} rightBattlePieceClick={this.rightBattlePieceClick} leftBattlePieceClick={this.leftBattlePieceClick} selectedFriendlyBattlePiece={this.state.selectedFriendlyBattlePiece} friendlyBattle={this.state.battleZone0} enemyBattle={this.state.battleZone1} gameSlice={this.state.gameSlice} />
+        <BattlePopup enemyLeft={this.enemyLeft} enemyRight={this.enemyRight} battleConfirm={this.battleConfirm} rightBattlePieceClick={this.rightBattlePieceClick} leftBattlePieceClick={this.leftBattlePieceClick} selectedFriendlyBattlePiece={this.state.selectedFriendlyBattlePiece} friendlyBattle={this.state.battleZone0} enemyBattle={this.state.battleZone1} gameSlice={this.state.gameSlice} />
         <ContainerPopup containedPieceRemove={this.containedPieceRemove} actualPieceSelect={this.actualPieceSelect} containerSelect={this.containerSelect} selectedContainerPiece={this.state.selectedContainerPiece} containerPieces={this.state.containerPieces} actualPieces={this.state.actualPieces} gameSlice={this.state.gameSlice} />
-        <RefuelPopup selectedTankerPiece={this.state.selectedTankerPiece} tankerPieces={this.state.tankerPieces} refuelPieces={this.state.refuelPieces} refuelRemove={this.refuelRemove} tankerSelect={this.tankerSelect} refuelSelect={this.refuelSelect} gameSlice={this.state.gameSlice} />
+        <RefuelPopup selectedTankerPiece={this.state.selectedTankerPiece} tankerPieces={this.state.tankerPieces} refuelPieces={this.state.refuelPieces} refuelRemove={this.refuelRemove} tankerSelect={this.tankerSelect} refuelSelect={this.refuelSelect} gameSlice={this.state.gameSlice} refuelConfirm={this.refuelConfirm} />
       </div>
     );
   }

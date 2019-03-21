@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import ContainerPiece from './ContainerPiece';
+import { unitImages } from "./ZoomboxParts/Piece";
 
 const containerPopupStyle = {
     position: "absolute",
     bottom: "27%",
     left: "30%",
-    height: "60%",
+    height: "65%",
     width: "60%",
     backgroundColor: "white",
     zIndex: 4,
-    display: "block"
+    display: "block",
+    border: "2px solid black"
 }
 
 const containerPopupHidden = {
@@ -20,38 +22,20 @@ const leftContainerStyle = {
     position: "relative",
     float: "left",
     backgroundColor: "grey",
-    height: "96%",
+    height: "90%",
     width: "48%",
-    margin: "1%"
+    margin: "1%",
+    overflow: "scroll"
 }
   
 const rightContainerStyle = {
     position: "relative",
     backgroundColor: "grey",
-    height: "96%",
+    height: "90%",
     width: "48%",
     float: "right",
     margin: "1%"
 }
-
-const unitImages = [
-    {backgroundImage: "url(\"../images/unitImages/aircraftCarrier.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/artillery.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/attackHeli.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/bomber.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/destroyer.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/fighter.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/lav.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/marine.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/missile.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/sam.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/soldier.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/stealthBomber.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/tank.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/tanker.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/transport.png\")"}
-];
 
 const boxStyle = {
     // backgroundColor: "purple",
@@ -65,6 +49,12 @@ const boxStyle = {
     margin: ".5%",
     position: "relative"
 }  
+
+const containerConfirmStyle = {
+    position: "absolute",
+    right: "2%",
+    bottom: "2%"
+}
 
 export default class ContainerPopup extends Component {
   render() {
@@ -85,6 +75,7 @@ export default class ContainerPopup extends Component {
         <div style={rightContainerStyle}>
             {actualPieces}
         </div>
+        <button onClick={this.props.containerConfirm} style={containerConfirmStyle}>DONE</button>
       </div>
     )
   }

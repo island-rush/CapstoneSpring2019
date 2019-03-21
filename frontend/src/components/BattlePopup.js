@@ -5,11 +5,12 @@ const battleStyle = {
     position: "absolute",
     bottom: "27%",
     left: "30%",
-    height: "60%",
+    height: "65%",
     width: "60%",
     backgroundColor: "white",
     zIndex: 4,
-    display: "block"
+    display: "block",
+    border: "2px solid black"
 }
 
 const battleHidden = {
@@ -18,6 +19,7 @@ const battleHidden = {
 
 const leftBattleStyle = {
   position: "relative",
+  overflow: "scroll",
   float: "left",
   backgroundColor: "grey",
   height: "96%",
@@ -27,11 +29,18 @@ const leftBattleStyle = {
 
 const rightBattleStyle = {
   position: "relative",
+  overflow: "scroll",
   backgroundColor: "grey",
-  height: "96%",
+  height: "90%",
   width: "48%",
   float: "right",
   margin: "1%"
+}
+
+const battleConfirmStyle = {
+  position: "relative",
+  bottom: "1%",
+  left: "40%"
 }
 
 export class BattlePopup extends Component {
@@ -53,6 +62,7 @@ export class BattlePopup extends Component {
         <div style={rightBattleStyle}>
           {enemyBattlePieces}
         </div>
+        <button onClick={this.props.battleConfirm()} style={battleConfirmStyle}>DONE</button>
       </div>
     )
   }

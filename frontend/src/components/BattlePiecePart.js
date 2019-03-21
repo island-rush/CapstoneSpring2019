@@ -1,31 +1,41 @@
 import React, { Component } from 'react';
+// import { unitImages } from "../ZoomboxParts/Piece";
 
-const unitImages = [
+//TODO: make the image display in html below better so we can use the import above
+  const unitImages = [
     {},
-    {backgroundImage: "url(\"../images/unitImages/aircraftCarrier.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/artillery.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/attackHeli.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/bomber.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/destroyer.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/fighter.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/lav.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/marine.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/missile.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/sam.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/soldier.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/stealthBomber.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/submarine.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/tank.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/tanker.png\")"},
-    {backgroundImage: "url(\"../images/unitImages/transport.png\")"}
-  ];
+    {backgroundImage: "url(\"./images/unitImages/bomber.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/stealthBomber.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/fighter.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/tanker.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/c17.png\")"}, // air transport
+    {backgroundImage: "url(\"./images/unitImages/e3.png\")"}, // air ISR
+    {backgroundImage: "url(\"./images/unitImages/infantry.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/artillery.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/tank.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/marine.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/attackHeli.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/convoy.png\")"}, //convoy
+    {backgroundImage: "url(\"./images/unitImages/sam.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/destroyer.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/aircraftCarrier.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/submarine.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/transport.png\")"},
+    {backgroundImage: "url(\"./images/unitImages/mc12.png\")"}, // MC-12
+    {backgroundImage: "url(\"./images/unitImages/c130.png\")"}, // C-130
+    {backgroundImage: "url(\"./images/unitImages/sofTeam.png\")"}, // SOF team
+    {backgroundImage: "url(\"./images/unitImages/radar.png\")"}, // RADAR
+    {backgroundImage: "url(\"./images/unitImages/seaMine.png\")"}, // Sea mines
+    {backgroundImage: "url(\"./images/unitImages/droneSwarm.png\")"}  // Drone swarm
+];
 
 const battlePartStyle = {
     backgroundColor: "white",
     height: "15%",
     width: "96%",
     margin: "1%",
-    padding: "1%"
+    padding: "1%",
+    borderRadius: "2%"
     // backgroundRepeat: "no-repeat",
     // backgroundSize: "90% 90%",
     // backgroundPosition: "center",
@@ -38,7 +48,7 @@ const boxStyle = {
     backgroundRepeat: "no-repeat",
     backgroundSize: "90% 90%",
     backgroundPosition: "center",
-    border: '2px solid black',
+    border: "2px solid black",
     height: "92%",
     width: "23%",
     float: "left",

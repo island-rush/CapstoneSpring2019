@@ -1,23 +1,6 @@
 import React, { Component } from 'react'
+import { unitImages } from "../ZoomboxParts/Piece";
 
-const unitImages = [
-  {backgroundImage: "url(\"../images/unitImages/aircraftCarrier.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/artillery.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/attackHeli.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/bomber.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/destroyer.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/fighter.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/lav.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/marine.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/missile.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/sam.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/soldier.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/stealthBomber.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/submarine.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/tank.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/tanker.png\")"},
-  {backgroundImage: "url(\"../images/unitImages/transport.png\")"}
-];
 
 const pieceStyle = {
   backgroundColor: "gray",
