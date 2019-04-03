@@ -29,7 +29,7 @@ class App extends Component {
     points: -1,
     gamePhase: 2,  //news, buy, gameplay, place
     gameRound: 0,  //0, 1, 2
-    gameSlice: 222,  //plan, battle/move, refuel, container
+    gameSlice: 0,  //plan, battle/move, refuel, container
     status: 1,  //0 = active, 1 = waiting
 
     positions: [],  //main board positions
@@ -191,6 +191,8 @@ class App extends Component {
       movesArray: []  //array of moves (not including starting array) as well as special flags*
     },
 
+    warfareOptionSelect: "",  //"position" or "piece" 
+
     userFeedback: "DEFAULT USER FEEDBACK",
 
     selectedPos: 0,  //Position currently clicked by the client
@@ -213,7 +215,7 @@ class App extends Component {
   selectPos = (id) => {
     this.setState({selectedPos: id, selectedMenu: 0});
     // IN PLANNING MOVES
-    if (this.state.planningMove === true) {
+    if (this.state.planningMove) {
       let nextPos = id;
       let statePlannedMove = this.state.plannedMove;
       // Figure out previous position
@@ -226,6 +228,7 @@ class App extends Component {
       }
       // check adjacent and add move to plan
       if( this.state.distanceMatrix[lastMovedPosition][nextPos] == 1){
+        // If were planning a container open:
         if(this.state.planningContainer){
           //add an open container "move" at the selected (adj) position
           statePlannedMove.pieceId = this.state.selectedPiece.pieceId;
@@ -235,7 +238,7 @@ class App extends Component {
           });
           this.setState({planningContainer: false});
         }
-        else{ //not container; just plain moving
+        else{ //not container; just normal moving
           statePlannedMove.pieceId = this.state.selectedPiece.pieceId;
           statePlannedMove.movesArray.push({
             newPosition: nextPos,
@@ -248,16 +251,22 @@ class App extends Component {
         statePlannedPos.push(nextPos);
         this.setState({plannedPos: statePlannedPos});
         // Show the next possible moves for this piece/path
+        // Find the last *moved* position (last normal move, not containers, etc)
         for(let x = 0; x < statePlannedMove.movesArray.length; x++){
           if(statePlannedMove.movesArray[x].specialFlag == 0){
             lastMovedPosition = statePlannedMove.movesArray[x].newPosition;
           }
         }
         //TODO: Change statement below to  show possible moves based on piece type and if it has moves left
+        
         this.showAdjacent(lastMovedPosition, 1, "all"); 
         this.userFeedback("added a movement!");
       }
-    } else { // NOT in planning; just clicking positions normally
+    } 
+    else if(this.state.warfareOptionSelect == "position" || this.state.warfareOptionSelect == "position" && this.state.planningMove){
+      //TODO: Eric warfare options for positions
+    }
+    else { // NOT in planning or warfare select; just clicking positions normally
       this.resetPieceOpen();
       this.userFeedback("you selected a position!");
       this.setState({plannedPos: [], selectedPiece: null});
@@ -288,12 +297,14 @@ class App extends Component {
   }
 
   pieceClick = (pieceId, piecePositionId) => {
-    if(!this.state.planningMove){
+    if(this.state.warfareOptionSelect == "piece"){
+      //TODO: Eric warfare options that select pieces
+    }else{
+      if(!this.state.planningMove){
       let thisPiece = this.state.positions[piecePositionId].find(piece => piece.pieceId === pieceId);
       this.resetPieceOpen();
       this.setState({selectedPiece: thisPiece, plannedPos: []});
       if(this.state.gamePhase===2 && this.state.gameSlice===0){
-        //TODO: i show the plan, but could it be done better/cleaner if just make the state's plannedMove this pieces? then always show state plannedMove if in gameSlice = 0?
         //Show this pieces current plan (if any)
         let thisPiecesPlan = null;
         for (let x = 0; x < this.state.confirmedPlans.length; x++){
@@ -321,6 +332,8 @@ class App extends Component {
         this.setState({positions: array});
       }
     }
+    }
+    
   }
 
   resetPieceOpen = () => {
