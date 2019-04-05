@@ -59,7 +59,7 @@ const boxStyle = {
 const arrowStyles = [
     {},  // no arrow for no target
     {
-        backgroundColor: "black"
+        backgroundImage: "url(\"../images/buttonImages/isAttacking.png\")"
     }
 ];
 

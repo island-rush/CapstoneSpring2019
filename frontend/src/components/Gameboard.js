@@ -831,6 +831,38 @@ export class Gameboard extends Component {
           <Pattern id="flag1101" link="./images/positionImages/flag1101.png" size={imageSize} />
           <Pattern id="flag1110" link="./images/positionImages/flag1110.png" size={imageSize} />
           <Pattern id="flag1111" link="./images/positionImages/flag1111.png" size={imageSize} />
+          <Pattern id="red0000" link="./images/positionImages/red0000.png" size={imageSize} />
+          <Pattern id="red0001" link="./images/positionImages/red0001.png" size={imageSize} />
+          <Pattern id="red0010" link="./images/positionImages/red0010.png" size={imageSize} />
+          <Pattern id="red0011" link="./images/positionImages/red0011.png" size={imageSize} />
+          <Pattern id="red0100" link="./images/positionImages/red0100.png" size={imageSize} />
+          <Pattern id="red0101" link="./images/positionImages/red0101.png" size={imageSize} />
+          <Pattern id="red0110" link="./images/positionImages/red0110.png" size={imageSize} />
+          <Pattern id="red0111" link="./images/positionImages/red0111.png" size={imageSize} />
+          <Pattern id="red1000" link="./images/positionImages/red1000.png" size={imageSize} />
+          <Pattern id="red1001" link="./images/positionImages/red1001.png" size={imageSize} />
+          <Pattern id="red1010" link="./images/positionImages/red1010.png" size={imageSize} />
+          <Pattern id="red1011" link="./images/positionImages/red1011.png" size={imageSize} />
+          <Pattern id="red1100" link="./images/positionImages/red1100.png" size={imageSize} />
+          <Pattern id="red1101" link="./images/positionImages/red1101.png" size={imageSize} />
+          <Pattern id="red1110" link="./images/positionImages/red1110.png" size={imageSize} />
+          <Pattern id="red1111" link="./images/positionImages/red1111.png" size={imageSize} />
+          <Pattern id="blue0000" link="./images/positionImages/blue0000.png" size={imageSize} />
+          <Pattern id="blue0001" link="./images/positionImages/blue0001.png" size={imageSize} />
+          <Pattern id="blue0010" link="./images/positionImages/blue0010.png" size={imageSize} />
+          <Pattern id="blue0011" link="./images/positionImages/blue0011.png" size={imageSize} />
+          <Pattern id="blue0100" link="./images/positionImages/blue0100.png" size={imageSize} />
+          <Pattern id="blue0101" link="./images/positionImages/blue0101.png" size={imageSize} />
+          <Pattern id="blue0110" link="./images/positionImages/blue0110.png" size={imageSize} />
+          <Pattern id="blue0111" link="./images/positionImages/blue0111.png" size={imageSize} />
+          <Pattern id="blue1000" link="./images/positionImages/blue1000.png" size={imageSize} />
+          <Pattern id="blue1001" link="./images/positionImages/blue1001.png" size={imageSize} />
+          <Pattern id="blue1010" link="./images/positionImages/blue1010.png" size={imageSize} />
+          <Pattern id="blue1011" link="./images/positionImages/blue1011.png" size={imageSize} />
+          <Pattern id="blue1100" link="./images/positionImages/blue1100.png" size={imageSize} />
+          <Pattern id="blue1101" link="./images/positionImages/blue1101.png" size={imageSize} />
+          <Pattern id="blue1110" link="./images/positionImages/blue1110.png" size={imageSize} />
+          <Pattern id="blue1111" link="./images/positionImages/blue1111.png" size={imageSize} />
           <Pattern id="airfield0000" link="./images/positionImages/airfield0000.png" size={imageSize} />
           <Pattern id="airfield0001" link="./images/positionImages/airfield0001.png" size={imageSize} />
           <Pattern id="airfield0010" link="./images/positionImages/airfield0010.png" size={imageSize} />
