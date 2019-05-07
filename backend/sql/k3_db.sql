@@ -119,14 +119,14 @@ CREATE TABLE IF NOT EXISTS actionPieces(
 -- ---------------------------------------------------------------------
 INSERT INTO games (gameId, gameSection, gameInstructor) VALUES (1, 'M1A1', 'Adolph');
 
-INSERT INTO pieces 
-(pieceId, pieceGameId, pieceTeamId, pieceUnitId, piecePositionId, pieceContainerId, pieceVisible, pieceMoves, pieceFuel) 
-VALUES 
-(1, 1, 0, 0, 0, -1, 0, 2, -1),
-(2, 1, 0, 0, 0, -1, 0, 2, -1),
-(3, 1, 0, 0, 0, -1, 0, 2, -1),
-(4, 1, 0, 3, 0, -1, 0, 2, -1),
-(5, 1, 0, 1, 0, 1, 0, 2, -1);
+--INSERT INTO pieces 
+--(pieceId, pieceGameId, pieceTeamId, pieceUnitId, piecePositionId, pieceContainerId, pieceVisible, pieceMoves, pieceFuel) 
+--VALUES 
+--(1, 1, 0, 0, 0, -1, 0, 2, -1),
+--(2, 1, 0, 0, 0, -1, 0, 2, -1),
+--(3, 1, 0, 0, 0, -1, 0, 2, -1),
+--(4, 1, 0, 3, 0, -1, 0, 2, -1),
+--(5, 1, 0, 1, 0, 1, 0, 2, -1);
 
 -- INSERT INTO invs (invGameId, invTeamId, invUnitId) VALUES (1, 0, 4);
 -- SELECT * FROM games;

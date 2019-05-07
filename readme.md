@@ -1,8 +1,9 @@
 # Island Rush 3.0
 
-K3.0 is a rewritten and refactored K2
+K3.0 is a new Strategic Wargame/boardgame expanded off of K2
+K3 Game Manual is included for gameplay rules and game-isms. 
+Purpose of game is to test students on strategy (high level), so tactical (battles, attacks) are obfuscated. 
 
-- Server Side Architecture, 100% server side checks
 
 - Separated Frontend / Backend Directories & File Structure
 
