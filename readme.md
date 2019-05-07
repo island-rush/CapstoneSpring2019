@@ -1,7 +1,8 @@
 # Island Rush 3.0
 
 K3.0 is a new Strategic Wargame/boardgame expanded off of K2
-K3 Game Manual is included for gameplay rules and game-isms. 
+Game Manual Google Doc link (preffered): https://docs.google.com/document/d/117is9snSwiQPryseqxgoCS3ROo_jBPBfNH97yCHLLuQ/edit?usp=sharing
+K3 Game Manual is also included
 Purpose of game is to test students on strategy (high level), so tactical (battles, attacks) are obfuscated. 
 
 
