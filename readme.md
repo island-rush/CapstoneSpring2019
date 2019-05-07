@@ -13,6 +13,10 @@ Purpose of game is to test students on strategy (high level), so tactical (battl
 
 ## INSTRUCTIONS
 
+- Built around React and Node JS
+- Must be familiar with these frameworks and have them installed to work with this repo
+- Installing dependencies with 'npm install' within both /frontend and /backend directories
+
 ------------
 
 # For sandbox network deployment using development code
