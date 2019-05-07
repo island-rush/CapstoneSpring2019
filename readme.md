@@ -10,11 +10,9 @@ Purpose of game is to test students on strategy (high level), so tactical (battl
 
 - Optimized SQL Queries and Table Structures (minimized)
 
-- Refactored Logic for Battles and other Game Rules
+- Teams move at same time - both teams put in plans of where they want each piece to move, then the queues are executed and battles, refueling, container events, and other collisions are detected at each 'step' of all the pieces. (every piece moves 1 space, check for everything, move another step, etc. )
 
-- Unified player games (No more spectator dependencies)
-
-- Combined all board dependencies (load, client, ajax)
+- Mulitple controllers for each team. Land controls land, air controls air, etc. (All not actually implemeneted yet)
 
 - DOM Caching and other efficient methods
 
