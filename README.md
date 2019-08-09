@@ -1,3 +1,7 @@
+THIS VERSION IS NO LONGER SUPPORTED.
+
+This repository represents the final product given by the Spring 2019 Island Rush Capstone Team.
+
 # Island Rush 3
 
 K3 is a new Strategic Wargame/boardgame expanded off of K2
